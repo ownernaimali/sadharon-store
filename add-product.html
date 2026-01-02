@@ -119,11 +119,11 @@
       margin-top: 10px;
       transition: background 0.3s;
     }
-
+/*
     input[type="submit"]:hover {
       background-color: #e84118;
     }
-
+*/
     /* মোবাইল রেসপনসিভ */
     @media (max-width: 700px) {
       form {
@@ -181,10 +181,76 @@
            <input type="number" id="quantity" class="input" placeholder="যেমন: 10" required/>
         </div>
 
-        <input type="submit" value="Add Product To Store" />
+        <input type="submit" id="submit" value="Add Product" />
+        <p id="m"></p>
       </form>
     </div>
   </main>
+  <script>
+  
+  // 1. Select the form element
+  const productForm = document.querySelector('form');
+  const submitBtn = document.getElementById('submit');
+  
+  // 2. Add an 'submit' event listener
+  productForm.addEventListener('submit', function(event) {
+    // Prevent the default form submission (page reload)
+    event.preventDefault();
+    
+    
+       // 1. Disable the button and change text
+    submitBtn.disabled = true;
+    submitBtn.value = "Processing...";
+    submitBtn.style.opacity = "0.5";
+    submitBtn.style.cursor = "not-allowed";
+
+    // 3. Collect data using the IDs of the inputs
+    const productData = {
+      name: document.getElementById('name').value,
+      actualPrice: parseFloat(document.getElementById('actualPrize').value),
+      discountPrice: parseFloat(document.getElementById('discountPrize').value),
+      category: document.getElementById('category').value,
+      costPrice: parseFloat(document.getElementById('costPrize').value),
+      quantity: parseInt(document.getElementById('quantity').value),
+      insertDate: new Date().toLocaleString()
+    };
+    
+
+    // 3. Perform the POST Fetch
+    fetch("https://sadharon-store-server.vercel.app/products", {
+        method: "POST", // Specify the method
+        headers: {
+            "Content-Type": "application/json" // Tell server we are sending JSON
+        },
+        body: JSON.stringify(productData) // Convert object to JSON string
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Success:", data);
+        alert("Product added successfully!");
+      document.getElementById("m").innerHTML = JSON.stringify(data)
+        // productForm.reset();
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Something went wrong!");
+    })
+    .finally(() => {
+        // 4. Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.value = "Add Product";
+       submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+    
+    });
+       
+    // 5. Clear the form for the next entry
+    // productForm.reset();
+    
+    
+  });
+  
+  </script>
   
 </body>
 </html>
