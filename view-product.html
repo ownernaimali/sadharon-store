@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Inventory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Hind Siliguri', sans-serif;
+}
+
+body{
+  background:#f2f4f8;
+  padding:20px;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+}
+
+h1{
+  text-align:center;
+  font-size:26px;
+  margin-bottom:20px;
+}
+
+/* Product Card */
+.product{
+  display:flex;
+  gap:16px;
+  background:#fff;
+  padding:14px;
+  border-radius:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.06);
+  margin-bottom:16px;
+  align-items:center;
+}
+
+/* Image Box */
+.img-box{
+  width: 110px;
+  height:110px;
+  border:1px solid;
+  background:#eaeaea;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  color:#666;
+  flex-shrink:0;
+}
+  .img-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+  
+  
+/* Info */
+.info{
+  flex:1;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.name{
+  font-size:20px;
+  font-weight:700;
+  color:#222;
+}
+
+.category{
+  background:#ff4757;
+  color:#fff;
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:14px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px 14px;
+  font-size:16px;
+}
+
+.grid b{
+  font-weight:600;
+  color:#333;
+}
+
+.date{
+  margin-top:6px;
+  font-size:14px;
+  color:#777;
+}
+
+/* Actions */
+.actions{
+  margin-top:8px;
+  display:flex;
+  justify-content: space-between;
+}
+
+button{
+  background:#1e90ff;
+  color:#fff;
+  border:none;
+  padding:5px 10px;
+  font-size:13px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#187bcd;
+}
+
+/* Mobile */
+@media(max-width:768px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+  .name{
+    font-size:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div>
+    <button><a href="index.html">⬅️ Back</a></button>
+    <h1>📦 Product Inventory</h1>
+  </div>
+  <div id="productList"></div>
+</div>
+
+<script>
+  const LOCALHOST = "http://localhost:3000/products";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
+
+  const API = SERVER;
+function loadProducts(){
+  fetch(API)
+  .then(res => res.json())
+  .then(products => {
+    const list = document.getElementById("productList");
+    list.innerHTML = "";
+
+    products.forEach(p => {
+      const profit = (p.discountPrice - p.costPrice).toFixed(2);
+
+      list.innerHTML += `
+        <div class="product">
+          <div class="img-box">
+            <img class="image" src="${p.productImageLink}" alt="${p.name}"/>
+          </div>
+
+          <div class="info">
+            <div class="top">
+              <div class="name">${p.name}</div>
+              <div class="category">${p.category}</div>
+            </div>
+
+            <div class="grid">
+              <div><b>Actual Price:</b> ৳${p.actualPrice}</div>
+              <div><b>Discount Price:</b> ৳${p.discountPrice}</div>
+              <div><b>Cost Price:</b> ৳${p.costPrice}</div>
+              <div><b>Profit:</b> ৳${profit}</div>
+              <div><b>Quantity:</b> ${p.quantity}</div>
+              <div><b>Total Sales:</b> ${p?.totalSale}</div>
+            </div>
+
+            <div class="actions">
+             <div class="date">🕒 Added: ${p.insertDate}</div>
+              <button onclick="updateQty(${p.id}, ${p.quantity})">
+                Update Qty
+              </button>
+            </div>
+
+     
+          </div>
+        </div>
+      `;
+    });
+  });
+}
+  
+
+loadProducts();
+</script>
+
+</body>
+</html>

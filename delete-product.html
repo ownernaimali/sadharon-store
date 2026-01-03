@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delete Product</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Hind Siliguri', sans-serif;
+}
+
+body{
+  background:#f2f4f8;
+  padding:20px;
+}
+
+.container{
+  max-width:800px;
+  margin:auto;
+}
+
+h1{
+  text-align:center;
+  font-size:24px;
+  margin-bottom:20px;
+}
+
+/* Product Card */
+.product{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#fff;
+  padding:10px;
+  border-radius:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom:12px;
+}
+
+/* Image Box */
+.img-box{
+  width:70px;
+  height:70px;
+  background:#eaeaea;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.img-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Info */
+.info{
+  flex:1;
+}
+
+.name{
+  font-size:18px;
+  font-weight:600;
+  color:#222;
+}
+
+.category{
+  font-size:13px;
+  color:#fff;
+  background:#ff4757;
+  padding:2px 8px;
+  border-radius:12px;
+  display:inline-block;
+  margin-top:4px;
+}
+
+.price{
+  font-size:16px;
+  margin-top:6px;
+  font-weight:500;
+  color:#333;
+}
+
+/* Delete Button */
+button{
+  background:#ff4757;
+  color:#fff;
+  border:none;
+  padding:6px 12px;
+  font-size:13px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#e03f4f;
+}
+
+/* Mobile */
+@media(max-width:500px){
+  .name{
+    font-size:16px;
+  }
+  .price{
+    font-size:14px;
+  }
+  .img-box{
+    width:60px;
+    height:60px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <button><a href="index.html" style="text-decoration:none;color:white;">⬅️ Back</a></button>
+  <h1>🗑️ Delete Products</h1>
+  <div id="productList">Loading....</div>
+</div>
+
+<script>
+  const LOCALHOST = "http://localhost:3000/products";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
+
+  const API = SERVER;
+
+function loadProducts(){
+  fetch(API)
+  .then(res => res.json())
+  .then(products => {
+    const list = document.getElementById("productList");
+    list.innerHTML = "";
+ if(products.length === 0){ list.innerHTML = "No Product Found"}
+
+    products?.forEach(p => {
+      list.innerHTML += `
+        <div class="product">
+          <div class="img-box">
+            <img src="${p.productImageLink}" alt="${p.name}" />
+          </div>
+          <div class="info">
+            <div class="name">${p.name}</div>
+            <div class="category">${p.category}</div>
+            <div class="price">৳${p.actualPrice}</div>
+          </div>
+          <button onclick='deleteProduct("${p._id}")'>Delete</button>
+        </div>
+      `;
+    });
+  });
+  
+ }
+
+function deleteProduct(id) {
+ 
+  
+  if (confirm("Are you sure you want to delete this product?")) {
+    fetch(`${API}/${id}`, {
+      method: "DELETE"
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.success){
+        alert(data.message);
+        loadProducts(); // reload the list
+      } else {
+        alert(data.message);
+      }
+    })
+    .catch(err => console.error(err));
+  }
+ 
+}
+  
+loadProducts();
+</script>
+
+</body>
+</html>

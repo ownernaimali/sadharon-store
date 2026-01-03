@@ -153,7 +153,7 @@
       <form>
         <div class="form-group full-width">
            <label>Product Name / পণ্যের নাম:</label>
-           <input type="text" id="name" class="input" placeholder="যেমন: প্রিমিয়াম টি-শার্ট" required/>
+           <input type="text" id="name" class="input" placeholder="যেমন: লবন, সাবান, তেল" required/>
         </div>
 
         <div class="form-group">
@@ -180,6 +180,11 @@
            <label>Quantity / পরিমান:</label>
            <input type="number" id="quantity" class="input" placeholder="যেমন: 10" required/>
         </div>
+        
+        <div class="form-group full-width">
+           <label>Product Image link / পণ্যের ছবি লিংক:</label>
+           <input type="text" id="productImageLink" class="input" placeholder="http://example.com/product.jpg" required/>
+        </div>
 
         <input type="submit" id="submit" value="Add Product" />
         <p id="m"></p>
@@ -187,7 +192,11 @@
     </div>
   </main>
   <script>
-  
+  const LOCALHOST = "http://localhost:3000/products";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
+
+  const API = SERVER;
+
   // 1. Select the form element
   const productForm = document.querySelector('form');
   const submitBtn = document.getElementById('submit');
@@ -212,12 +221,14 @@
       category: document.getElementById('category').value,
       costPrice: parseFloat(document.getElementById('costPrize').value),
       quantity: parseInt(document.getElementById('quantity').value),
+      productImageLink: document.getElementById('productImageLink').value,
+      totalSales: 0,
       insertDate: new Date().toLocaleString()
     };
     
 
     // 3. Perform the POST Fetch
-    fetch("https://sadharon-store-server.vercel.app/products", {
+    fetch(API, {
         method: "POST", // Specify the method
         headers: {
             "Content-Type": "application/json" // Tell server we are sending JSON
