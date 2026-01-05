@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Cart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Arial;
+}
+body{
+  background:#f2f4f8;
+  padding:20px;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+}
+h2{
+  margin-bottom:15px;
+}
+
+/* Cart Item */
+.cart-item{
+  display:flex;
+  gap:15px;
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:12px;
+  align-items:center;
+  box-shadow:0 6px 16px rgba(0,0,0,0.05);
+}
+.cart-item img{
+  width:90px;
+  height:90px;
+  object-fit:cover;
+  border-radius:10px;
+}
+.cart-info{
+  flex:1;
+}
+.cart-info h4{
+  margin-bottom:6px;
+}
+.cart-info p{
+  margin:4px 0;
+  color:#555;
+}
+
+/* Quantity */
+.qty{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.qty button{
+  width:26px;
+  height:26px;
+  border:none;
+  background:#1e90ff;
+  color:#fff;
+  border-radius:5px;
+  cursor:pointer;
+}
+.qty span{
+  font-weight:bold;
+}
+
+/* Remove */
+.remove{
+  color:#ff4757;
+  cursor:pointer;
+  font-size:14px;
+  display: inline-block;
+  margin-top: 13px;
+}
+
+/* Summary */
+.summary{
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+  margin-top:20px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.05);
+}
+.summary p{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+  font-size:16px;
+}
+.summary .total{
+  font-size:20px;
+  font-weight:bold;
+}
+
+/* Checkout */
+.checkout-btn{
+  margin-top:15px;
+  width:100%;
+  padding:12px;
+  background:#1e90ff;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+.checkout-btn:hover{
+  background:#187bcd;
+}
+
+/* Empty */
+.empty{
+  text-align:center;
+  color:#777;
+  margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>🛒 My Cart</h2>
+
+  <div id="cartList"></div>
+
+  <div class="summary" id="summary" style="display:none;">
+    <p><span>Subtotal</span><span id="subtotal"></span></p>
+    <p><span>Delivery</span><span>Free</span></p>
+    <p class="total"><span>Total</span><span id="total"></span></p>
+
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+
+  <div class="empty" id="empty">Your cart is empty 😔</div>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const list = document.getElementById("cartList");
+const summary = document.getElementById("summary");
+const empty = document.getElementById("empty");
+
+function renderCart(){
+  list.innerHTML = "";
+  let subtotal = 0;
+
+  if(cart.length === 0){
+    summary.style.display = "none";
+    empty.style.display = "block";
+    return;
+  }
+
+  empty.style.display = "none";
+  summary.style.display = "block";
+
+  cart.forEach((item,index)=>{
+    const itemTotal = item.price * item.quantity;
+    subtotal += itemTotal;
+
+    list.innerHTML += `
+      <div class="cart-item">
+        <img src="${item.image}">
+        <div class="cart-info">
+          <h4>${item.name}</h4>
+          <p>Price: ৳${item.price}</p>
+          <div class="qty">
+            <button onclick="changeQty(${index},-1)">-</button>
+            <span>${item.quantity}</span>
+            <button onclick="changeQty(${index},1)">+</button>
+          </div>
+          <span class="remove" onclick="removeItem(${index})">Remove</span>
+        </div>
+        <strong>৳${itemTotal}</strong>
+      </div>
+    `;
+  });
+
+  document.getElementById("subtotal").innerText = "৳" + subtotal;
+  document.getElementById("total").innerText = "৳" + (subtotal + 0);
+}
+
+function changeQty(index,change){
+  cart[index].quantity += change;
+  if(cart[index].quantity <= 0){
+    cart.splice(index,1);
+  }
+  updateCart();
+}
+
+function removeItem(index){
+    const removeItem = confirm("Remove item form my cart.");
+  if (removeItem){
+  cart.splice(index,1);
+  updateCart();
+  }
+}
+
+function updateCart(){
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+  
+  
+function checkout(){
+  const pay = confirm("Payment is done.");
+  
+  if(pay) {
+    localStorage.removeItem("cart");
+    cart = [];           // 🔥 optional but good practice
+    renderCart();
+  }
+}
+
+renderCart();
+</script>
+
+</body>
+</html>

@@ -19,7 +19,9 @@
         <ul class="nav-link-container">
           <li class="nav-link"><a href="">Home</a></li>
           <li class="nav-link"><a href="add-product.html">Add Product</a></li>
-          <li class="nav-link"><a href="">Products</a></li>
+          <li class="nav-link"><a href="view-product.html">View Product</a></li>
+          <li class="nav-link"><a href="delete-product.html">Delete Product</a></li>
+          <li class="nav-link"><a href="add-to-card.html">My Order</a></li>
           <li class="nav-link"><a href="">Contact</a></li>
           <li class="nav-link"><a href="">More</a></li>
         </ul>
@@ -55,77 +57,8 @@
       </div>
     </section>
     <section id="product">
-      <div class="product-container container">
-         <div class="product-item">
-           <div class="product-description">
-             <div class="product-img">
-               <img style="width: 200px; height: 140px;" src="./img/fastWash.jpeg" alt="Fast Wash Detergent"/>
-             </div>
-             <p class="product-name"> ফাস্ট ওয়াস / Fash Wash (500 gm)</p>
-             <p class="product-prize"><span class="actual-prize">&nbsp; 90 &nbsp;</span> <span class="discount-prize">80</span> Tk</p>
-             <!--<p class="product-info"><span>In stock: 34</span> <span>Ratting: 4.3</span></p>-->
-           </div>
-           <div class="action-button-container">
-            <button class="btn-add-to-cart">Add to Card</button>
-           </div>
-         </div>
-         <div class="product-item">
-           <div class="product-description">
-             <div class="product-img">
-                <img style="width: 180px; height: 140px;" src="./img/molla-super-salt-1-kg.jpeg" alt="Molla Super Salt 1kg"/>
-             </div>
-             <p class="product-name">মোল্লা সুপার সল্ট /  Molla Super Salt (1kg)</p>
-             <p class="product-prize">40 টাকা</p>
-             <!-- <p class="product-info"><span>In stock: 34</span> <span>Ratting: 4.3</span></p> -->
-           </div>
-           <div class="action-button-container">
-            <button class="btn-add-to-cart">Add to Card</button>
-           </div>
-         </div>
-         <div class="product-item">
-           <div class="product-description">
-             <div class="product-img"></div>
-             <p class="product-name">পোলার চাল / Pollar Rise (1kg)f</p>
-             <p class="product-prize">60 টাকা</p>
-             <p class="product-info"><span>In stock: 34</span> <span>Ratting: 4.3</span></p>
-           </div>
-           <div class="action-button-container">
-            <button class="btn-add-to-cart">Add to Card</button>
-           </div>
-         </div>
-       <div class="product-item">
-           <div class="product-description">
-             <div class="product-img"></div>
-             <p class="product-name">পোলার চাল / Pollar Rise (1kg)f</p>
-             <p class="product-prize">60 টাকা</p>
-             <p class="product-info"><span>In stock: 34</span> <span>Ratting: 4.3</span></p>
-           </div>
-           <div class="action-button-container">
-            <button class="btn-add-to-cart">Add to Card</button>
-           </div>
-         </div>
-         <div class="product-item">
-           <div class="product-description">
-             <div class="product-img"></div>
-             <p class="product-name">পোলার চাল / Pollar Rise (1kg)f</p>
-             <p class="product-prize">60 টাকা</p>
-             <p class="product-info"><span>In stock: 34</span> <span>Ratting: 4.3</span></p>
-           </div>
-           <div class="action-button-container">
-            <button class="btn-add-to-cart">Add to Card</button>
-           </div>
-         </div>
-         <div class="product-item">
-           <div class="product-description">
-             <div class="product-img"></div>
-             <p class="product-name">পোলার চাল / Pollar Rise (1kg)f</p>
-             <p class="product-prize">60 টাকা</p>
-             <p class="product-info"><span>In stock: 34</span> <span>Ratting: 4.3</span></p>
-           </div>
-           <div class="action-button-container">
-            <button class="btn-add-to-cart">Add to Card</button>
-           </div>
-         </div>
+      <div id="product-container" class="product-container container">
+        loading....... 
       </div>
     </section>
     
@@ -150,6 +83,72 @@
           <p class="copyright">copyright &copy; 2025. All rights reserved</p>
       </div>
   </footer>
+  <script>
  
+
+  
+   const LOCALHOST = "http://localhost:3000/products";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
+
+  const API = SERVER;
+function loadProducts(){
+  fetch(API)
+  .then(res => res.json())
+  .then(products => {
+    const list = document.getElementById("product-container");
+    list.innerHTML = "";
+
+    products.forEach(p => {
+     
+      list.innerHTML += `
+      
+        <div class="product-item">
+           <div class="product-description">
+             <div class="product-img">
+               <img style="width: 200px; height: 140px;" src="${p.productImageLink}" alt="${p.name}"/>
+             </div>
+             <p class="product-name">${p.name}</p>
+             <p class="product-prize"><span class="actual-prize">&nbsp; ${p.actualPrice} &nbsp;</span> <span class="discount-prize">${p.discountPrice}</span> Tk</p>
+             <!--<p class="product-info"><span>In stock: 34</span> <span>Ratting: 4.3</span></p>-->
+           </div>
+           <div class="action-button-container">
+             <button class="btn-add-to-cart" onclick='addToCart(${JSON.stringify(p)})'>Add to Card</button>
+           </div>
+         </div>
+      
+      `;
+    });
+  });
+}
+  
+
+loadProducts();
+  
+  
+function addToCart(product){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const exists = cart.find(item => item.id === product._id);
+
+  if(exists){
+    exists.quantity += 1;
+  }else{
+    cart.push({
+      id: product._id,
+      name: product.name,
+      price: product.discountPrice,
+      image: product.productImageLink,
+      quantity: 1
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("✅ Added to cart!");
+}
+</script>
+  
+  
+  
+  </script>
 </body>
 </html>

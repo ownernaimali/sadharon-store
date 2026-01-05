@@ -165,7 +165,7 @@ function loadProducts(){
     list.innerHTML = "";
 
     products.forEach(p => {
-      const profit = (p.discountPrice - p.costPrice).toFixed(2);
+      const profit = (p.discountPrice - p.costPrice).toFixed(2) * p.totalSales;
 
       list.innerHTML += `
         <div class="product">
@@ -185,7 +185,7 @@ function loadProducts(){
               <div><b>Cost Price:</b> ৳${p.costPrice}</div>
               <div><b>Profit:</b> ৳${profit}</div>
               <div><b>Quantity:</b> ${p.quantity}</div>
-              <div><b>Total Sales:</b> ${p?.totalSale}</div>
+              <div><b>Total Sales:</b> ${p?.totalSales}</div>
             </div>
 
             <div class="actions">
