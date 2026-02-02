@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin - All Orders</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Arial;
+}
+body{
+  background:#f2f4f8;
+  padding:20px;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+}
+h2{
+  margin-bottom:15px;
+}
+
+/* Admin Order Card */
+.order-card{
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.05);
+}
+
+.order-header{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.customer-name{
+  font-weight: bold;
+  font-size: 18px;
+  display: block;
+}
+
+.order-id{
+  font-size: 13px;
+  color: #777;
+}
+.address {
+  margin-top: 1.5px;
+  font-size: 13px;
+  color: #777; 
+}
+
+/* Item inside order (matches your cart style) */
+.item-row{
+  display:flex;
+  gap:15px;
+  align-items:center;
+  margin-bottom: 12px;
+}
+.item-row img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:8px;
+}
+.item-info{
+  flex:1;
+}
+.item-info h4{
+  margin: 0;
+  font-size: 15px;
+}
+.item-info p{
+  margin: 2px 0;
+  font-size: 13px;
+  color: #555;
+}
+
+/* Total Section */
+.order-footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.total-price{
+  font-size: 18px;
+  font-weight: bold;
+  color: #1e90ff;
+}
+
+/* Admin Buttons */
+.done-btn{
+  background:#1e90ff;
+  color:#fff;
+  border:none;
+  padding:8px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+}
+.done-btn:hover{
+  background:#187bcd;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>📋 Customer Orders</h2>
+  <!--
+  <div class="order-card">
+    <div class="order-header">
+      <div>
+        <span class="customer-name">Rahim Ahmed</span>
+        <span class="order-id">ID: #44921 | 📞 01700000000</span>
+      </div>
+      <div style="text-align: right; font-size: 12px; color: #888;">Oct 24, 2023</div>
+    </div>
+
+    <div class="item-row">
+      <img src="https://via.placeholder.com/60" alt="Product">
+      <div class="item-info">
+        <h4>Wireless Headphones</h4>
+        <p>Price: ৳1200 | Qty: 1</p>
+      </div>
+      <strong>৳1200</strong>
+    </div>
+
+    <div class="item-row">
+      <img src="https://via.placeholder.com/60" alt="Product">
+      <div class="item-info">
+        <h4>Fast Charger</h4>
+        <p>Price: ৳800 | Qty: 2</p>
+      </div>
+      <strong>৳1600</strong>
+    </div>
+
+    <div class="order-footer">
+      <div class="total-price">Total: ৳2800</div>
+      <button class="done-btn">Mark as Completed</button>
+    </div>
+  </div>
+-->
+
+
+  <div id="order">
+    <!-- fetch order items -->   
+  </div>
+  
+  
+</div>
+  <script>
+  
+ const LOCALHOST = "http://localhost:3000/orders";
+  const SERVER = "https://sadharon-store-server.vercel.app/orders";
+  const API = LOCALHOST
+  
+    // 3. Load Products
+    function loadProducts() {
+      fetch(API)
+        .then(res => res.json())
+        .then(products => {
+          const list = document.getElementById("order");
+          list.innerHTML = "";
+          products.forEach(p => {
+            list.innerHTML += `
+            <div class="order-card">
+    <div class="order-header">
+      <div>
+        <span class="customer-name">${p.customerName}</span>
+        <span class="order-id">ID: #44920 | 📞 ${p.customerPhone}</span>
+            <p class="address">${p.customerAddress}</p>
+      </div>
+      <div style="text-align: right; font-size: 12px; color: #888;">Oct 23, 2023</div>
+    </div>
+
+    <div class="item-row">
+      <img src="../${p.image}" alt="Product">
+      <div class="item-info">
+        <h4>${p.name}</h4>
+        <p>Price: ${p.price} | Quantity: ${p.quantity}</p>
+      </div>
+      <strong>৳${(p.price * p.quantity) || "unexcepted"}</strong>
+    </div>
+
+    <div class="order-footer">
+      <div class="total-price">Total: ৳${(p.price * p.quantity) || "unexcepted"}</div>
+      <button class="done-btn">Mark as Completed</button>
+    </div>
+  </div>
+            `;
+          });
+        })
+        .catch(() => {
+          document.getElementById("product-container").innerHTML = "Error loading products.";
+        });
+    }
+loadProducts();
+  
+  </script>
+  
+  
+</body>
+</html>

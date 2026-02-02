@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Sadharon Store</title>
+<style>
+  * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { background: #f2f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+  .signup-card { background: #fff; width: 100%; max-width: 450px; padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+  .signup-card h2 { margin: 0 0 10px 0; color: #333; text-align: center; font-size: 24px; }
+  .signup-card p { text-align: center; color: #777; font-size: 14px; margin-bottom: 25px; }
+  .form-group { margin-bottom: 18px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #444; }
+  input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: all 0.3s ease; }
+  input:focus, textarea:focus { border-color: #1e90ff; box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1); }
+  textarea { resize: vertical; min-height: 80px; }
+  .signup-btn { width: 100%; background: #1e90ff; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+  .signup-btn:hover { background: #187bcd; }
+  .signup-btn:disabled { background: #ccc; cursor: not-allowed; }
+  .footer-text { text-align: center; font-size: 14px; margin-top: 25px; color: #777; }
+  .footer-text a { color: #1e90ff; text-decoration: none; font-weight: 600; }
+  #message { text-align: center; font-size: 14px; margin-bottom: 15px; padding: 10px; border-radius: 8px; display: none; }
+</style>
+</head>
+<body>
+
+<div class="signup-card">
+  <h2>Create Account</h2>
+  <p>Join Sadharon Store today</p>
+  <div id="message"></div>
+
+  <form id="signupForm">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="name" placeholder="Enter your full name" required>
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="phone" placeholder="01XXXXXXXXX" required>
+    </div>
+    <div class="form-group">
+      <label>Delivery Address</label>
+      <textarea id="address" placeholder="Flat, House, Road, Area..." required></textarea>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Min. 6 characters" required minlength="6">
+    </div>
+    <button type="submit" class="signup-btn" id="submitBtn">Sign Up</button>
+  </form>
+
+  <div class="footer-text">
+    Already have an account? <a href="login.html">Login</a>
+  </div>
+</div>
+
+<script>
+   const LOCALHOST = "http://localhost:3000/users";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
+  const API = LOCALHOST;
+  document.getElementById('signupForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const messageDiv = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const userData = {
+      name: document.getElementById('name').value,
+      phone: document.getElementById('phone').value,
+      address: document.getElementById('address').value,
+      password: document.getElementById('password').value,
+      role: "customer" // Default role
+    };
+
+    submitBtn.innerText = "Processing...";
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData)
+      });
+
+      const data = await response.json();
+
+      messageDiv.style.display = "block";
+      if (data.success) {
+        messageDiv.style.background = "#d4edda";
+        messageDiv.style.color = "#155724";
+        messageDiv.innerText = data.message;
+        setTimeout(() => { window.location.href = "login.html"; }, 2000);
+      } else {
+        messageDiv.style.background = "#f8d7da";
+        messageDiv.style.color = "#721c24";
+        messageDiv.innerText = data.message;
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Sign Up";
+      }
+    } catch (err) {
+      messageDiv.style.display = "block";
+      messageDiv.style.background = "#f8d7da";
+      messageDiv.style.color = "#721c24";
+      messageDiv.innerText = "Connection error. Please try again.";
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Sign Up";
+    }
+  });
+</script>
+</body>
+</html>

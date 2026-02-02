@@ -238,10 +238,9 @@
   </footer>
 
   <script>
-  const LOCALHOST = "http://localhost:3000/products";
-  const SERVER = "https://sadharon-store-server.vercel.app/products";
-  const API = window.location.hostname === "localhost" ? LOCALHOST : SERVER;
-   
+  const LOCALHOST = "http://localhost:3000/products?status=active";
+  const SERVER = "https://sadharon-store-server.vercel.app/products?status=active";
+  const API = LOCALHOST
     // 2. Navigation Logic (Sidebar Toggle)
     const openBtn = document.getElementById('open-menu');
     const sidebar = document.getElementById('sidebar');
@@ -298,7 +297,11 @@
           name: product.name,
           price: product.discountPrice,
           image: product.productImageLink,
-          quantity: 1
+          quantity: 1,
+          status: "pending",
+          customerName: "Not Set",
+          customerPhone: "Not Set",
+          customerAddress: "Not Set",
         });
       }
       localStorage.setItem("cart", JSON.stringify(cart));

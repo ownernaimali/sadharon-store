@@ -141,6 +141,12 @@ h2{
 </div>
 
 <script>
+  
+ const LOCALHOST = "http://localhost:3000/orders";
+  const SERVER = "https://sadharon-store-server.vercel.app/orders";
+  const API = LOCALHOST
+  
+  
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const list = document.getElementById("cartList");
 const summary = document.getElementById("summary");
@@ -209,15 +215,30 @@ function updateCart(){
   
 function checkout(){
   const pay = confirm("Payment is done.");
-  
+  const productData = localStorage.getItem('cart')
   if(pay) {
+    fetch(API, {
+          method: "POST", // Specify the method
+        headers: {
+            "Content-Type": "application/json" // Tell server we are sending JSON
+        },
+        body: productData
+    })
+   .then(res => res.json())
+.then(data => alert(JSON.stringify(data)))    
+    
+    
     localStorage.removeItem("cart");
     cart = [];           // 🔥 optional but good practice
     renderCart();
+    
+    
   }
 }
 
 renderCart();
+  
+  
 </script>
 
 </body>
