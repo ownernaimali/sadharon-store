@@ -194,9 +194,8 @@
   <script>
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
-
-  const API = SERVER;
-
+  const API = window.location.hostname === "vercel.app" ? SERVER : LOCALHOST;
+   
   // 1. Select the form element
   const productForm = document.querySelector('form');
   const submitBtn = document.getElementById('submit');
@@ -223,6 +222,7 @@
       quantity: parseInt(document.getElementById('quantity').value),
       productImageLink: document.getElementById('productImageLink').value,
       totalSales: 0,
+      status: "active",
       insertDate: new Date().toLocaleString()
     };
     

@@ -131,9 +131,8 @@ button:hover{
 <script>
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
-
-  const API = SERVER;
-
+  const API = window.location.hostname === "vercel.app" ? SERVER : LOCALHOST;
+   
 function loadProducts(){
   fetch(API)
   .then(res => res.json())
@@ -164,7 +163,7 @@ function loadProducts(){
 function deleteProduct(id) {
  
   
-  if (confirm("Are you sure you want to delete this product?")) {
+  if (confirm("Are you sure you want to disabled this product?")) {
     fetch(`${API}/${id}`, {
       method: "DELETE"
     })

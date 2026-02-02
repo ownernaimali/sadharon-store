@@ -155,8 +155,8 @@ button:hover{
 <script>
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
-
-  const API = SERVER;
+  const API = window.location.hostname === "localhost" ? LOCALHOST : SERVER;
+   
 function loadProducts(){
   fetch(API)
   .then(res => res.json())
