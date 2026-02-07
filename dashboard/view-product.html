@@ -146,7 +146,7 @@ button:hover{
 
 <div class="container">
   <div>
-    <button><a href="index.html">⬅️ Back</a></button>
+    <button><a href="dashboard.html">⬅️ Back</a></button>
     <h1>📦 Product Inventory</h1>
   </div>
   <div id="productList"></div>
@@ -170,7 +170,7 @@ function loadProducts(){
       list.innerHTML += `
         <div class="product">
           <div class="img-box">
-            <img class="image" src="${p.productImageLink}" alt="${p.name}"/>
+            <img class="image" src="../${p.productImageLink}" alt="${p.name}"/>
           </div>
 
           <div class="info">

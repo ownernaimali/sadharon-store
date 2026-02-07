@@ -213,28 +213,78 @@ function updateCart(){
 }
   
   
-function checkout(){
-  const pay = confirm("Payment is done.");
-  const productData = localStorage.getItem('cart')
-  if(pay) {
-    fetch(API, {
-          method: "POST", // Specify the method
+async function checkout() {
+let user; // Declare outside so it's accessible everywhere in this function
+
+  // 1. Get user data safely
+  try {
+    const userData = localStorage.getItem("user");
+    if (!userData) {
+      throw new Error("No user found");
+    }
+    user = JSON.parse(userData);
+  } catch (error) {
+    let conf = confirm("Please login to order products.");
+    if (conf) {
+      window.location.href = "login.html";
+    }
+    return; 
+  }
+  
+  // Check if user is logged in
+  if (!user || !user.name || !user.phone || !user.address) {
+    let conf = confirm("Please login to order products.");
+    if (conf) {   
+      window.location.href = "login.html"; // Fixed typo: 'locatuon' to 'location'
+    }
+    return; // Stop execution if not logged in
+  }
+
+  // 2. Confirm order/payment
+  const pay = confirm("Confirm your order?");
+  
+  if (pay) {
+    // 3. Prepare the Data
+    const productData = cart.map(item => ({
+      ...item,
+      status: "pending",
+      customerName: user.name,
+      customerPhone: user.phone,
+      customerAddress: user.address,
+      orderDate: new Date().toISOString() // Good practice to add a timestamp
+    }));
+
+    try {
+      // 4. Send to Server
+      const response = await fetch(API, {
+        method: "POST",
         headers: {
-            "Content-Type": "application/json" // Tell server we are sending JSON
+          "Content-Type": "application/json"
         },
-        body: productData
-    })
-   .then(res => res.json())
-.then(data => alert(JSON.stringify(data)))    
-    
-    
-    localStorage.removeItem("cart");
-    cart = [];           // 🔥 optional but good practice
-    renderCart();
-    
-    
+        // IMPORTANT: Must use JSON.stringify() here
+        body: JSON.stringify(productData) 
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert("Order placed successfully!");
+        
+        // 5. Clear Cart
+        localStorage.removeItem("cart");
+        cart = [];           
+        renderCart();
+      } else {
+        alert("Server Error: " + (data.message || "Failed to place order"));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Network error. Is your server running?");
+    }
   }
 }
+
+  
 
 renderCart();
   

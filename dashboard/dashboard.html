@@ -194,6 +194,8 @@
           <li class="nav-link"><a href="add-product.html">Add Product</a></li>
           <li class="nav-link"><a href="view-product.html">View Product</a></li>
           <li class="nav-link"><a href="delete-product.html">Delete Product</a></li>
+          <li class="nav-link"><a href="ordered.html">Ordered Product</a></li>   
+          <li class="nav-link"><a href="users.html">Users</a></li>
           <li class="nav-link"><a href="#">Contact</a></li>
         </ul>
       </nav>
@@ -240,9 +242,9 @@
   </footer>
 
   <script>
-  const LOCALHOST = "http://localhost:3000/products";
-  const SERVER = "https://sadharon-store-server.vercel.app/products";
-  const API = window.location.hostname === "localhost" ? LOCALHOST : SERVER;
+  const LOCALHOST = "http://localhost:3000/products?status=active";
+  const SERVER = "https://sadharon-store-server.vercel.app/products?status=active";
+  const API = LOCALHOST;
    
     // 2. Navigation Logic (Sidebar Toggle)
     const openBtn = document.getElementById('open-menu');
@@ -268,7 +270,7 @@
             list.innerHTML += `
               <div class="product-item">
                 <div class="product-img">
-                  <img src="${p.productImageLink}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'">
+                  <img src="../${p.productImageLink}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'">
                 </div>
                 <div class="product-description">
                   <p class="product-name">${p.name}</p>

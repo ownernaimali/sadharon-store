@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Admin - All Orders</title>
+<title>My - All Orders</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -116,7 +116,7 @@ h2{
 <body>
 
 <div class="container">
-  <h2>📋 Customer Orders: <span id="length"></span></h2>
+  <h2>📋 My Orders: <span id="length"></span></h2>
   <!--
   <div class="order-card">
     <div class="order-header">
@@ -167,11 +167,27 @@ h2{
   
     // 3. Load Products
     function loadProducts() {
-      fetch(API)
+        let userPhone;
+        try {
+      const userData = localStorage.getItem("user");
+    if (!userData) {
+      throw new Error("No user found");
+    }
+           
+    userPhone = JSON.parse(userData).phone;
+            
+        } catch (error) {
+    let conf = confirm("Please login to view order products.");
+    if (conf) {
+      window.location.href = "login.html";
+    }
+    return; 
+        }
+      fetch(`${API}?phone=${userPhone}`)
         .then(res => res.json())
         .then(products => {
           const list = document.getElementById("order");
-          document.getElementById("length").innerHTML = products.length 
+document.getElementById("length").innerHTML = products.length 
           list.innerHTML = "";
           products.forEach(p => {
             list.innerHTML += `
@@ -186,7 +202,7 @@ h2{
     </div>
 
     <div class="item-row">
-      <img src="../${p.image}" alt="Product">
+      <img src="${p.image}" alt="Product">
       <div class="item-info">
         <h4>${p.name}</h4>
         <p>Price: ${p.price} | Quantity: ${p.quantity}</p>
@@ -196,7 +212,6 @@ h2{
 
     <div class="order-footer">
       <div class="total-price">Total: ৳${(p.price * p.quantity) || "unexcepted"}</div>
-      <button class="done-btn">Mark as Completed</button>
     </div>
   </div>
             `;

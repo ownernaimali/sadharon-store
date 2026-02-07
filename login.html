@@ -124,22 +124,59 @@
 </div>
 
 <script>
-  // Collecting Data Only (Ready for API integration)
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
+  const loginForm = document.getElementById('loginForm');
+  const loginBtn = document.querySelector('.login-btn');
+   const LOCALHOST = "http://localhost:3000/login";
+  const SERVER = "https://sadharon-store-server.vercel.app/login";
+  const API = LOCALHOST;
+  
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    // 1. Gather data
     const loginData = {
       phone: document.getElementById('loginPhone').value,
       password: document.getElementById('loginPassword').value
     };
 
-    console.log("Collected Login Data:", loginData);
-    
-    // Suggestion: Here you would usually fetch your /users API 
-    // and check if the phone and password match.
-    alert("Data Collected! Check the Console (F12).");
+    // 2. UI Feedback: Disable button while waiting
+    loginBtn.innerText = "Checking...";
+    loginBtn.disabled = true;
+
+    try {
+      // 3. Send data to your Vercel Server
+      const response = await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // 4. Success Alert
+        alert("Login Successfully!");
+        
+        // Optional: Save user info to use on other pages
+        localStorage.setItem("user", JSON.stringify(result.user));
+        
+        // Redirect to home or dashboard
+        window.location.href = "index.html"; 
+      } else {
+        // 5. Error Alert (from server message)
+        alert("Login Failed: " + result.message);
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Error connecting to server. Please try again later.");
+    } finally {
+      // Reset button state
+      loginBtn.innerText = "Login";
+      loginBtn.disabled = false;
+    }
   });
 </script>
+
 
 </body>
 </html>

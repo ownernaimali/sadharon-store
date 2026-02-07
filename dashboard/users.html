@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Users - Sadharon Store</title>
+<style>
+  * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+  body { background: #f2f4f8; padding: 40px; }
+  .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+  h2 { color: #333; margin-bottom: 20px; border-bottom: 2px solid #1e90ff; display: inline-block; padding-bottom: 5px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th { background: #1e90ff; color: white; text-align: left; padding: 12px; }
+  td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; color: #555; }
+  tr:hover { background-color: #f9f9f9; }
+  .status-badge { background: #e1f5fe; color: #0288d1; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+  #loading { text-align: center; padding: 20px; color: #777; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Registered Users</h2>
+  <div id="loading">Fetching users from database...</div>
+  
+  <table id="userTable" style="display: none;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="userList">
+      </tbody>
+  </table>
+</div>
+
+<script>
+    const LOCALHOST = "http://localhost:3000/users";
+  const SERVER = "https://sadharon-store-server.vercel.app/users";
+  const API = LOCALHOST;
+  async function loadUsers() {
+    try {
+      const response = await fetch(API);
+      const users = await response.json();
+
+      if (response.ok) {
+        const list = document.getElementById('userList');
+        list.innerHTML = ""; // Clear loader text
+
+        users.forEach(user => {
+          const row = `
+            <tr>
+              <td><strong>${user.name}</strong></td>
+              <td>${user.phone}</td>
+              <td>${user.address}</td>
+              <td><span class="status-badge">${user.status}</span></td>
+            </tr>
+          `;
+          list.innerHTML += row;
+        });
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('userTable').style.display = 'table';
+      }
+    } catch (error) {
+      document.getElementById('loading').innerText = "Error loading users. Check API connection.";
+      console.error("Fetch error:", error);
+    }
+  }
+
+  window.onload = loadUsers;
+</script>
+
+</body>
+</html>
