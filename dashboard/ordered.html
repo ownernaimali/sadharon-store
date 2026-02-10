@@ -173,7 +173,7 @@ h2{
           const list = document.getElementById("order");
           document.getElementById("length").innerHTML = products.length 
           list.innerHTML = "";
-          products.forEach(p => {
+          products.reverse().forEach(p => {
             list.innerHTML += `
             <div class="order-card">
     <div class="order-header">
