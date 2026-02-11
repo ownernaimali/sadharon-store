@@ -15,7 +15,7 @@
   max-width: 900px;
   padding: 0 5px;
   margin: 30px auto;
-  height: 95dvh;
+  min-height: 95dvh;
 }
   
 h2{
@@ -172,8 +172,8 @@ h2{
   
  const LOCALHOST = "http://localhost:3000/orders";
   const SERVER = "https://sadharon-store-server.vercel.app/orders";
-    const API = window.location.hostname === "vercel.app" ? SERVER : LOCALHOST;
-   
+    const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+  
     // 3. Load Products
     function loadProducts() {
         let userPhone;
