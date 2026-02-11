@@ -163,8 +163,8 @@ h2{
   
  const LOCALHOST = "http://localhost:3000/orders";
   const SERVER = "https://sadharon-store-server.vercel.app/orders";
-  const API = LOCALHOST
-  
+  const API = window.location.hostname === "vercel.app" ? SERVER : LOCALHOST;
+   
     // 3. Load Products
     function loadProducts() {
       fetch(API)

@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>My - All Orders</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Sadharon Store | Quality Products & Fast Delivery in Bangladesh</title>
+  <meta name="description" content="Discover affordable, high-quality products at Sadharon Store. Shop the best deals in Dhaka with reliable shipping across BD."><meta property="og:type" content="website"><meta property="og:url" content="https://sadharon-store.vercel.app/"><meta property="og:title" content="Sadharon Store | Quality Products"><meta property="og:description" content="Shop the latest quality products at Sadharon Store."><meta property="og:image" content="Sadgaron store">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet"href="css/style.css">
+  <link rel="canonical" href="https://sadharon-store.vercel.app/">  
+  <script src="https://unpkg.com/lucide@latest"></script> 
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:Arial;
-}
-body{
-  background:#f2f4f8;
-  padding:20px;
-}
+
 .container{
-  max-width:900px;
-  margin:auto;
+  max-width: 900px;
+  padding: 0 5px;
+  margin: 30px auto;
+  height: 95dvh;
 }
+  
 h2{
   margin-bottom:15px;
 }
 
 /* Admin Order Card */
 .order-card{
-  background:#fff;
   padding:20px;
   border-radius:12px;
   margin-bottom:20px;
@@ -112,10 +111,12 @@ h2{
 }
 </style>
 </head>
-
 <body>
+  <header>
+    <div class="nav-wrapper"><h1 class="top-logo">Sadharon Store</h1><div class="menu-toggle" id="open-menu"><i data-lucide="menu"></i></div><nav class="navbar-container" id="sidebar"><div class="nav-header"><div><p class="nav-title">Navigation</p><h2 style="color: white; margin-top: 5px;">Menu</h2></div><div class="close-btn" id="close-menu"><i data-lucide="x"></i></div></div><ul class="nav-link-container"><li class="nav-link active"><a href="index.html"><i data-lucide="home"></i> Home</a></li><li class="nav-link"><a href="add-to-card.html"><i data-lucide="shopping-bag"></i> My Cart</a></li><li class="nav-link"><a href="view-order.html"><i data-lucide="truck"></i> My Orders</a></li><li class="nav-link"><a href="#"><i data-lucide="settings"></i> Settings</a></li></ul><div class="auth-section"><a href="login.html" class="btn-login">Login</a><a href="signup.html" class="btn-signup">Create Account</a></div></nav></div>
+  </header>
 
-<div class="container">
+<main class="container">
   <h2>📋 My Orders: <span id="length"></span></h2>
   <!--
   <div class="order-card">
@@ -156,15 +157,23 @@ h2{
   <div id="order">
     <!-- fetch order items -->   
   </div>
+    
+</main>
   
+
+<footer class="site-footer">
+  <div class="footer-container"><div class="footer-brand"><h2 class="footer-logo">Sadharon Store</h2><p>Quality products delivered with speed and care. Your trusted partner for online shopping in Bangladesh.</p><div class="social-links"><a href="#"><i data-lucide="facebook"></i></a><a href="#"><i data-lucide="instagram"></i></a><a href="#"><i data-lucide="twitter"></i></a></div></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop All</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div><div class="footer-links"><h3>Support</h3><ul><li><a href="#">Shipping Policy</a></li><li><a href="#">Returns & Refunds</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">FAQs</a></li></ul></div><div class="footer-newsletter"><h3>Stay Updated</h3><p>Subscribe to get special offers and first look at new arrivals.</p><form class="newsletter-form"><input type="email" placeholder="Enter your email" required><button type="submit">Join</button></form></div></div><div class="footer-bottom"><p>&copy; 2026 Sadharon Store. All rights reserved.</p></div>
+</footer>  
   
-</div>
+  <!-- formate javascript code start-->
+  <script src="js/index.js"></script>
+     
   <script>
   
  const LOCALHOST = "http://localhost:3000/orders";
   const SERVER = "https://sadharon-store-server.vercel.app/orders";
-  const API = LOCALHOST
-  
+    const API = window.location.hostname === "vercel.app" ? SERVER : LOCALHOST;
+   
     // 3. Load Products
     function loadProducts() {
         let userPhone;

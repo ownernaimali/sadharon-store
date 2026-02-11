@@ -1,64 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign Up - Sadharon Store</title>
-<style>
-  * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-  body { background: #f2f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-  .signup-card { background: #fff; width: 100%; max-width: 450px; padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-  .signup-card h2 { margin: 0 0 10px 0; color: #333; text-align: center; font-size: 24px; }
-  .signup-card p { text-align: center; color: #777; font-size: 14px; margin-bottom: 25px; }
-  .form-group { margin-bottom: 18px; }
-  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #444; }
-  input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: all 0.3s ease; }
-  input:focus, textarea:focus { border-color: #1e90ff; box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1); }
-  textarea { resize: vertical; min-height: 80px; }
-  .signup-btn { width: 100%; background: #1e90ff; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
-  .signup-btn:hover { background: #187bcd; }
-  .signup-btn:disabled { background: #ccc; cursor: not-allowed; }
-  .footer-text { text-align: center; font-size: 14px; margin-top: 25px; color: #777; }
-  .footer-text a { color: #1e90ff; text-decoration: none; font-weight: 600; }
-  #message { text-align: center; font-size: 14px; margin-bottom: 15px; padding: 10px; border-radius: 8px; display: none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Sadharon Store | Quality Products & Fast Delivery in Bangladesh</title>
+  <meta name="description" content="Discover affordable, high-quality products at Sadharon Store. Shop the best deals in Dhaka with reliable shipping across BD."><meta property="og:type" content="website"><meta property="og:url" content="https://sadharon-store.vercel.app/"><meta property="og:title" content="Sadharon Store | Quality Products"><meta property="og:description" content="Shop the latest quality products at Sadharon Store."><meta property="og:image" content="Sadgaron store">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet"href="css/style.css">
+  <link rel="canonical" href="https://sadharon-store.vercel.app/">  
+  <script src="https://unpkg.com/lucide@latest"></script> 
+</head>
+  <style>
+
+
+  /*---------------- start css code --------------*/
+  
+  /*. CLEAN LOGIN PAGE STYLES */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  padding: 15px;
+}
+
+.login-container {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.back-home {
+  display: inline-block;
+  margin-bottom: 15px;
+  font-size: 13px;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-home:hover { color: #FF6B35; }
+
+.login-logo {
+  color: #FF6B35;
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.login-header p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.forgot-link {
+  font-size: 12px;
+  color: #FF6B35;
+  text-decoration: none;
+}
+
+.input-wrapper input, textarea {
+  width: 100%;
+  padding: 12px 16px; /* Balanced padding without icons */
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  background: #fff;
+}
+
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: #FF6B35;
+}
+.input-wrapper textarea:focus {
+  outline: none;
+  border-color: #FF6B35;
+}
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.btn-login-submit {
+  width: 100%;
+  background: #FF6B35;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-login-submit:hover {
+  background: #e55a2b;
+}
+
+#message {
+  margin-top: 15px;
+}
+.login-footer {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.login-footer a {
+  color: #FF6B35;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+  </style>
 </head>
 <body>
+  <header>
+    <div class="nav-wrapper"><h1 class="top-logo">Sadharon Store</h1><div class="menu-toggle" id="open-menu"><i data-lucide="menu"></i></div><nav class="navbar-container" id="sidebar"><div class="nav-header"><div><p class="nav-title">Navigation</p><h2 style="color: white; margin-top: 5px;">Menu</h2></div><div class="close-btn" id="close-menu"><i data-lucide="x"></i></div></div><ul class="nav-link-container"><li class="nav-link active"><a href="index.html"><i data-lucide="home"></i> Home</a></li><li class="nav-link"><a href="add-to-card.html"><i data-lucide="shopping-bag"></i> My Cart</a></li><li class="nav-link"><a href="view-order.html"><i data-lucide="truck"></i> My Orders</a></li><li class="nav-link"><a href="#"><i data-lucide="settings"></i> Settings</a></li></ul><div class="auth-section"><a href="login.html" class="btn-login">Login</a><a href="signup.html" class="btn-signup">Create Account</a></div></nav></div>
+  </header>
 
-<div class="signup-card">
-  <h2>Create Account</h2>
-  <p>Join Sadharon Store today</p>
-  <div id="message"></div>
+<main style="padding: 60px 5%; line-height: 1.6;"> 
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-header">
+      <a href="index.html" class="back-home">Back to Home</a>
+      <h1 class="login-logo">Sadharon Store</h1>
+      <p>Welcome back! Please enter your details.</p>
+        <div id="message"></div>
+    </div>
 
-  <form id="signupForm">
-    <div class="form-group">
-      <label>Full Name</label>
-      <input type="text" id="name" placeholder="Enter your full name" required>
-    </div>
-    <div class="form-group">
-      <label>Phone Number</label>
-      <input type="tel" id="phone" placeholder="01XXXXXXXXX" required>
-    </div>
-    <div class="form-group">
-      <label>Delivery Address</label>
-      <textarea id="address" placeholder="Flat, House, Road, Area..." required></textarea>
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="password" placeholder="Min. 6 characters" required minlength="6">
-    </div>
-    <button type="submit" class="signup-btn" id="submitBtn">Sign Up</button>
-  </form>
+    <form id="signupForm" class="login-form">
+      <div class="input-group">
+        <label for="name">Full Name</label>
+        <div class="input-wrapper">
+          <input type="text" id="name" placeholder="Your name" required>
+        </div>
+      </div>
 
-  <div class="footer-text">
-    Already have an account? <a href="login.html">Login</a>
+      <div class="input-group">
+        <div class="label-row">
+          <label for="phone">Phone Number</label>
+      </div>
+        <div class="input-wrapper">
+          <input type="tel" id="phone" placeholder="01XXXXXXXXX" required>
+        </div>
+      </div>
+      
+        <div class="input-group">
+        <div class="label-row">
+          <label for="address">Address</label>
+        </div>
+        <div class="input-wrapper">
+             <textarea id="address" placeholder="Flat, House, Road, Area..." required></textarea>
+        </div>
+      </div>
+      
+    <div class="input-group">
+        <div class="label-row">
+          <label for="password">Password</label>
+          <a href="#" class="forgot-link">Forgot?</a>
+        </div>
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="min. 6 characters" required>
+        </div>
+      </div>
+      
+
+      <div class="remember-me">
+        <input type="checkbox" id="remember">
+        <label for="remember">Keep me logged in</label>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-login-submit">Register</button>
+    </form>
+
+    <div class="login-footer">
+      <p>I have an account? <a href="login.html">Please login</a></p>
+    </div>
   </div>
 </div>
+   
+</main>
 
+  
+  
+<footer class="site-footer">
+  <div class="footer-container"><div class="footer-brand"><h2 class="footer-logo">Sadharon Store</h2><p>Quality products delivered with speed and care. Your trusted partner for online shopping in Bangladesh.</p><div class="social-links"><a href="#"><i data-lucide="facebook"></i></a><a href="#"><i data-lucide="instagram"></i></a><a href="#"><i data-lucide="twitter"></i></a></div></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop All</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div><div class="footer-links"><h3>Support</h3><ul><li><a href="#">Shipping Policy</a></li><li><a href="#">Returns & Refunds</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">FAQs</a></li></ul></div><div class="footer-newsletter"><h3>Stay Updated</h3><p>Subscribe to get special offers and first look at new arrivals.</p><form class="newsletter-form"><input type="email" placeholder="Enter your email" required><button type="submit">Join</button></form></div></div><div class="footer-bottom"><p>&copy; 2026 Sadharon Store. All rights reserved.</p></div>
+</footer>
+  
+ <!-- formate javascript code start-->
+ <script src="js/index.js"></script>
 <script>
    const LOCALHOST = "http://localhost:3000/users";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
-  const API = LOCALHOST;
+    const API = window.location.hostname === "vercel.app" ? SERVER : LOCALHOST;
+   
   document.getElementById('signupForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const messageDiv = document.getElementById('message');
@@ -85,7 +250,7 @@
 
       messageDiv.style.display = "block";
       if (data.success) {
-        messageDiv.style.background = "#d4edda";
+        messageDiv.style.background = "#e55a2b30";
         messageDiv.style.color = "#155724";
         messageDiv.innerText = data.message;
         setTimeout(() => { window.location.href = "login.html"; }, 2000);
