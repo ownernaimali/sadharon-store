@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Products - Sadharon Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Hind Siliguri', sans-serif;
+    }
+
+    body {
+      background-color: #f4f7f6;
+      padding: 20px 0;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 650px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    /* ব্যানার সেকশন */
+    .banner {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 2px opacity 0.1 solid #eee;
+      padding-bottom: 20px;
+    }
+
+    .banner h1 {
+      font-size: 32px;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    .banner h1::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 4px;
+      background-color: #ff4757;
+      margin: 8px auto 0;
+      border-radius: 2px;
+    }
+
+    .banner p {
+      font-size: 18px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* ফর্ম হেডিং */
+    h2 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 20px;
+      border-left: 4px solid #ff4757;
+      padding-left: 10px;
+    }
+
+    /* ফর্ম ডিজাইন */
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* দুই কলামে ইনপুটগুলো থাকবে */
+      gap: 20px;
+    }
+
+    .full-width {
+      grid-column: span 2; /* নাম এবং ক্যাটাগরি পুরো জায়গা নেবে */
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    .input {
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      outline: none;
+      transition: 0.3s;
+      font-size: 15px;
+    }
+
+    .input:focus {
+      border-color: #ff4757;
+      box-shadow: 0 0 5px rgba(255, 71, 87, 0.2);
+    }
+
+    /* সাবমিট বাটন */
+    input[type="submit"] {
+      grid-column: span 2;
+      background-color: #ff4757;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+/*
+    input[type="submit"]:hover {
+      background-color: #e84118;
+    }
+*/
+    /* মোবাইল রেসপনসিভ */
+    @media (max-width: 700px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      .full-width, input[type="submit"] {
+        grid-column: span 1;
+      }
+      .banner h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <div class="container">
+  
+      <div class="banner">
+        <h1>সেরা মান, সাশ্রয়ী সমাধান</h1>
+        <p>আপনার বাজেট যদি হয় সীমিত আর চাহিদা যদি হয় সেরা পণ্যের, তবে Sadharon Store আছে আপনার পাশে।</p>
+      </div>
+      
+      <h2>Add Product / পণ্য যোগ করুন</h2>
+      
+      <form>
+        <div class="form-group full-width">
+           <label>Product Name / পণ্যের নাম:</label>
+           <input type="text" id="name" class="input" placeholder="যেমন: লবন, সাবান, তেল" required/>
+        </div>
+
+        <div class="form-group">
+           <label>Actual Price / মূল দাম:</label>
+           <input type="number" id="actualPrize" class="input" placeholder="0.00" required/>
+        </div>
+
+        <div class="form-group">
+           <label>Discount Price / ছাড়ের দাম:</label>
+           <input type="number" id="discountPrice" class="input" placeholder="0.00" required/>
+        </div>
+
+        <div class="form-group">
+           <label>Category / বিভাগ:</label>
+           <input type="text" id="category" class="input" placeholder="যেমন: ইলেকট্রনিক্স" required/>
+        </div>
+
+        <div class="form-group">
+           <label>Cost Price / ক্রয় মূল্য:</label>
+           <input type="number" id="costPrice" class="input" placeholder="আপনার কেনা দাম" required/>
+        </div>
+
+        <div class="form-group full-width">
+           <label>Quantity / পরিমান:</label>
+           <input type="number" id="quantity" class="input" placeholder="যেমন: 10" required/>
+        </div>
+        
+        <div class="form-group full-width">
+           <label>Product Image link / পণ্যের ছবি লিংক:</label>
+           <input type="text" id="productImageLink" class="input" placeholder="http://example.com/product.jpg" required/>
+        </div>
+
+        <input type="submit" id="submit" value="Add Product" />
+        <p id="m"></p>
+      </form>
+    </div>
+  </main>
+  <script>
+  
+  const LOCALHOST = "http://localhost:3000/products";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
+const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+  
+  
+  // 1. Get the query string from the current URL
+const queryString = window.location.search;
+
+// 2. Pass it to URLSearchParams
+const urlParams = new URLSearchParams(queryString);
+
+  
+  function getById(id, value){
+    document.getElementById(id).value = value
+  }
+// 3. Get the specific "id" value
+const id = urlParams.get('id');
+
+  fetch(`${API}/695bd57f15117a7b6e57ae5f`)
+ .then(res => res.json())
+ .then(p => { 
+    getById("name", p.name)
+   getById("actualPrize", p.actualPrice)
+   getById("discountPrice", p.discountPrice)
+   getById("category", p.category)
+   getById("costPrice", p.costPrice)
+   getById("quantity", p.quantity)
+  getById("productImageLink", p.productImageLink)
+   
+ }) 
+  
+  
+  
+  
+  // 1. Select the form element
+  const productForm = document.querySelector('form');
+  const submitBtn = document.getElementById('submit');
+  
+  // 2. Add an 'submit' event listener
+  productForm.addEventListener('submit', function(event) {
+    // Prevent the default form submission (page reload)
+    event.preventDefault();
+    
+    
+       // 1. Disable the button and change text
+    submitBtn.disabled = false;
+    submitBtn.value = "Processing...";
+    submitBtn.style.opacity = "0.5";
+    submitBtn.style.cursor = "not-allowed";
+
+    // 3. Collect data using the IDs of the inputs
+    const productData = {
+      name: document.getElementById('name').value,
+      actualPrice: parseFloat(document.getElementById('actualPrize').value),
+      discountPrice: parseFloat(document.getElementById('discountPrice').value),
+      category: document.getElementById('category').value,
+      costPrice: parseFloat(document.getElementById('costPrice').value),
+      quantity: parseInt(document.getElementById('quantity').value),
+      productImageLink: document.getElementById('productImageLink').value,
+    };
+    
+    // 3. Perform the POST Fetch
+    fetch(`${API}/695bd57f15117a7b6e57ae5f`, {
+        method: "PATCH", // Specify the method
+        headers: {
+            "Content-Type": "application/json" // Tell server we are sending JSON
+        },
+        body: JSON.stringify(productData) // Convert object to JSON string
+    })
+    .then(res => res.json())
+    .then(data => {
+        
+        alert(data.message);
+      document.getElementById("m").innerHTML = JSON.stringify(data)
+        // productForm.reset();
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Something went wrong!");
+    })
+    .finally(() => {
+        // 4. Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.value = "Update Product";
+       submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+    
+    });
+       
+    // 5. Clear the form for the next entry
+    // productForm.reset();
+    
+    
+  });
+  
+  </script>
+  
+</body>
+</html>

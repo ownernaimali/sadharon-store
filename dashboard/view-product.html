@@ -157,6 +157,10 @@ button:hover{
   const SERVER = "https://sadharon-store-server.vercel.app/products?status=active";
   const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
   
+  function updateProduct (id) {
+     window.location.href = `update-product.html?id=${id}`
+  }
+  
 function loadProducts(){
   fetch(API)
   .then(res => res.json())
@@ -190,8 +194,8 @@ function loadProducts(){
 
             <div class="actions">
              <div class="date">🕒 Added: ${p.insertDate}</div>
-              <button onclick="updateQty(${p.id}, ${p.quantity})">
-                Update Qty
+              <button onclick='updateProduct("${p._id}")'>
+                Update Product
               </button>
             </div>
 
@@ -203,7 +207,6 @@ function loadProducts(){
   });
 }
   
-
 loadProducts();
 </script>
 

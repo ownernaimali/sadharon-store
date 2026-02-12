@@ -201,8 +201,12 @@
    .banner {
   background: linear-gradient(to right, #0f9b0f, #7dd56f);
   color: white;
-  text-align: center;
-  padding: 80px 0;
+  height: 32dvh;
+  max-height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-family: Arial, sans-serif;
 }
 
@@ -214,6 +218,39 @@
 .banner h2 {
   font-size: 28px;
   color: #fff3a0;
+}
+    
+/* This targets everything up to a large smartphone */
+@media screen and (max-width: 580px) {
+    .banner h1 {
+       font-size: 44px;
+    }
+        
+  .banner h2 {
+    font-size: 26px;
+  }
+}    
+    
+/* This targets everything up to a large smartphone */
+@media screen and (max-width: 480px) {
+    .banner h1 {
+       font-size: 42px;
+    }
+        
+  .banner h2 {
+    font-size: 24px;
+  }
+}
+
+/* Specific fix for very small phones (under 320px) */
+@media screen and (max-width: 320px) {
+    .banner h1 {
+        font-size: 34px; /* Scaling down slightly so it doesn't overflow */
+    }
+      
+  .banner h2 {
+    font-size: 22px;
+  }
 }
 
 .banner p {
@@ -388,7 +425,7 @@ async function loadProducts() {
                document.getElementById("product-container").innerHTML = `
             <div style="text-align:center; padding: 50px; color: #ef4444;">
                 <p>Failed to load products. Please check your connection.</p>
-                <button onclick="loadProducts()" style="margin-top:10px; cursor:pointer;">Retry</button>
+                <button class=" onclick="loadProducts()" style="margin-top:10px; cursor:pointer;">Retry</button>
             </div>
         `;
     }
