@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Policy | সাধারণ স্টোর</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; line-height: 1.6; }
+.container { width: 90%; max-width: 900px; margin: 0 auto; }
+
+/* Header */
+.shipping-header { background: #1e293b; color: white; padding: 60px 0; text-align: center; border-radius: 0 0 30px 30px; }
+.ship-icon { background: #FF6B35; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; }
+.shipping-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+.shipping-header p { opacity: 0.8; font-size: 15px; }
+
+/* Content */
+.shipping-content { padding: 40px 0; }
+
+.info-section { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
+.info-section h2 { font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #1e293b; }
+.info-section h2 i { color: #FF6B35; }
+
+/* Table Style */
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th, td { text-align: left; padding: 15px; border-bottom: 1px solid #f1f5f9; }
+th { background: #f8fafc; color: #64748b; font-size: 14px; text-transform: uppercase; }
+td { font-weight: 600; color: #1e293b; }
+
+/* Point Cards */
+.policy-points { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 600px) { .policy-points { grid-template-columns: 1fr 1fr; } }
+
+.point-card { background: white; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; transition: 0.3s; }
+.point-card:hover { transform: translateY(-5px); border-color: #FF6B35; }
+.point-card i { color: #FF6B35; margin-bottom: 15px; }
+.point-card h3 { font-size: 18px; margin-bottom: 10px; color: #1e293b; }
+.point-card p { font-size: 14px; color: #64748b; }
+/
+    </style>
+</head>
+<body>
+
+<header class="shipping-header">
+    <div class="container">
+        <div class="ship-icon"><i data-lucide="truck"></i></div>
+        <h1>শিপিং এবং ডেলিভারি পলিসি</h1>
+        <p>আমরা দ্রুততম সময়ে আপনার দোরগোড়ায় পণ্য পৌঁছে দিতে প্রতিশ্রুতিবদ্ধ।</p>
+    </div>
+</header>
+
+<main class="container">
+    <div class="shipping-content">
+        
+        <section class="info-section">
+            <h2><i data-lucide="map-pin"></i> ডেলিভারি খরচ ও সময়</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>এলাকা</th>
+                            <th>সময়</th>
+                            <th>চার্জ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ঢাকার ভেতরে</td>
+                            <td>২৪ - ৪৮ ঘণ্টা</td>
+                            <td>৳ ৬০</td>
+                        </tr>
+                        <tr>
+                            <td>ঢাকার আশেপাশে</td>
+                            <td>২ - ৩ দিন</td>
+                            <td>৳ ১০০</td>
+                        </tr>
+                        <tr>
+                            <td>সারাদেশে (গ্রাম পর্যন্ত)</td>
+                            <td>৩ - ৫ দিন</td>
+                            <td>৳ ১৫০</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="policy-points">
+            <div class="point-card">
+                <i data-lucide="clock"></i>
+                <h3>অর্ডার প্রসেসিং</h3>
+                <p>প্রতিদিন দুপুর ২টার আগে অর্ডার করলে সেটি ঐদিনই কুরিয়ারে দেওয়া হয়। শুক্রবার ও সরকারি ছুটির দিনে ডেলিভারি কার্যক্রম বন্ধ থাকতে পারে।</p>
+            </div>
+
+            <div class="point-card">
+                <i data-lucide="package-check"></i>
+                <h3>পণ্য গ্রহণ</h3>
+                <p>ডেলিভারি ম্যানের সামনে পণ্য চেক করে গ্রহণ করুন। কোনো সমস্যা থাকলে ডেলিভারি ম্যান থাকাকালীন আমাদের জানান।</p>
+            </div>
+
+            <div class="point-card">
+                <i data-lucide="shield-alert"></i>
+                <h3>অনিবার্য কারণ</h3>
+                <p>আবহাওয়া বা রাজনৈতিক পরিস্থিতির কারণে ডেলিভারি সময় কিছুটা পরিবর্তন হতে পারে। সেক্ষেত্রে আমরা আপনাকে ফোন করে জানাব।</p>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>

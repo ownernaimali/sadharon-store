@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs | সাধারণ স্টোর</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+    
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #1f2937; }
+
+.faq-container { max-width: 800px; margin: 50px auto; padding: 20px; }
+.faq-header { text-align: center; margin-bottom: 40px; }
+.faq-header h1 { font-size: 32px; font-weight: 800; color: #111827; }
+.faq-header p { color: #6b7280; margin-top: 10px; }
+
+.faq-wrapper { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+
+.faq-item { border-bottom: 1px solid #f3f4f6; }
+.faq-item:last-child { border-bottom: none; }
+
+.faq-question {
+    width: 100%; padding: 20px; background: none; border: none;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 16px; font-weight: 600; text-align: left; cursor: pointer;
+    transition: 0.3s; color: #374151;
+}
+
+.faq-question:hover { background-color: #fef2f2; color: #FF6B35; }
+.faq-question.active { color: #FF6B35; border-bottom: 1px solid #f3f4f6; }
+.faq-question i { transition: 0.3s; width: 20px; }
+.faq-question.active i { transform: rotate(180deg); }
+
+.faq-answer {
+    max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: #fff;
+}
+.faq-answer p { padding: 20px; font-size: 14px; line-height: 1.6; color: #4b5563; }
+
+.faq-footer { text-align: center; margin-top: 30px; font-size: 14px; color: #6b7280; }
+.faq-footer a { color: #FF6B35; font-weight: 700; text-decoration: none; }
+
+    </style>
+</head>
+<body>
+
+<section class="faq-container">
+    <div class="faq-header">
+        <h1>সাধারণ জিজ্ঞাসা (FAQ)</h1>
+        <p>আপনার মনে থাকা সাধারণ প্রশ্নগুলোর উত্তর এখানে খুঁজে পাবেন।</p>
+    </div>
+
+    <div class="faq-wrapper">
+        <div class="faq-item">
+            <button class="faq-question">আমি কিভাবে অর্ডার করবো? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>পছন্দের পণ্যটি সিলেক্ট করে 'Add to Cart' বাটনে ক্লিক করুন। এরপর চেকআউট পেজে গিয়ে আপনার নাম, ঠিকানা এবং ফোন নম্বর দিয়ে 'Place Order' বাটনে ক্লিক করলেই অর্ডার সম্পন্ন হবে।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">ডেলিভারি চার্জ কত? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>ঢাকার ভেতরে ডেলিভারি চার্জ ৬০ টাকা এবং ঢাকার বাইরে ১৫০ টাকা। তবে বিশেষ অফারে অনেক সময় ফ্রি ডেলিভারি দেওয়া হয়।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">ঢাকার বাইরে কি ক্যাশ অন ডেলিভারি পাওয়া যাবে? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>হ্যাঁ, আমরা সারা বাংলাদেশে ক্যাশ অন ডেলিভারি (পণ্য হাতে পেয়ে টাকা পরিশোধ) সুবিধা দিয়ে থাকি।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">অর্ডার করার পর পণ্য পেতে কতদিন সময় লাগবে? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>ঢাকার ভেতরে ২৪-৪৮ ঘণ্টার মধ্যে এবং ঢাকার বাইরে ৩-৫ কার্যদিবসের মধ্যে ডেলিভারি দেওয়া হয়।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">পণ্য কি চেক করে নেওয়া যাবে? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>অবশ্যই! ডেলিভারি ম্যান থাকা অবস্থায় আপনি পণ্যটি দেখে চেক করে নিতে পারবেন। কোনো সমস্যা থাকলে তখনই আমাদের জানান।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">পণ্য নষ্ট বা ভুল হলে করণীয় কী? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>যদি ভুল বা নষ্ট পণ্য পান, তবে ২৪ ঘণ্টার মধ্যে আমাদের হটলাইন নম্বরে কল করুন। আমরা ফ্রিতে পণ্যটি পরিবর্তন করে দেব।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">আমি কি আমার অর্ডার বাতিল করতে পারি? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>অর্ডার কনফার্ম করার আগে বা কুরিয়ারে পাঠানোর আগে আপনি কল করে অর্ডার বাতিল করতে পারেন। পণ্য কুরিয়ারে চলে গেলে সেটি বাতিল করা সম্ভব নয়।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">আপনাদের কি কোনো শোরুম আছে? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>আমরা বর্তমানে শুধুমাত্র অনলাইনের মাধ্যমে সেবা দিচ্ছি। আমাদের সব পণ্য আমাদের ওয়েবসাইট এবং ফেসবুক পেজে পাওয়া যাবে।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">পেমেন্ট করার মাধ্যমগুলো কী কী? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>আপনি ক্যাশ অন ডেলিভারি ছাড়াও বিকাশ, নগদ এবং রকেটের মাধ্যমে অগ্রিম পেমেন্ট করতে পারবেন।</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">পণ্য রিটার্ন করলে টাকা কিভাবে ফেরত পাবো? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">
+                <p>পণ্য আমাদের কাছে পৌঁছানোর পর তা চেক করে ৭ কার্যদিবসের মধ্যে আপনার মোবাইল ব্যাংকিং (বিকাশ/নগদ) অ্যাকাউন্টে রিফান্ড করে দেওয়া হবে।</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-footer">
+        <p>আরও প্রশ্ন আছে? <a href="contact-us.html">সরাসরি যোগাযোগ করুন</a></p>
+    </div>
+</section>
+
+<script>
+    lucide.createIcons();
+    
+    // Accordion Logic
+    const questions = document.querySelectorAll('.faq-question');
+    questions.forEach(question => {
+        question.addEventListener('click', () => {
+            const active = document.querySelector('.faq-question.active');
+            if(active && active !== question ) {
+                active.classList.toggle('active');
+                active.nextElementSibling.style.maxHeight = 0;
+            }
+            question.classList.toggle('active');
+            const answer = question.nextElementSibling;
+            if(question.classList.contains('active')){
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            } else {
+                answer.style.maxHeight = 0;
+            }
+        });
+    });
+</script>
+</body>
+</html>

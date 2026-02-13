@@ -59,7 +59,7 @@ html {
     .navbar-container {
        width: 65%;
       max-width: 380px;
-      height: 100dvh;
+      height: 94dvh;
       position: fixed;
       top: 0;
       left: -400px; 
@@ -463,3 +463,14 @@ html {
 .btn-continue:hover {
   background: #FF6B35;
 }
+
+/* Bottom Navigation */
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 5px; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; }
+.bottom-link { text-decoration: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.bottom-link i { width: 22px; height: 22px; }
+.bottom-link span { font-size: 10px; font-weight: 600; }
+.bottom-link.active { color: #FF6B35; }
+.main-cart { margin-top: -35px; }
+.cart-btn-inner { background: #1e293b; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 5px solid #f4f7fa; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.cart-badge { position: absolute; top: 0; right: 0; background: #FF6B35; color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; border: 2px solid #1e293b; }
+ 
