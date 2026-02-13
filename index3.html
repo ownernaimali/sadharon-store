@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sadharon Store | সাধারণ স্টোর</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Inter', sans-serif; background-color: #f4f7fa; color: #1e293b; padding-bottom: 90px; }
+
+/* Header */
+.app-header { background: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 99; }
+.app-logo { font-weight: 800; font-size: 20px; color: #0f172a; }
+.app-logo span { color: #FF6B35; }
+.notif-btn { position: relative; }
+.dot { position: absolute; top: 2px; right: 2px; width: 8px; height: 8px; background: #FF6B35; border-radius: 50%; border: 2px solid #fff; }
+
+/* Sidebar */
+.sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #fff; z-index: 1001; transition: 0.3s; padding: 20px; }
+.sidebar.open { left: 0; }
+.sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1000; }
+.sidebar-overlay.show { display: block; }
+.user-info { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9; }
+.avatar { width: 45px; height: 45px; background: #FF6B35; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; }
+.sidebar-links { list-style: none; margin-top: 20px; }
+.sidebar-links li a { display: flex; align-items: center; gap: 15px; padding: 12px 0; text-decoration: none; color: #475569; font-weight: 600; }
+
+/* Search */
+.search-section { padding: 10px 15px; background: #fff; }
+.search-wrapper { background: #f1f5f9; padding: 10px 15px; border-radius: 12px; display: flex; align-items: center; gap: 10px; }
+.search-wrapper input { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; }
+.search-wrapper i { color: #94a3b8; width: 18px; }
+
+/* Hero Banner */
+.hero-banner { padding: 15px; }
+.banner-card { background: #1e293b; border-radius: 20px; padding: 25px; color: #fff; display: flex; justify-content: space-between; align-items: center; overflow: hidden; position: relative; }
+.banner-card::after { content: ''; position: absolute; right: -20px; top: -20px; width: 100px; height: 100px; background: rgba(255,107,53,0.2); border-radius: 50%; }
+.tag { background: #FF6B35; font-size: 10px; padding: 4px 8px; border-radius: 5px; font-weight: 700; }
+.banner-content h2 { font-size: 22px; margin: 10px 0; }
+.banner-content p { font-size: 14px; opacity: 0.8; margin-bottom: 15px; }
+.buy-now { background: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 800; color: #1e293b; font-size: 12px; }
+.banner-img { font-size: 50px; }
+
+/* Categories */
+.category-section { padding: 15px; }
+.section-head { display: flex; justify-content: space-between; margin-bottom: 15px; }
+.section-head h3 { font-size: 16px; font-weight: 800; }
+.section-head a { color: #FF6B35; font-size: 13px; text-decoration: none; font-weight: 600; }
+.cat-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+.cat-scroll::-webkit-scrollbar { display: none; }
+.cat-box { text-align: center; min-width: 65px; }
+.icon-wrap { background: #fff; width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #FF6B35; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+.cat-box span { font-size: 12px; font-weight: 600; color: #64748b; }
+
+/* Flash Sale */
+.flash-sale { padding: 0 15px; }
+.flash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.flash-title { display: flex; align-items: center; gap: 8px; }
+.flash-title i { color: #FF6B35; fill: #FF6B35; }
+.timer { background: #1e293b; color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 5px; font-weight: 700; }
+
+/* Product Grid */
+.product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.product-card { background: #fff; border-radius: 18px; padding: 10px; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+.p-image { height: 130px; background: #f1f5f9; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative; }
+.disc { position: absolute; top: 8px; left: 8px; background: #ef4444; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 5px; }
+.p-details h4 { font-size: 13px; margin: 10px 0 5px; color: #334155; }
+.p-price { color: #FF6B35; font-weight: 800; font-size: 15px; }
+.p-price span { font-size: 11px; color: #94a3b8; text-decoration: line-through; margin-left: 5px; }
+.add-to-cart { position: absolute; bottom: 10px; right: 10px; background: #1e293b; color: #fff; border: none; width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+
+/* Bottom Navigation */
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 5px; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; }
+.nav-link { text-decoration: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.nav-link i { width: 22px; height: 22px; }
+.nav-link span { font-size: 10px; font-weight: 600; }
+.nav-link.active { color: #FF6B35; }
+.main-cart { margin-top: -35px; }
+.cart-btn-inner { background: #1e293b; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 5px solid #f4f7fa; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.cart-badge { position: absolute; top: 0; right: 0; background: #FF6B35; color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; border: 2px solid #1e293b; }
+    /* CSS কোড নিচে দেওয়া আছে */
+  </style>
+</head>
+<body>
+
+  <div class="sidebar-overlay" id="overlay"></div>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="user-info">
+        <div class="avatar">G</div>
+        <div>
+          <h4>Guest User</h4>
+          <p>লগইন করুন</p>
+        </div>
+      </div>
+    </div>
+    <ul class="sidebar-links">
+      <li><a href="#"><i data-lucide="home"></i> হোম</a></li>
+      <li><a href="#"><i data-lucide="package"></i> আমার অর্ডার</a></li>
+      <li><a href="#"><i data-lucide="heart"></i> উইশলিস্ট</a></li>
+      <li><a href="#"><i data-lucide="settings"></i> সেটিংস</a></li>
+      <hr>
+      <li><a href="#"><i data-lucide="help-circle"></i> সাহায্য কেন্দ্র</a></li>
+    </ul>
+  </nav>
+
+  <header class="app-header">
+    <div class="menu-btn" id="menuBtn"><i data-lucide="menu"></i></div>
+    <div class="app-logo">Sadharon<span>Store</span></div>
+    <div class="notif-btn"><i data-lucide="bell"></i><span class="dot"></span></div>
+  </header>
+
+  <main class="content-area">
+    <div class="search-section">
+      <div class="search-wrapper">
+        <i data-lucide="search"></i>
+        <input type="text" placeholder="পণ্য বা ব্র্যান্ড খুঁজুন...">
+      </div>
+    </div>
+
+    <section class="hero-banner">
+      <div class="banner-card">
+        <div class="banner-content">
+          <span class="tag">নতুন অফার</span>
+          <h2>শীতকালীন ধামাকা!</h2>
+          <p>সব জ্যাকেটে ৩০% ছাড়</p>
+          <button class="buy-now">এখনই কিনুন</button>
+        </div>
+        <div class="banner-img">🧥</div>
+      </div>
+    </section>
+
+    <section class="category-section">
+      <div class="section-head">
+        <h3>ক্যাটাগরি</h3>
+        <a href="#">সব দেখুন</a>
+      </div>
+      <div class="cat-scroll">
+        <div class="cat-box"><div class="icon-wrap"><i data-lucide="smartphone"></i></div><span>ফোন</span></div>
+        <div class="cat-box"><div class="icon-wrap"><i data-lucide="shirt"></i></div><span>ফ্যাশন</span></div>
+        <div class="cat-box"><div class="icon-wrap"><i data-lucide="watch"></i></div><span>ঘড়ি</span></div>
+        <div class="cat-box"><div class="icon-wrap"><i data-lucide="headphones"></i></div><span>গ্যাজেট</span></div>
+        <div class="cat-box"><div class="icon-wrap"><i data-lucide="laptop"></i></div><span>ল্যাপটপ</span></div>
+      </div>
+    </section>
+
+    <section class="flash-sale">
+      <div class="flash-header">
+        <div class="flash-title">
+          <i data-lucide="zap"></i>
+          <h3>ফ্ল্যাশ সেল</h3>
+          <div class="timer">12:05:44</div>
+        </div>
+      </div>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="p-image">
+            <span class="disc">-২০%</span>
+            <div class="img-placeholder">⌚</div>
+          </div>
+          <div class="p-details">
+            <h4>T500 Smart Watch</h4>
+            <p class="p-price">৳ ১,৪৫০ <span>৳ ১,৮০০</span></p>
+            <button class="add-to-cart"><i data-lucide="plus"></i></button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="p-image">
+            <span class="disc">-১৫%</span>
+            <div class="img-placeholder">🎧</div>
+          </div>
+          <div class="p-details">
+            <h4>M10 Earbuds</h4>
+            <p class="p-price">৳ ৮৫০ <span>৳ ১,০০০</span></p>
+            <button class="add-to-cart"><i data-lucide="plus"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bottom-nav">
+    <a href="#" class="nav-link active"><i data-lucide="home"></i><span>হোম</span></a>
+    <a href="#" class="nav-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
+    <div class="nav-link main-cart">
+      <div class="cart-btn-inner">
+        <i data-lucide="shopping-bag"></i>
+        <span class="cart-badge">২</span>
+      </div>
+    </div>
+    <a href="#" class="nav-link"><i data-lucide="heart"></i><span>উইশলিস্ট</span></a>
+    <a href="#" class="nav-link"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
+  </footer>
+
+  <script>
+    // আইকন লোড করা
+    lucide.createIcons();
+
+    // সাইডবার লজিক
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    menuBtn.onclick = () => {
+      sidebar.classList.add('open');
+      overlay.classList.add('show');
+    };
+
+    overlay.onclick = () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    };
+  </script>
+</body>
+</html>

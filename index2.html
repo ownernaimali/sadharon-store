@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sadharon Store | Mobile Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; padding-bottom: 80px; }
+
+/* মোবাইল হেডার */
+.mobile-header { background: #fff; padding: 10px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.header-top { display: flex; align-items: center; gap: 12px; }
+.logo { font-size: 22px; font-weight: 800; background: #1e293b; color: #fff; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; }
+.logo span { color: #FF6B35; }
+
+.search-box { flex-grow: 1; background: #f1f5f9; display: flex; align-items: center; padding: 0 12px; border-radius: 12px; height: 40px; }
+.search-box input { background: transparent; border: none; padding: 8px; font-size: 14px; width: 100%; outline: none; }
+.search-box i { color: #94a3b8; width: 18px; }
+
+/* হিরো কার্ড */
+.mobile-hero { padding: 15px; }
+.promo-card { background: linear-gradient(135deg, #FF6B35, #ff9f43); padding: 20px; border-radius: 20px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+.promo-text h2 { font-size: 20px; margin-bottom: 5px; }
+.promo-text p { font-size: 13px; opacity: 0.9; margin-bottom: 15px; }
+.promo-text button { background: #fff; color: #FF6B35; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; }
+.promo-img { font-size: 40px; }
+
+/* ক্যাটাগরি স্লাইডার */
+.cat-section { padding: 10px 0 10px 15px; }
+.cat-section h3 { font-size: 16px; margin-bottom: 12px; }
+.cat-slider { display: flex; overflow-x: auto; gap: 10px; padding-right: 15px; scrollbar-width: none; }
+.cat-slider::-webkit-scrollbar { display: none; }
+.cat-pill { background: #fff; padding: 8px 20px; border-radius: 50px; white-space: nowrap; font-size: 13px; font-weight: 600; border: 1px solid #e2e8f0; }
+
+/* প্রোডাক্ট গ্রিড */
+.products { padding: 15px; }
+.products h3 { font-size: 16px; margin-bottom: 15px; }
+.product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.p-card { background: #fff; border-radius: 15px; overflow: hidden; position: relative; border: 1px solid #f1f5f9; }
+.p-img { background: #e2e8f0; height: 140px; }
+.p-info { padding: 12px; }
+.p-info h4 { font-size: 14px; margin-bottom: 5px; color: #1e293b; }
+.p-price { font-size: 15px; font-weight: 700; color: #FF6B35; }
+.p-price span { font-size: 11px; color: #94a3b8; text-decoration: line-through; margin-left: 5px; }
+.add-cart-btn { position: absolute; bottom: 10px; right: 10px; background: #1e293b; color: #fff; border: none; width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+
+/* বটম নেভিগেশন */
+.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-radius: 20px 20px 0 0; }
+.nav-item { text-decoration: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.nav-item i { width: 22px; height: 22px; }
+.nav-item span { font-size: 10px; font-weight: 600; }
+.nav-item.active { color: #FF6B35; }
+
+.cart-circle { background: #1e293b; color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: -30px; border: 5px solid #f7f9fc; position: relative; }
+.cart-circle .badge { position: absolute; top: 0; right: 0; background: #FF6B35; font-size: 9px; padding: 2px 5px; border-radius: 50%; }
+    /* CSS নিচে দেওয়া হয়েছে */
+  </style>
+</head>
+<body>
+
+  <header class="mobile-header">
+    <div class="header-top">
+      <div class="logo">S<span>S</span></div>
+      <div class="search-box">
+        <i data-lucide="search"></i>
+        <input type="text" placeholder="পণ্য খুঁজুন...">
+      </div>
+      <div class="notif"><i data-lucide="bell"></i></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="mobile-hero">
+      <div class="promo-card">
+        <div class="promo-text">
+          <h2>ফ্ল্যাশ সেল! 🔥</h2>
+          <p>সব গ্যাজেটে ৫০% পর্যন্ত ছাড়</p>
+          <button>কেনাকাটা করুন</button>
+        </div>
+        <div class="promo-img">🎁</div>
+      </div>
+    </section>
+
+    <section class="cat-section">
+      <h3>ক্যাটাগরি</h3>
+      <div class="cat-slider">
+        <div class="cat-pill">গ্যাজেট</div>
+        <div class="cat-pill">ফ্যাশন</div>
+        <div class="cat-pill">লাইফস্টাইল</div>
+        <div class="cat-pill">ইলেকট্রনিক্স</div>
+        <div class="cat-pill">কসমেটিকস</div>
+      </div>
+    </section>
+
+    <section class="products">
+       <h3>জনপ্রিয় পণ্য</h3>
+       <div class="product-grid">
+         <div class="p-card">
+            <div class="p-img"></div>
+            <div class="p-info">
+              <h4>স্মার্ট ওয়াচ এস৮</h4>
+              <p class="p-price">৳ ১,২০০ <span>৳ ১,৫০০</span></p>
+              <button class="add-cart-btn"><i data-lucide="plus"></i></button>
+            </div>
+         </div>
+         <div class="p-card">
+            <div class="p-img"></div>
+            <div class="p-info">
+              <h4>ওয়ারলেস এয়ারবাড</h4>
+              <p class="p-price">৳ ৯৫০ <span>৳ ১,২০০</span></p>
+              <button class="add-cart-btn"><i data-lucide="plus"></i></button>
+            </div>
+         </div>
+       </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="#" class="nav-item active">
+      <i data-lucide="home"></i>
+      <span>হোম</span>
+    </a>
+    <a href="#" class="nav-item">
+      <i data-lucide="grid"></i>
+      <span>ক্যাটাগরি</span>
+    </a>
+    <a href="#" class="nav-item cart-btn">
+      <div class="cart-circle">
+        <i data-lucide="shopping-bag"></i>
+        <span class="badge">৩</span>
+      </div>
+    </a>
+    <a href="#" class="nav-item">
+      <i data-lucide="heart"></i>
+      <span>উইশলিস্ট</span>
+    </a>
+    <a href="#" class="nav-item">
+      <i data-lucide="user"></i>
+      <span>প্রোফাইল</span>
+    </a>
+  </nav>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

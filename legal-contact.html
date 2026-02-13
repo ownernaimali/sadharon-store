@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Inquiries | Sadharon Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+   * { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+.container { width: 90%; max-width: 1100px; margin: 0 auto; }
+
+.legal-contact-page { min-height: 100vh; display: flex; align-items: center; padding: 60px 0; }
+
+.legal-grid { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 50px; 
+    background: white; 
+    border-radius: 24px; 
+    overflow: hidden; 
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08);
+}
+
+@media (min-width: 850px) {
+    .legal-grid { grid-template-columns: 400px 1fr; }
+}
+
+/* Sidebar Info */
+.legal-info { background: #0f172a; color: white; padding: 50px; }
+.back-link { color: #94a3b8; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 5px; margin-bottom: 30px; }
+.legal-info h1 { font-size: 32px; font-weight: 800; margin-bottom: 15px; }
+.legal-info p { color: #94a3b8; font-size: 15px; margin-bottom: 30px; }
+
+.notice-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 40px; }
+.notice-card h4 { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-bottom: 8px; color: #FF6B35; }
+.notice-card p { font-size: 13px; margin: 0; }
+.notice-card a { color: white; font-weight: 600; }
+
+.legal-channels { display: flex; flex-direction: column; gap: 20px; }
+.channel { display: flex; align-items: center; gap: 15px; font-size: 14px; color: #cbd5e1; }
+.channel i { color: #FF6B35; width: 20px; }
+
+/* Form Area */
+.legal-form { padding: 50px; }
+.form-row { margin-bottom: 25px; }
+.field label { display: block; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; color: #64748b; }
+.field input, .field select, .field textarea {
+    width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; transition: 0.2s;
+}
+.field input:focus, .field textarea:focus { border-color: #0f172a; background: white; }
+
+.legal-btn { 
+    width: 100%; background: #0f172a; color: white; border: none; padding: 16px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s;
+}
+.legal-btn:hover { background: #FF6B35; } 
+  
+  .legal-warning-bn {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    background-color: #fffaf0; /* হালকা হলুদ ব্যাকগ্রাউন্ড */
+    border: 1px solid #feebc8;
+    border-left: 5px solid #dd6b20; /* গাঢ় কমলা বর্ডার */
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.warning-icon {
+    color: #dd6b20;
+    margin-top: 3px;
+}
+
+.warning-text h4 {
+    color: #9c4221;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.warning-text p {
+    color: #7b341e;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.warning-text a {
+    color: #dd6b20;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.warning-text a:hover {
+    color: #9c4221;
+}
+  
+  </style>
+</head>
+<body>
+
+<main class="legal-contact-page">
+    <div class="container">
+        <div class="legal-grid">
+            
+            <div class="legal-info">
+                <a href="terms.html" class="back-link"><i data-lucide="chevron-left"></i> Back to Terms</a>
+                <h1>Legal Department</h1>
+                <p>For formal legal inquiries, government requests, or intellectual property matters, please use the channels below.</p>
+                
+                <div class="notice-card">
+                    <h4><i data-lucide="info"></i> General Support?</h4>
+                    <p>For order status, returns, or technical issues, please use our <a href="contact.html">Customer Support Page</a>. The legal team does not handle customer service tickets.</p>
+                </div>
+
+                <div class="legal-channels">
+                    <div class="channel">
+                        <i data-lucide="mail"></i>
+                        <span>legal@sadharonstore.com</span>
+                    </div>
+                    <div class="channel">
+                        <i data-lucide="map-pin"></i>
+                        <span>Legal Dept, Sadharon Store, Dhaka, Bangladesh</span>
+                    </div>
+                </div>
+            </div>
+
+<div class="legal-warning-bn">
+    <div class="warning-icon">
+        <i data-lucide="alert-triangle"></i>
+    </div>
+    <div class="warning-text">
+        <h4>শুধুমাত্র আইনি বিষয়ের জন্য</h4>
+        <p>আপনার অর্ডার, ডেলিভারি বা পণ্য সংক্রান্ত সমস্যার জন্য দয়া করে আমাদের 
+            <a href="contact-us.html">সাধারণ যোগাযোগ পেজ</a> ব্যবহার করুন। 
+            অর্ডার সংক্রান্ত মেসেজ এখানে পাঠালে কোনো সমাধান পাওয়া যাবে না।
+        </p>
+    </div>
+</div>
+          
+            <div class="legal-form">
+                <form id="legalForm">
+                    <div class="form-row">
+                        <div class="field">
+                            <label>Full Name / Organization</label>
+                            <input type="text" placeholder="Official Name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field">
+                            <label>Professional Email</label>
+                            <input type="email" placeholder="name@company.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field">
+                            <label>Inquiry Type</label>
+                            <select required>
+                                <option value="">Select Category</option>
+                                <option value="ip">Intellectual Property / Trademark</option>
+                                <option value="privacy">Data Privacy Request</option>
+                                <option value="govt">Government / Law Enforcement</option>
+                                <option value="contract">Partnership / Contractual</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field">
+                            <label>Details</label>
+                            <textarea rows="6" placeholder="Please provide specific details regarding your legal inquiry..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="legal-btn">Submit Formal Inquiry</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    lucide.createIcons();
+    document.getElementById('legalForm').onsubmit = (e) => {
+        e.preventDefault();
+        alert('Formal inquiry received. Our legal team will review and respond via your official email.');
+    };
+</script>
+</body>
+</html>

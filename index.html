@@ -200,62 +200,26 @@
    
    .banner {
   background: linear-gradient(to right, #0f9b0f, #7dd56f);
-  color: white;
-  height: 32dvh;
-  max-height: 380px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  color: white; 
+  padding: 40px 0;
+  text-align: center;
   font-family: Arial, sans-serif;
 }
 
 .banner h1 {
-  font-size: 48px;
-  margin-bottom: 10px;
+  font-size: 34px;
+  margin-bottom: 2px;
 }
 
 .banner h2 {
-  font-size: 28px;
+  font-size: 20px;
   color: #fff3a0;
 }
-    
-/* This targets everything up to a large smartphone */
-@media screen and (max-width: 580px) {
-    .banner h1 {
-       font-size: 44px;
-    }
-        
-  .banner h2 {
-    font-size: 26px;
-  }
-}    
-    
-/* This targets everything up to a large smartphone */
-@media screen and (max-width: 480px) {
-    .banner h1 {
-       font-size: 42px;
-    }
-        
-  .banner h2 {
-    font-size: 24px;
-  }
-}
 
-/* Specific fix for very small phones (under 320px) */
-@media screen and (max-width: 320px) {
-    .banner h1 {
-        font-size: 34px; /* Scaling down slightly so it doesn't overflow */
-    }
-      
-  .banner h2 {
-    font-size: 22px;
-  }
-}
 
 .banner p {
-  font-size: 18px;
-  margin: 15px 0;
+  font-size: 16px;
+  margin: 5px 0 15px;
 }
 
 .banner button {
