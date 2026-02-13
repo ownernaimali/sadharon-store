@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadharon Store | Premium Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* --- CSS স্টাইল --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; color: #1e293b; padding-bottom: 80px; }
+
+        .container { width: 95%; max-width: 1200px; margin: 0 auto; }
+
+        /* হেডার */
+        header { background: #fff; padding: 15px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; padding: 0 15px; }
+        .logo { font-size: 22px; font-weight: 800; color: #1e293b; }
+        .logo span { color: #FF6B35; }
+
+        /* প্রোডাক্ট গ্রিড */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* মোবাইলে ২ কলাম */
+            gap: 12px;
+            padding: 15px 0;
+        }
+
+        @media (min-width: 768px) {
+            .product-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        }
+
+        /* প্রোডাক্ট কার্ড */
+        .product-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #f1f5f9;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            background: #f8fafc;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .discount-tag {
+            position: absolute;
+            top: 8px; left: 8px;
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+            z-index: 1;
+        }
+
+        .product-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 8px; line-height: 1.4; height: 36px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+        .price-section { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .current-price { font-size: 15px; font-weight: 800; color: #FF6B35; }
+        .old-price { font-size: 11px; color: #94a3b8; text-decoration: line-through; }
+
+        .add-btn {
+            width: 100%;
+            background: #1e293b;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .add-btn:active { transform: scale(0.95); background: #FF6B35; }
+
+        /* লোডার */
+        .loader { text-align: center; padding: 50px; font-weight: 600; color: #94a3b8; }
+    
+    
+.hero-banner {
+  margin: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-container {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-radius: 25px;
+  padding: 30px 20px;
+  color: #fff;
+  display: flex;
+  min-height: 200px;
+  position: relative;
+}
+
+.banner-slide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sale-tag {
+  background: #FF6B35;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.banner-content h1 {
+  font-size: 24px;
+  line-height: 1.3;
+  margin: 12px 0;
+  font-weight: 800;
+}
+
+.banner-content p {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+  max-width: 200px;
+}
+
+.banner-btns {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-main {
+  background: #fff;
+  color: #1e293b;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.offer-text {
+  font-size: 12px;
+  color: #FF6B35;
+  font-weight: 800;
+}
+
+.banner-visual img {
+  width: 120px;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+}
+
+/* ডটস ডিজাইন */
+.banner-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: #cbd5e1;
+  border-radius: 50%;
+}
+
+.dot.active {
+  width: 20px;
+  background: #FF6B35;
+  border-radius: 10px;
+}
+
+/* মোবাইল রেসপন্সিভ */
+@media (max-width: 400px) {
+  .banner-content h1 { font-size: 20px; }
+  .banner-visual img { width: 90px; }
+}
+
+    
+.trust-banner {
+  margin: 20px 15px;
+}
+
+.banner-wrapper {
+  background: linear-gradient(135deg, #FF6B35 0%, #ff8c5a 100%);
+  border-radius: 25px;
+  padding: 25px;
+  color: white;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(255, 107, 53, 0.2);
+  overflow: hidden;
+}
+
+/* ব্যাকগ্রাউন্ডে হালকা সার্কেল ডিজাইন */
+.banner-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.delivery-badge {
+  background: rgba(0, 0, 0, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.banner-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.banner-text h2 {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.benefit-list {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.benefit-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 5px;
+  opacity: 0.9;
+}
+
+.shop-btn {
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.big-icon {
+  width: 80px !important;
+  height: 80px !important;
+  opacity: 0.3;
+  transform: rotate(-15px);
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* আইকন স্টাইল */
+.logo-icon {
+  background-color: #FF6B35;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+}
+
+.logo-icon i {
+  width: 20px;
+  height: 20px;
+}
+
+/* টেক্সট স্টাইল */
+.logo-text {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.5px;
+  font-family: 'Inter', sans-serif;
+}
+
+.logo-text span {
+  color: #FF6B35;
+  font-weight: 400; /* 'Store' অংশটি হালকা দেখাবে */
+}
+
+    
+    
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-flex">
+            <div class="logo">Sadharon<span>Store</span></div>
+            <div id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                <i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span>
+            </div>
+        </div>
+    </header>
+<div class="logo-wrapper">
+  <div class="logo-icon">
+    <i data-lucide="shopping-bag"></i>
+  </div>
+  <div class="logo-text">
+    Sadharon<span>Store</span>
+  </div>
+</div>
+
+<section class="hero-banner">
+  <div class="banner-container">
+    <div class="banner-slide active">
+      <div class="banner-content">
+        <span class="sale-tag">সাপ্তাহিক বাজার অফার</span>
+        <h1>সেরা মানের চাল ও ডাল <br> সাশ্রয়ী দামে!</h1>
+        <p>সরাসরি মিল থেকে বাছাইকৃত ফ্রেশ পণ্য এখন আপনার হাতের নাগালে।</p>
+        <div class="banner-btns">
+          <a href="#category" class="btn-main">কিনুন এখনই</a>
+          <span class="offer-text">১৫% পর্যন্ত ছাড়!</span>
+        </div>
+      </div>
+      <div class="banner-visual">
+         <img src="https://img.icons8.com/illustrations/external-tulpahn-outline-color-tulpahn/100/external-grocery-delivery-service-tulpahn-outline-color-tulpahn.png" alt="Grocery">
+      </div>
+    </div>
+  </div>
+  
+  <div class="banner-dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</section>
+
+<section class="trust-banner">
+  <div class="banner-wrapper">
+    <div class="banner-inner">
+      <div class="banner-text">
+        <div class="delivery-badge">
+          <i data-lucide="zap" style="width: 14px;"></i> দ্রুত ডেলিভারি
+        </div>
+        <h2>ঘরে বসেই পান <br> সব প্রয়োজনীয় পণ্য</h2>
+        <ul class="benefit-list">
+          <li><i data-lucide="check-circle"></i> ক্যাশ অন ডেলিভারি</li>
+          <li><i data-lucide="check-circle"></i> সহজ রিটার্ন সুবিধা</li>
+        </ul>
+        <button class="shop-btn">অর্ডার করুন <i data-lucide="arrow-right"></i></button>
+      </div>
+      <div class="banner-image">
+        <i data-lucide="truck" class="big-icon"></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+    
+    <main class="container">
+        <div id="product-container" class="loader">পণ্য লোড হচ্ছে...</div>
+    </main>
+
+    <script>
+        // আইকন ইনিশিয়ালাইজ
+        lucide.createIcons();
+
+        // এপিআই ইউআরএল (এখানে আপনার এপিআই বসান)
+        const API = "https://sadharon-store-server.vercel.app/products?status=active";
+
+        async function fetchProducts() {
+            try {
+                // ফেচিং শুরু
+                const response = await fetch(API);
+                const products = await response.json();
+                
+                const container = document.getElementById("product-container");
+                container.className = "product-grid"; // লোডার সরিয়ে গ্রিড ক্লাস যোগ করা
+                container.innerHTML = ""; // আগের সব কন্টেন্ট ক্লিয়ার
+
+                products.forEach(p => {
+                    // ডিসকাউন্ট পার্সেন্টেজ ক্যালকুলেশন
+                    const savings = p.actualPrice > p.discountPrice 
+                        ? Math.round(((p.actualPrice - p.discountPrice) / p.actualPrice) * 100) 
+                        : 0;
+
+                    // প্রতিটি প্রোডাক্টের জন্য কার্ড তৈরি
+                    const productCard = document.createElement("div");
+                    productCard.className = "product-card";
+                    productCard.innerHTML = `
+                        <div class="image-container">
+                            ${savings > 0 ? `<span class="discount-tag">${savings}% ছাড়</span>` : ''}
+                            <img src="${p.productImageLink}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300'">
+                        </div>
+                        
+                        <div class="product-info">
+                            <div>
+                                <h3 class="product-title">${p.name}</h3>
+                                <div class="price-section">
+                                    <span class="current-price">৳ ${p.discountPrice}</span>
+                                    ${p.actualPrice > p.discountPrice ? `<span class="old-price">৳ ${p.actualPrice}</span>` : ''}
+                                </div>
+                            </div>
+                            
+                            <button class="add-btn" onclick='addToCart(${JSON.stringify(p)})'>
+                                <i data-lucide="shopping-bag" style="width: 16px;"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(productCard);
+                });
+                
+                // নতুন তৈরি হওয়া আইকনগুলো রেন্ডার করা
+                lucide.createIcons();
+
+            } catch (error) {
+                document.getElementById("product-container").innerHTML = "<p style='color:red; text-align:center;'>পণ্য লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>";
+                console.error("Error:", error);
+            }
+        }
+
+        // অ্যাড টু কার্ট ফাংশন
+        let cart = [];
+        function addToCart(product) {
+            cart.push(product);
+            document.getElementById("count").innerText = cart.length;
+            
+            // একটি ছোট ফিডব্যাক (অপশনাল)
+            alert(product.name + " কার্টে যোগ করা হয়েছে!");
+        }
+
+        // পেজ লোড হলে ফাংশনটি কল হবে
+        fetchProducts();
+
+    </script>
+</body>
+</html>
