@@ -9,7 +9,9 @@
   <link rel="canonical" href="https://sadharon-store.vercel.app/">  
   <script src="https://unpkg.com/lucide@latest"></script> 
   <style>
-    
+ body {
+     padding-bottom: 88px
+ }   
 /* 11. SKELETON LOADING ANIMATION */
 .skeleton-container {
     display: grid;
@@ -164,13 +166,13 @@
 }
 
 .current-price {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 800;
     color: #FF6B35;
 }
 
 .old-price {
-    font-size: 13px;
+    font-size: 23px;
     color: #94a3b8;
     text-decoration: line-through;
     margin-left: 5px;
@@ -281,7 +283,7 @@
       <h1>SADHARON STORE</h1>
       <h2>নিত্যপ্রয়োজনীয় সব পণ্য একসাথে</h2>
       <p>Quality Products for Everyday Life</p>
-      <a href="#main"><button>Shop Now</button></a>
+      <a href="#category"><button>Shop Now</button></a>
     </div>
     
    <section id="category">
@@ -324,7 +326,7 @@
     <div class="bottom-link main-cart">
       <div onclick="window.location.href='add-to-card.html'" class="cart-btn-inner">
         <i data-lucide="shopping-bag"></i>
-        <span class="cart-badge">২</span>
+        <span id="myCart" class="cart-badge">২</span>
       </div>
     </div>
       
@@ -341,6 +343,21 @@
   const SERVER = "https://sadharon-store-server.vercel.app/products?status=active";
   const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
   
+ 
+    function calMyCart () {
+      const myCartEle = document.getElementById("myCart")
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let total = 0;;
+        cart.map(item => {
+            total += item.quantity
+        })
+        myCartEle.innerHTML = total
+        
+    }
+    
+ 
+  
+    
 function showLoading() {
         const container = document.getElementById("product-container");
     // Remove grid class so skeletons don't get squashed
@@ -429,12 +446,13 @@ async function loadProducts() {
         });
       }
       localStorage.setItem("cart", JSON.stringify(cart));
-      alert("✅ Added to cart!");
+      calMyCart();
+      alert("✅ Added to cart!");      
     }  
   
 // Call the function
     loadProducts();
-
+    calMyCart();
  
 
   </script>
