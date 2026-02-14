@@ -337,33 +337,33 @@
   <!-- formate javascript code start-->
   <script src="js/index.js"></script>
   <script src="js/popup.js"></script>
-  <script>
-  
+<script>
   const LOCALHOST = "http://localhost:3000/products?status=active";
   const SERVER = "https://sadharon-store-server.vercel.app/products?status=active";
   const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
-  
- 
-    function calMyCart () {
-      const myCartEle = document.getElementById("myCart")
+
+  // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
+  function calMyCart() {
+    const myCartEle = document.getElementById("myCart");
+    if (!myCartEle) return;
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let total = 0;;
-        cart.map(item => {
-            total += item.quantity
-        })
-        myCartEle.innerHTML = total
-        
+    let total = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
+    
+    myCartEle.innerHTML = total;
+    console.log("Cart count updated:", total);
+  }
+
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+      calMyCart();
     }
-    
- 
-  
-    
-function showLoading() {
-        const container = document.getElementById("product-container");
-    // Remove grid class so skeletons don't get squashed
+  });
+
+  // ২. লোডিং স্কেলিটন
+  function showLoading() {
+    const container = document.getElementById("product-container");
     container.classList.remove("product-grid");
-    
-    
     container.innerHTML = `
         <div class="skeleton-container">
             ${Array(8).fill(0).map(() => `
@@ -376,85 +376,89 @@ function showLoading() {
             `).join('')}
         </div>
     `;
-}
+  }
 
-
-async function loadProducts() {
-  showLoading()
-
-    
+  // ৩. প্রোডাক্ট লোড এবং রেন্ডার
+  async function loadProducts() {
+    showLoading();
     try {
-        const response = await fetch(API);
-        const products = await response.json();
-        
-        const container = document.getElementById("product-container");
-       container.className = "product-grid"; // Set grid class
-        container.innerHTML = ""; // Clear loader
+      const response = await fetch(API);
+      const products = await response.json();
+      
+      const container = document.getElementById("product-container");
+      container.className = "product-grid"; 
+      container.innerHTML = ""; 
 
-        products.forEach(p => {
-            // Calculate savings percentage
-            const savings = Math.round(((p.actualPrice - p.discountPrice) / p.actualPrice) * 100);
+      products.forEach(p => {
+        const savings = Math.round(((p.actualPrice - p.discountPrice) / p.actualPrice) * 100);
 
-            container.innerHTML += `
-                <div class="product-card">
-                    <div class="image-container">
-                        ${savings > 0 ? `<span class="discount-tag">${savings}% OFF</span>` : ''}
-                        <img src="${p.productImageLink}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300'">
-                    </div>
-                    
-                    <div class="product-info">
-                        <div>
-                            <h3 class="product-title">${p.name}</h3>
-                            <div class="price-section">
-                                <span class="current-price">${p.discountPrice} Tk</span>
-                                ${p.actualPrice > p.discountPrice ? `<span class="old-price">${p.actualPrice} Tk</span>` : ''}
-                            </div>
-                        </div>
-                        
-                        <button class="add-btn" onclick='addToCart(${JSON.stringify(p)})'>
-                            Add to Cart
-                        </button>
+        // কার্ড তৈরি
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div class="image-container">
+                ${savings > 0 ? `<span class="discount-tag">${savings}% OFF</span>` : ''}
+                <img src="${p.productImageLink}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300'">
+            </div>
+            <div class="product-info">
+                <div>
+                    <h3 class="product-title">${p.name}</h3>
+                    <div class="price-section">
+                        <span class="current-price">${p.discountPrice} Tk</span>
+                        ${p.actualPrice > p.discountPrice ? `<span class="old-price">${p.actualPrice} Tk</span>` : ''}
                     </div>
                 </div>
-            `;
-        });
-    } catch (error) {
-        
-               document.getElementById("product-container").innerHTML = `
-            <div style="text-align:center; padding: 50px; color: #ef4444;">
-                <p>Failed to load products. Please check your connection.</p>
-                <button class=" onclick="loadProducts()" style="margin-top:10px; cursor:pointer;">Retry</button>
+                <button class="add-btn">
+                    Add to Cart
+                </button>
             </div>
         `;
+
+        // ইভেন্ট লিসেনার (JSON.stringify এর ঝামেলা এড়াতে)
+        card.querySelector('.add-btn').onclick = () => addToCart(p);
+        container.appendChild(card);
+      });
+
+      // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
+      if(window.lucide) lucide.createIcons();
+
+    } catch (error) {
+      document.getElementById("product-container").innerHTML = `
+          <div style="text-align:center; padding: 50px; color: #ef4444;">
+              <p>পণ্য লোড করা সম্ভব হয়নি। ইন্টারনেট কানেকশন চেক করুন।</p>
+              <button onclick="loadProducts()" style="margin-top:10px; padding: 8px 20px; cursor:pointer;">Retry</button>
+          </div>
+      `;
     }
-}
+  }
 
-  // 4. Cart Logic
-    function addToCart(product) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const exists = cart.find(item => item.id === (product._id || product.id));
+  // ৪. অ্যাড টু কার্ট লজিক
+  function addToCart(product) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const id = product._id || product.id;
+    const exists = cart.find(item => item.id === id);
 
-      if (exists) {
-        exists.quantity += 1;
-      } else {
-        cart.push({
-          id: product._id || product.id,
-          name: product.name,
-          price: product.discountPrice,
-          image: product.productImageLink,
-          quantity: 1,
-        });
-      }
-      localStorage.setItem("cart", JSON.stringify(cart));
-      calMyCart();
-      alert("✅ Added to cart!");      
-    }  
-  
-// Call the function
-    loadProducts();
+    if (exists) {
+      exists.quantity += 1;
+    } else {
+      cart.push({
+        id: id,
+        name: product.name,
+        price: product.discountPrice,
+        image: product.productImageLink,
+        quantity: 1,
+      });
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
     calMyCart();
- 
+    alert("✅ কার্টে যোগ করা হয়েছে!");      
+  }  
 
-  </script>
+  // ফাংশন কল
+  loadProducts();
+  calMyCart();
+</script>
+
+  
 </body>
 </html>
