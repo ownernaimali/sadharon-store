@@ -435,14 +435,14 @@
   // ৪. অ্যাড টু কার্ট লজিক
   function addToCart(product) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const id = product._id || product.id;
-    const exists = cart.find(item => item.id === id);
+    const productId = product._id;
+    const exists = cart.find(item => item.productId === productId);
 
     if (exists) {
       exists.quantity += 1;
     } else {
       cart.push({
-        id: id,
+        productId,
         name: product.name,
         price: product.discountPrice,
         image: product.productImageLink,

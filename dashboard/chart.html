@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --brand: #0f172a;
+            --accent: #14b8a6;
+            --primary-soft: #e2e8f0;
+            --text-muted: #64748b;
+        }
+
+        body { font-family: sans-serif; background: var(--bg); padding: 15px; margin: 0; }
+
+        /* --- বার চার্ট কার্ড --- */
+        .chart-card {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 24px;
+            border: 1px solid #f1f5f9;
+            margin-bottom: 20px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-header h3 { font-size: 13px; color: var(--text-muted); text-transform: uppercase; margin: 0; }
+
+        /* ফিক্সড এরিয়া: বারের জন্য জায়গা এবং নাম নিশ্চিত করা */
+        .bar-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end; /* বারগুলোকে নিচে বসাবে */
+            height: 180px; /* উচ্চতা বাড়ানো হয়েছে */
+            gap: 4px;
+            padding-bottom: 5px;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 1;
+            height: 100%;
+        }
+
+        .bar {
+            width: 12px;
+            background: var(--primary-soft);
+            border-radius: 10px;
+            transition: height 1s ease-out;
+            height: 0; /* শুরুতে ০ থাকবে */
+        }
+
+        .bar.active {
+            background: var(--accent);
+            box-shadow: 0 4px 10px rgba(20, 184, 166, 0.3);
+        }
+
+        /* দিনের নাম নিশ্চিত করার স্টাইল */
+        .bar-group span {
+            display: block;
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 12px;
+            font-weight: 700;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* --- প্রগ্রেস বার কার্ড --- */
+        .progress-box {
+            background: var(--brand);
+            color: white;
+            padding: 20px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .circular-progress {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent) 0deg, rgba(255,255,255,0.1) 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inner-circle {
+            width: 58px;
+            height: 58px;
+            background: var(--brand);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .info h4 { margin: 0; font-size: 15px; }
+        .info p { margin: 5px 0 0; font-size: 11px; color: #94a3b8; }
+    
+    
+  /* flow chart */  
+.flow-section { padding: 0 20px; margin-top: 30px; margin-bottom: 50px; }
+
+.flow-container {
+    background: var(--surface);
+    padding: 25px;
+    border-radius: 24px;
+    border: 1px solid #f1f5f9;
+}
+
+.flow-item {
+    display: flex;
+    gap: 15px;
+    position: relative;
+    padding-bottom: 30px; /* নিচের আইটেমের সাথে গ্যাপ */
+}
+
+.flow-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+/* কানেক্টিং লাইন */
+.flow-line {
+    position: absolute;
+    left: 22px;
+    top: 45px;
+    width: 2px;
+    height: calc(100% - 40px);
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+.flow-content h4 {
+    margin: 0;
+    font-size: 15px;
+    color: var(--brand);
+}
+
+.flow-content p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Background Colors */
+.bg-blue { background: #3b82f6; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+.bg-orange { background: #f97316; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3); }
+.bg-purple { background: #a855f7; box-shadow: 0 4px 10px rgba(168, 85, 247, 0.3); }
+.bg-green { background: #10b981; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
+
+/* Last item has no line */
+.flow-item.last { padding-bottom: 0; }
+
+    
+    
+  /* circle chart */  
+.circle-chart-section { padding: 0 20px; margin-bottom: 30px; }
+
+.donut-card {
+    background: var(--surface);
+    padding: 25px;
+    border-radius: 24px;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Donut Graph Logic */
+.donut-wrapper {
+    position: relative;
+    width: 160px;
+    height: 160px;
+}
+
+.donut-graph {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    /* CSS Conic Gradient for segments */
+    background: conic-gradient(
+        #6366f1 0% 50%,     /* Invest: 50% */
+        #14b8a6 50% 85%,    /* Love: 35% */
+        #f43f5e 85% 100%    /* Cost: 15% */
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s ease;
+}
+
+/* Hole in the middle for Donut look */
+.donut-center {
+    width: 110px;
+    height: 110px;
+    background: var(--surface);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.donut-center span { font-size: 20px; font-weight: 800; color: var(--brand); }
+.donut-center small { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
+
+/* Legend List */
+.donut-legend { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.dot { width: 10px; height: 10px; border-radius: 3px; margin-right: 10px; }
+.dot.invest { background: #6366f1; }
+.dot.love { background: #14b8a6; }
+.dot.cost { background: #f43f5e; }
+
+.legend-item .label { flex: 1; color: var(--text-muted); }
+.legend-item .val { color: var(--brand); }
+
+    
+    
+    
+    
+    </style>
+</head>
+<body>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3>Weekly Sales</h3>
+            <i data-lucide="bar-chart" size="18" color="#14b8a6"></i>
+        </div>
+        <div class="bar-wrapper" id="bar-chart">
+            </div>
+    </div>
+    <div class="progress-box">
+        <div class="circular-progress" id="circle-box">
+            <div class="inner-circle" id="percent-text">0%</div>
+        </div>
+        <div class="info">
+            <h4>Monthly Target</h4>
+            <p id="target-note">Analyzing data...</p>
+        </div>
+    </div>
+
+    
+    
+    
+<section class="flow-section">
+    <div class="section-label">Order Process Flow</div>
+    <div class="flow-container">
+        <div class="flow-item">
+            <div class="flow-icon bg-blue"><i data-lucide="shopping-cart"></i></div>
+            <div class="flow-content">
+                <h4>Order Placed</h4>
+                <p>New order received from customer.</p>
+            </div>
+            <div class="flow-line"></div>
+        </div>
+
+        <div class="flow-item">
+            <div class="flow-icon bg-orange"><i data-lucide="clock"></i></div>
+            <div class="flow-content">
+                <h4>Pending</h4>
+                <p>Waiting for admin verification.</p>
+            </div>
+            <div class="flow-line"></div>
+        </div>
+
+        <div class="flow-item">
+            <div class="flow-icon bg-purple"><i data-lucide="package"></i></div>
+            <div class="flow-content">
+                <h4>Processing</h4>
+                <p>Item is being packed and prepared.</p>
+            </div>
+            <div class="flow-line"></div>
+        </div>
+
+        <div class="flow-item last">
+            <div class="flow-icon bg-green"><i data-lucide="check-circle"></i></div>
+            <div class="flow-content">
+                <h4>Delivered</h4>
+                <p>Order successfully reached customer.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+<section class="circle-chart-section">
+    <div class="section-label">Revenue Breakdown</div>
+    
+    <div class="donut-card">
+        <div class="donut-wrapper">
+            <div class="donut-graph" id="main-donut">
+                <div class="donut-center">
+                    <span id="donut-total">৳ 85k</span>
+                    <small>Total Sell</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="donut-legend">
+            <div class="legend-item">
+                <span class="dot invest"></span>
+                <span class="label">Invest</span>
+                <span class="val">৳ 45k</span>
+            </div>
+            <div class="legend-item">
+                <span class="dot love"></span>
+                <span class="label">Love (Profit)</span>
+                <span class="val">৳ 32k</span>
+            </div>
+            <div class="legend-item">
+                <span class="dot cost"></span>
+                <span class="label">Cost</span>
+                <span class="val">৳ 8k</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+    
+    <script>
+        const analyticsData = {
+            weekly: [
+                { day: 'Sat', val: 40 },
+                { day: 'Sun', val: 65 },
+                { day: 'Mon', val: 85 },
+                { day: 'Tue', val: 50 },
+                { day: 'Wed', val: 75 },
+                { day: 'Thu', val: 45 },
+                { day: 'Fri', val: 30 }
+            ],
+            target: 78
+        };
+
+        function startDashboard() {
+            // ১. বার চার্ট সেটআপ
+            const chart = document.getElementById('bar-chart');
+            const todayName = new Date().toLocaleDateString('en-US', { weekday: 'short' });
+
+            analyticsData.weekly.forEach((item, i) => {
+                const group = document.createElement('div');
+                group.className = 'bar-group';
+                const isActive = item.day === todayName ? 'active' : '';
+
+                group.innerHTML = `
+                    <div class="bar ${isActive}" id="bar-${i}"></div>
+                    <span>${item.day}</span>
+                `;
+                chart.appendChild(group);
+
+                // অ্যানিমেশন (নিচ থেকে উপরে উঠবে)
+                setTimeout(() => {
+                    const b = document.getElementById(`bar-${i}`);
+                    if(b) b.style.height = item.val + '%';
+                }, 150 * i);
+            });
+
+            // ২. সার্কুলার প্রগ্রেস সেটআপ
+            let p = 0;
+            const circle = document.getElementById('circle-box');
+            const text = document.getElementById('percent-text');
+            
+            const timer = setInterval(() => {
+                if(p >= analyticsData.target) {
+                    clearInterval(timer);
+                } else {
+                    p++;
+                    text.innerText = p + '%';
+                    const deg = (p / 100) * 360;
+                    circle.style.background = `conic-gradient(var(--accent) ${deg}deg, rgba(255,255,255,0.1) 0deg)`;
+                }
+            }, 25);
+
+            document.getElementById('target-note').innerText = `${analyticsData.target}% of monthly goal completed.`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startDashboard();
+            lucide.createIcons();
+        });
+    
+    
+    
+function updateDonutChart(investPercent, lovePercent, costPercent) {
+    const donut = document.getElementById('main-donut');
+    
+    // ক্যালকুলেশন: প্রতিটি সেগমেন্ট আগেরটির শেষ থেকে শুরু হবে
+    const segment2Start = investPercent;
+    const segment3Start = investPercent + lovePercent;
+
+    donut.style.background = `conic-gradient(
+        #6366f1 0% ${investPercent}%, 
+        #14b8a6 ${segment2Start}% ${segment3Start}%, 
+        #f43f5e ${segment3Start}% 100%
+    )`;
+}
+
+// উদাহরণ: Invest 40%, Love 45%, Cost 15%
+document.addEventListener('DOMContentLoaded', () => {
+    updateDonutChart(40, 45, 15);
+});
+
+    
+    </script>
+</body>
+</html>

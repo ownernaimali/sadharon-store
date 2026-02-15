@@ -225,13 +225,15 @@
 
       if (result.success) {
         // 4. Success Alert
-        alert("Login Successfully!");
-        
+        alert(result.message);
         // Optional: Save user info to use on other pages
-        localStorage.setItem("user", JSON.stringify(result.user));
+        if(!result.user.id) {
+          return alert("please! try again later or contact us")
+        }
+        localStorage.setItem("token", result.user.id);
         
         // Redirect to home or dashboard
-        window.location.href = "index.html"; 
+       window.location.href = "index.html"; 
       } else {
         // 5. Error Alert (from server message)
         alert("Login Failed: " + result.message);

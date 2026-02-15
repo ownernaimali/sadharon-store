@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Admin Panel</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS variables for consistent branding */
+        :root {
+            --brand: #0f172a;
+            --accent: #14b8a6;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --text-muted: #64748b;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); margin: 0; color: var(--brand); padding-bottom: 80px; }
+        
+        /* Header */
+        .top-nav { background: var(--white); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .user-profile { display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 35px; height: 35px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+
+        .container { padding: 20px; }
+        .section-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin: 25px 0 15px; font-weight: 700; display: flex; justify-content: space-between; }
+
+        /* 1. Insights & Analytics Grid */
+        .insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-card { background: var(--white); padding: 15px; border-radius: 20px; border: 1px solid #f1f5f9; }
+        .stat-card i { margin-bottom: 10px; display: block; }
+        .stat-card h2 { margin: 0; font-size: 18px; letter-spacing: -0.5px; }
+        .stat-card p { margin: 5px 0 0; font-size: 11px; color: var(--text-muted); font-weight: 600; }
+        .live-tag { background: #fee2e2; color: #ef4444; padding: 2px 6px; border-radius: 5px; font-size: 9px; animation: blink 1s infinite; }
+
+        /* 2. Order Management Scroller */
+        .order-flow { display: flex; overflow-x: auto; gap: 12px; padding-bottom: 10px; scrollbar-width: none; }
+        .flow-card { background: var(--brand); color: white; min-width: 100px; padding: 15px; border-radius: 18px; text-align: center; }
+        .flow-card.active { background: var(--accent); }
+        .flow-card span { display: block; font-size: 18px; font-weight: 700; }
+        .flow-card small { font-size: 10px; opacity: 0.8; }
+
+        /* 3. Feature Menu (Inventory, Marketing, Customers) */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        .menu-item { background: var(--white); padding: 15px; border-radius: 18px; text-align: center; border: 1px solid #f1f5f9; transition: 0.3s; }
+        .menu-item:active { transform: scale(0.95); background: #f1f5f9; }
+        .menu-item i { margin-bottom: 8px; color: var(--brand); }
+        .menu-item span { display: block; font-size: 11px; font-weight: 600; color: var(--brand); }
+
+        /* Stock Alert Badge */
+        .alert-badge { position: relative; }
+        .dot { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 2px solid white; }
+
+        /* Bottom Tab Bar */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--white); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #f1f5f9; }
+        .nav-link { color: var(--text-muted); text-decoration: none; text-align: center; }
+        .nav-link.active { color: var(--accent); }
+
+        @keyframes blink { 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body>
+
+    <header class="top-nav">
+        <div class="logo"><strong>Sadharon</strong> Pro</div>
+        <div class="user-profile">
+            <i data-lucide="bell" size="20"></i>
+            <div class="avatar">A</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">Insights <span><span class="live-tag">● Live</span></span></div>
+        <div class="insights-grid">
+            <div class="stat-card">
+                <i data-lucide="zap" color="#eab308"></i>
+                <h2>৳ 12,450</h2>
+                <p>Today's Sales</p>
+            </div>
+            <div class="stat-card">
+                <i data-lucide="users" color="#3b82f6"></i>
+                <h2>42</h2>
+                <p>Active Traffic</p>
+            </div>
+            <div class="stat-card">
+                <i data-lucide="heart" color="#ef4444"></i>
+                <h2>৳ 3,200</h2>
+                <p>Total Love (Net)</p>
+            </div>
+            <div class="stat-card">
+                <i data-lucide="trending-up" color="#10b981"></i>
+                <h2>Salt Pro</h2>
+                <p>Best Seller</p>
+            </div>
+        </div>
+
+        <div class="section-title">Order Management</div>
+        <div class="order-flow">
+            <div class="flow-card active"><span>12</span><small>New</small></div>
+            <div class="flow-card"><span>05</span><small>Pending</small></div>
+            <div class="flow-card"><span>08</span><small>Process</small></div>
+            <div class="flow-card"><span>24</span><small>Shipped</small></div>
+            <div class="flow-card" style="background: var(--success)"><span>142</span><small>Done</small></div>
+        </div>
+
+        <div class="section-title">Inventory & Operations</div>
+        <div class="menu-grid">
+            <div class="menu-item"><i data-lucide="plus-circle"></i><span>Add Product</span></div>
+            <div class="menu-item alert-badge"><i data-lucide="package-search"></i><span>Stock Alert</span><span class="dot"></span></div>
+            <div class="menu-item"><i data-lucide="layers"></i><span>Categories</span></div>
+            <div class="menu-item"><i data-lucide="file-text"></i><span>Invoices</span></div>
+            <div class="menu-item"><i data-lucide="download"></i><span>Export All</span></div>
+            <div class="menu-item"><i data-lucide="users-2"></i><span>Customers</span></div>
+        </div>
+
+        <div class="section-title">Marketing & Settings</div>
+        <div class="menu-grid">
+            <div class="menu-item"><i data-lucide="ticket" color="#f59e0b"></i><span>Coupons</span></div>
+            <div class="menu-item"><i data-lucide="image"></i><span>Banners</span></div>
+            <div class="menu-item"><i data-lucide="send"></i><span>Push Notif</span></div>
+            <div class="menu-item"><i data-lucide="credit-card"></i><span>Payments</span></div>
+            <div class="menu-item"><i data-lucide="truck"></i><span>Shipping</span></div>
+            <div class="menu-item"><i data-lucide="settings"></i><span>Store Set</span></div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="#" class="nav-link active"><i data-lucide="layout-grid"></i></a>
+        <a href="#" class="nav-link"><i data-lucide="shopping-bag"></i></a>
+        <a href="#" class="nav-link"><i data-lucide="message-square"></i></a>
+        <a href="#" class="nav-link"><i data-lucide="user"></i></a>
+    </nav>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

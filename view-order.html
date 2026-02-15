@@ -170,35 +170,30 @@ h2{
      
   <script>
   
- const LOCALHOST = "http://localhost:3000/orders";
+  const LOCALHOST = "http://localhost:3000/orders";
   const SERVER = "https://sadharon-store-server.vercel.app/orders";
-    const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+  const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+  const list = document.getElementById("order");
   
     // 3. Load Products
     function loadProducts() {
-        let userPhone;
-        try {
-      const userData = localStorage.getItem("user");
-    if (!userData) {
-      throw new Error("No user found");
-    }
-           
-    userPhone = JSON.parse(userData).phone;
-            
-        } catch (error) {
-    let conf = confirm("Please login to view order products.");
-    if (conf) {
+     
+      
+   const token = localStorage.getItem("token");
+      if(!token) {
+        list.innerHTML = "please login";
+        confirm("Please login to view order products.");
       window.location.href = "login.html";
-    }
-    return; 
-        }
-      fetch(`${API}?phone=${userPhone}`)
+     return;        
+      }
+  
+      fetch(`${API}?userId=${token}`)
         .then(res => res.json())
         .then(products => {
           const list = document.getElementById("order");
-document.getElementById("length").innerHTML = products.length 
+    document.getElementById("length").innerHTML = products.length 
           list.innerHTML = "";
-          products.forEach(p => {
+          products.reverse().forEach(p => {
             list.innerHTML += `
             <div class="order-card">
     <div class="order-header">
@@ -207,7 +202,7 @@ document.getElementById("length").innerHTML = products.length
         <span class="order-id">ID: #44920 | 📞 ${p.customerPhone}</span>
             <p class="address">${p.customerAddress}</p>
       </div>
-      <div style="text-align: right; font-size: 12px; color: #888;">${p.orderDate} </br> ${p.status}</div>
+      <div style="text-align: right; font-size: 12px; color: #888;">${p.orderDate} </br> <span style="color: ${p.status === 'pending'? 'blue' : 'orange'}">${p.status}</span></div>
     </div>
 
     <div class="item-row">

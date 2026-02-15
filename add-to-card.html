@@ -152,7 +152,6 @@ h2{
   <script src="js/index.js"></script>  
   
   <script>
-  
  const LOCALHOST = "http://localhost:3000/orders";
   const SERVER = "https://sadharon-store-server.vercel.app/orders";
 const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
@@ -223,34 +222,15 @@ function updateCart(){
   renderCart();
 }
   
-  
 async function checkout() {
-let user; // Declare outside so it's accessible everywhere in this function
-
-  // 1. Get user data safely
-  try {
-    const userData = localStorage.getItem("user");
-    if (!userData) {
-      throw new Error("No user found");
-    }
-    user = JSON.parse(userData);
-  } catch (error) {
-    let conf = confirm("Please login to order products.");
-    if (conf) {
+let token =  localStorage.getItem("token")
+ 
+  if (!token) {
+     alert("Please login to order products."); 
       window.location.href = "login.html";
-    }
-    return; 
+    return; // 
   }
-  
-  // Check if user is logged in
-  if (!user || !user.name || !user.phone || !user.address) {
-    let conf = confirm("Please login to order products.");
-    if (conf) {   
-      window.location.href = "login.html"; // Fixed typo: 'locatuon' to 'location'
-    }
-    return; // Stop execution if not logged in
-  }
-
+ 
   // 2. Confirm order/payment
   const pay = confirm("Confirm your order?");
   
@@ -258,11 +238,7 @@ let user; // Declare outside so it's accessible everywhere in this function
     // 3. Prepare the Data
     const productData = cart.map(item => ({
       ...item,
-      status: "pending",
-      customerName: user.name,
-      customerPhone: user.phone,
-      customerAddress: user.address,
-      orderDate: new Date().toISOString() // Good practice to add a timestamp
+      userId: token
     }));
 
     try {
