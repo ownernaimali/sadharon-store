@@ -84,6 +84,12 @@
         
         <form id="securityForm">
             <div class="form-single-col">
+                <div class="form-group" style="padding-bottom: 4px;">
+                    <label>Current Password</label>
+                    <input id="oldPassword" type="password" placeholder="Enter current password" required minlength="6">
+                </div>
+
+                
                 <div class="form-group">
                     <label>New Password</label>
                     <input id="newPassword" type="password" placeholder="Enter at least 6 characters" required minlength="6">
@@ -143,11 +149,16 @@ if (token) {
 document.getElementById('securityForm').onsubmit = async (e) => {
     e.preventDefault();
 
+    
+    const oldPass = document.getElementById('oldPassword').value;
     const newPass = document.getElementById('newPassword').value;
     const confirmPass = document.getElementById('confirmPassword').value;
-
+  if(oldPass === newPass){
+    alert("Current password and new password same");
+      return;
+  }
     // Frontend Validation
-    if (newPass !== confirmPass) {
+   else if (newPass !== confirmPass) {
         alert("Passwords do not match!");
         return;
     }
@@ -157,7 +168,7 @@ document.getElementById('securityForm').onsubmit = async (e) => {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             // Sending the NEW password to the server
-            body: JSON.stringify({ password: newPass }) 
+            body: JSON.stringify({ password: oldPass, newPassword: newPass }) 
         });
 
         const result = await response.json();
