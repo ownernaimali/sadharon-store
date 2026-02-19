@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password & Security | Sadharon Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; padding: 20px; }
+
+        .settings-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .settings-container { grid-template-columns: 280px 1fr; }
+        }
+
+    
+
+      
+        /* Main Content Card */
+        .settings-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+
+        .card-header { margin-bottom: 25px; }
+        .card-header h2 { font-size: 22px; margin-bottom: 5px; }
+        .card-header p { font-size: 14px; color: #64748b; }
+
+        .form-single-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+        }
+
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #334155; }
+        .form-group input {
+            width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #e2e8f0; outline: none; font-family: inherit;
+        }
+
+        .form-group input:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .btn-save { background: #FF6B35; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        .btn-cancel { background: #f1f5f9; color: #64748b; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="settings-container">
+<main class="settings-main">
+    <div class="settings-card">
+        <div class="card-header">
+            <h2>Security Settings</h2>
+            <p>Update your password to keep your account safe.</p>
+        </div>
+
+        <div style="background: #fff7ed; border-left: 4px solid #f97316; padding: 15px; margin-bottom: 25px; border-radius: 8px;">
+            <p style="font-size: 13px; color: #9a3412; line-height: 1.5;">
+                <strong>Important:</strong> A strong password helps prevent unauthorized access to your account. 
+                Avoid using common words or repeating your phone number.
+            </p>
+        </div>
+        
+        <form id="securityForm">
+            <div class="form-single-col">
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input id="newPassword" type="password" placeholder="Enter at least 6 characters" required minlength="6">
+                    <small>Use a mix of letters and numbers for better security.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input id="confirmPassword" type="password" placeholder="Repeat your new password" required>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="cancelBtn" class="btn-cancel" onclick="history.back()">Cancel</button>
+                <button type="submit" class="btn-save">Update Password</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="settings-card" style="background: #f8fafc; border: 1px dashed #cbd5e1;">
+        <h4 style="font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="shield-check" style="color: #10b981; width: 18px;"></i>
+            Account Protection
+        </h4>
+        <p style="font-size: 13px; color: #64748b;">
+            Your account is currently active. If you notice any suspicious activity, change your password immediately and contact support.
+        </p>
+    </div>
+</main>
+
+</div>
+
+<script>
+// 1. Config
+const token = localStorage.getItem('token');
+const LOCALHOST = "http://localhost:3000/users";
+const SERVER = "https://sadharon-store-server.vercel.app/users";
+const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+
+lucide.createIcons();
+
+// 2. Fetch User Data to fill Sidebar info
+if (token) {
+    fetch(`${API}?token=${token}`)
+        .then(res => res.json())
+        .then(data => {
+            const user = Array.isArray(data) ? data[0] : data;
+            if (user) {
+           }
+        })
+        .catch(err => console.error("Error:", err));
+} else {
+    window.location.href = "index.html";
+}
+
+// 3. Handle Password Update
+document.getElementById('securityForm').onsubmit = async (e) => {
+    e.preventDefault();
+
+    const newPass = document.getElementById('newPassword').value;
+    const confirmPass = document.getElementById('confirmPassword').value;
+
+    // Frontend Validation
+    if (newPass !== confirmPass) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API}?token=${token}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            // Sending the NEW password to the server
+            body: JSON.stringify({ password: newPass }) 
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert(result.message);
+            // Important: If you use password as token, you don't necessarily 
+            // need to update localStorage UNLESS your login logic relies on it.
+            document.getElementById('securityForm').reset();
+        } else {
+            alert("Update failed: " + result.message);
+        }
+    } catch (error) {
+        alert("Server error. Try again.");
+    }
+};
+    
+document.getElementById('cancelBtn').onclick = () => {
+    if(confirm("Discard changes?")) {
+        window.location.href = "index.html"; // Redirect user
+    }
+};
+
+</script>
+</body>
+</html>

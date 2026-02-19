@@ -15,6 +15,31 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/dashboard.css">
+    <style>
+      /* 3. Feature Menu (Inventory, Marketing, Customers) */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        .menu-item { background: var(--white); padding: 15px; border-radius: 18px; text-align: center; border: 1px solid #f1f5f9; transition: 0.3s; }
+        .menu-item:active { transform: scale(0.95); background: #f1f5f9; }
+        .menu-item i { margin-bottom: 8px; color: var(--brand); }
+        .menu-item span { display: block; font-size: 11px; font-weight: 600; color: var(--brand); }
+
+        /* Stock Alert Badge */
+        .alert-badge { position: relative; }
+        .dot { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 2px solid white; }
+#popup {
+    width: 95%; 
+height: 75dvh;    /* Fixed width is fine, or use a percentage */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Moves it back by half its width/height */
+    z-index: 999;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Adds some depth */
+}
+
+    </style>
 </head>
 
 <body>
@@ -143,6 +168,14 @@
                 <div><strong>05</strong> <small>Processing</small></div>
             </div>
         </div>
+        
+        
+        
+ 
+    
+    
+    
+        
 
         <!-- Support Activity -->
         <div class="section-label">
@@ -171,6 +204,35 @@
             </div>
 
         </div>
+        
+        
+              
+      
+        <section id="popup">
+        <div class="section-title">Inventory & Operations</div>
+        <div class="menu-grid">
+            <div class="menu-item"><i data-lucide="plus-circle"></i><span>Add Product</span></div>
+            <div class="menu-item alert-badge"><i data-lucide="package-search"></i><span>Stock Alert</span><span class="dot"></span></div>
+            <div class="menu-item"><i data-lucide="layers"></i><span>Categories</span></div>
+            <div class="menu-item"><i data-lucide="file-text"></i><span>Invoices</span></div>
+            <div class="menu-item"><i data-lucide="download"></i><span>Export All</span></div>
+            <div class="menu-item"><i data-lucide="users-2"></i><span>Customers</span></div>
+        </div>
+
+        <div class="section-title">Marketing & Settings</div>
+        <div class="menu-grid">
+            <div class="menu-item"><i data-lucide="ticket" color="#f59e0b"></i><span>Coupons</span></div>
+            <div class="menu-item"><i data-lucide="image"></i><span>Banners</span></div>
+            <div class="menu-item"><i data-lucide="send"></i><span>Push Notif</span></div>
+            <div class="menu-item"><i data-lucide="credit-card"></i><span>Payments</span></div>
+            <div class="menu-item"><i data-lucide="truck"></i><span>Shipping</span></div>
+            <div class="menu-item"><i data-lucide="settings"></i><span>Store Set</span></div>
+        </div>
+    </div>
+        </section>
+    
+    
+    
 
     </main>
 
@@ -182,8 +244,10 @@
         <a href="#" class="nav-item"><i data-lucide="message-circle"></i></a>
         <a href="#" class="nav-item"><i data-lucide="user"></i></a>
     </nav>
-
 </div>
+    
+    
+    
 
 <!-- Scripts -->
 <script src="../js/dashboardChart.js"></script>

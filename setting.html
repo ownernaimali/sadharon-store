@@ -90,13 +90,14 @@ body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e29
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
+
 }
 
 @media (min-width: 600px) {
     .form-grid { grid-template-columns: 1fr 1fr; }
 }
 
-.form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #334155; }
+.form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;  color: #334155; }
 .form-group input, .form-group select, .form-group textarea {
     width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #e2e8f0; outline: none; font-family: inherit;
 }
@@ -134,11 +135,11 @@ body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e29
             </div>
         </div>
         <nav class="settings-nav">
-            <a href="#" class="active"><i data-lucide="user"></i> Edit Profile</a>
+            <a href="#settingsForm" class="active"><i data-lucide="user"></i> Edit Profile</a>
             <a href="view-order.html"><i data-lucide="package"></i> My Orders</a>
-            <a href="#"><i data-lucide="map-pin"></i> Shipping Address</a>
-            <a href="#"><i data-lucide="lock"></i> Password & Security</a>
-            <a href="#" class="logout-link"><i data-lucide="log-out"></i> Logout</a>
+            <a href="#settingsForm"><i data-lucide="map-pin"></i> Shipping Address</a>
+            <a href="security.html"><i data-lucide="lock"></i> Password & Security</a>
+            <a href="#" onclick="logout()" class="logout-link"><i data-lucide="log-out"></i> Logout</a>
         </nav>
     </aside>
 
@@ -149,57 +150,137 @@ body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e29
                 <p>Manage your public information and account details.</p>
             </div>
             
-            <form id="settingsForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" value="John Sadharon" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" value="john@example.com" disabled>
-                        <small>Email cannot be changed manually.</small>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" value="+880 1XXX XXXXXX">
-                    </div>
-                    <div class="form-group">
-                        <label>Default Currency</label>
-                        <select>
-                            <option>BDT (Taka)</option>
-                            <option>USD (Dollar)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group full-width">
-                    <label>Bio / Delivery Note</label>
-                    <textarea rows="3" placeholder="Example: Leave package at the front desk."></textarea>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" class="btn-cancel">Cancel</button>
-                    <button type="submit" class="btn-save">Save Changes</button>
-                </div>
-            </form>
+  <form id="settingsForm">
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input id="userName" type="text" value="John Sadharon" required>
         </div>
 
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input id="userPhone" type="tel" value="019XXXXXXXXX" disabled>
+            <small>Phone Number cannot be changed manually.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Address</label>
+             <textarea id="userAddress" rows="3" placeholder="e.g. House 12, Road 5, Dhanmondi"></textarea>
+  
+          
+        </div>
+
+        <div class="form-group">
+            <label>Default Currency</label>
+            <select id="userCurrency">
+                <option value="BDT">BDT (Taka)</option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="form-actions">
+        <button type="button" id="cancelBtn"class="btn-cancel">Cancel</button>
+        <button type="submit" class="btn-save">Save Changes</button>
+    </div>
+</form>
+
+        </div>
+        <!--
         <div class="settings-card danger-zone">
             <h3>Danger Zone</h3>
             <p>Once you delete your account, there is no going back. Please be certain.</p>
             <button class="btn-delete">Delete Account</button>
         </div>
+        -->
     </main>
 </div>
 
 <script>
-    lucide.createIcons();
+   // 1. Get the token from storage
+const token = localStorage.getItem('token');
+
+// 2. Define API Base URL
+const LOCALHOST = "http://localhost:3000/users";
+const SERVER = "https://sadharon-store-server.vercel.app/users";
+const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+
+// Initialize icons (Lucide)
+lucide.createIcons();
+
+// 3. Optimized Fetch Call
+if (token) {
+   fetch(`${API}?token=${token}`)
+        .then(res => res.json())
+        .then(data => {
+            // Get the first user from the array
+            const user = Array.isArray(data) ? data[0] : data;
+            if (user) {
+                // Mapping the data to the HTML IDs
+                document.getElementById('userName').value = user.name || "";
+                document.getElementById('userPhone').value = user.phone || "";
+                document.getElementById('userAddress').value = user.address || ""; // New field
+                  }
+        })
+        .catch(err => console.error("Error fetching user:", err));
+} else {
+    console.warn("No token found, redirecting or showing login...");
+    localStorage.removeItem('token');
+    window.location.href = "index.html";
+}
+
+// 4. Logout Function
+function logout() {    
+    localStorage.removeItem('token');
+    window.location.href = "index.html";
+}
+
+// Form handling
+settingsForm.onsubmit = async (e) => {
+    e.preventDefault(); // Prevents the page from reloading
+
+    // 1. Collect data from your HTML IDs
+    const updatedData = {
+        name: document.getElementById('userName').value,
+        address: document.getElementById('userAddress').value,
+        };
+
+    // 2. Get the token for authentication
+    const token = localStorage.getItem('token');
+
+    try {
+        // 3. Fetch API (Using the API variable you defined earlier)
+        // We use PATCH because we are updating existing data
+        const response = await fetch(`${API}?token=${token}`, {
+            method: 'PATCH', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert(result.message);
+            console.log("Server Response:", result);
+        } else {
+            alert('Update failed: ' + (result.message || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+        alert('Could not connect to server. Please check your connection.');
+    }
+};
     
-    document.getElementById('settingsForm').onsubmit = (e) => {
-        e.preventDefault();
-        alert('Profile updated successfully! ✨');
-    };
+
+document.getElementById('cancelBtn').onclick = () => {
+    if(confirm("Discard changes?")) {
+        window.location.href = "index.html"; // Redirect user
+    }
+};
+
 </script>
 </body>
 </html>
