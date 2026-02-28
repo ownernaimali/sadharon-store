@@ -210,8 +210,12 @@ const urlParams = new URLSearchParams(queryString);
   }
 // 3. Get the specific "id" value
 const id = urlParams.get('id');
+  if(!id) {  
+    window.location.href = "index.html";   
+  }
+  
 
-  fetch(`${API}/695bd57f15117a7b6e57ae5f`)
+  fetch(`${API}/${id}`)
  .then(res => res.json())
  .then(p => { 
     getById("name", p.name)
@@ -255,7 +259,7 @@ const id = urlParams.get('id');
     };
     
     // 3. Perform the POST Fetch
-    fetch(`${API}/695bd57f15117a7b6e57ae5f`, {
+    fetch(`${API}/${id}`, {
         method: "PATCH", // Specify the method
         headers: {
             "Content-Type": "application/json" // Tell server we are sending JSON

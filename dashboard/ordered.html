@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Admin - All Orders</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 *{
   box-sizing:border-box;
@@ -110,6 +109,124 @@ h2{
 .done-btn:hover{
   background:#187bcd;
 }
+  
+  .select-box {
+    position: relative;
+    width: 160px; /* আপনার প্রয়োজন অনুযায়ী ছোট-বড় করতে পারেন */
+}
+
+.admin-select {
+    /* ডিফল্ট ব্রাউজার স্টাইল রিমুভ */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    
+    /* হার্ডকোড কালার */
+    color: #1e293b;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* ফোকাস করলে বর্ডার কালার চেঞ্জ হবে */
+.admin-select:focus {
+    border-color: #14b8a6;
+}
+
+/* আইকন ছাড়া অ্যারো ইফেক্ট (CSS Triangle) */
+.select-box::after {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* পিওর সিএসএস ট্রায়াঙ্গেল অ্যারো */
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #64748b;
+    
+    pointer-events: none; /* যাতে অ্যারোর ওপর ক্লিক করলেও ড্রপডাউন কাজ করে */
+}
+
+/* অপশন লিস্টের ডিজাইন */
+.admin-select option {
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 10px;
+}
+
+  /* বেস ডিজাইন */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+/* বেস ব্যাজ স্টাইল */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+/* Pending - কমলা */
+.status-badge.pending {
+    background-color: #fff7ed;
+    color: #c2410c;
+    border-color: #ffedd5;
+}
+
+/* Processing - নীল */
+.status-badge.processing {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    border-color: #dbeafe;
+}
+
+/* On-the-way - বেগুনি */
+.status-badge.on-the-way {
+    background-color: #f5f3ff;
+    color: #6d28d9;
+    border-color: #ede9fe;
+}
+
+/* Delivered - সবুজ */
+.status-badge.delivered {
+    background-color: #f0fdf4;
+    color: #15803d;
+    border-color: #dcfce7;
+}
+
+/* Cancel / Canceled - লাল */
+.status-badge.cancel, 
+.status-badge.canceled {
+    background-color: #fef2f2;
+    color: #b91c1c;
+    border-color: #fee2e2;
+}
+
+  
+  
 </style>
 </head>
 
@@ -160,111 +277,118 @@ h2{
   
 </div>
   <script>
-  
- const LOCALHOST = "http://localhost:3000/orders";
+  const LOCALHOST = "http://localhost:3000/orders";
   const SERVER = "https://sadharon-store-server.vercel.app/orders";
   const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
- 
-  
-async function processingOrder(id) {
-  
-    const btn = event.target; // যে বাটনে ক্লিক করা হয়েছে সেটি ধরবে
-    const originalText = btn.innerText;
-    btn.innerText = "Processing...";
-    btn.disabled = true;
-    btn.style.opacity = "0.7";
-    btn.style.cursor = "not-allowed";
-  try {
+
+  async function processingOrder(event, id) {
+    const btn = event.currentTarget;
+    const statusSelect = document.getElementById(`status-${id}`);
+    const newStatus = statusSelect.value;
     
-    // সরাসরি API কল করা হচ্ছে
-    const response = await fetch(`${API}?id=${id}&status=processing`, {
-      method: 'PATCH'
-    });
-    const data = await response.json();
-    alert(data.message)
-    if (data.success) {
-      console.log("Status updated to:", status);
-      btn.innerText = "processing";
-      // পেজ রিলোড করা যাতে আপডেট হওয়া স্ট্যাটাসটি স্ক্রিনে দেখা যায়
-      // location.reload();
-    } else {
-          // এরর হলে বাটন আগের অবস্থায় ফিরিয়ে আনা
-            alert("Error: " + data.message);
-            btn.innerText = originalText;
-            btn.disabled = false;
-            btn.style.opacity = "1";
-      
+    // UI Feedback: Loading
+    const originalText = btn.innerText;
+    btn.innerText = "Saving...";
+    btn.disabled = true;
+
+    try {
+      const response = await fetch(`${API}?id=${id}&status=${newStatus}`, {
+        method: 'PATCH'
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        btn.innerText = "Saved!";
+        btn.style.background = "#10b981";
+        
+        // Refresh only the list after a brief pause
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.disabled = false;
+          btn.style.background = "#0f172a";
+          loadProducts();
+        }, 1000);
+      } else {
+        alert("Update failed: " + data.message);
+        resetButton(btn, originalText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Network Error!");
+      resetButton(btn, originalText);
     }
-  } catch (error) {
- console.error("Failed:", error);
-    btn.innerText = originalText;
-        btn.disabled = false;
-        btn.style.opacity = "1";
   }
-}
 
-  
-    // 3. Load Products
-    function loadProducts() {
-      fetch(API)
-        .then(res => res.json())
-        .then(products => {
-          const list = document.getElementById("order");
-          document.getElementById("length").innerHTML = products.length 
-          list.innerHTML = "";
-  products.reverse().forEach(p => {
-    // চেক করা হচ্ছে স্ট্যাটাস 'processing' কি না
-    const isProcessing = p.status === "processing";
+  function resetButton(btn, text) {
+    btn.innerText = text;
+    btn.disabled = false;
+  }
 
-    list.innerHTML += `
-    <div class="order-card">
-        <div class="order-header">
-          <div>
-            <span class="customer-name">${p.customerName}</span>
-            <span class="order-id">ID: #44920 | 📞 ${p.customerPhone}</span>
-                <p class="address">${p.customerAddress}</p>
-          </div>
-          <div style="text-align: right; font-size: 12px; color: #888;">
-            ${p.orderDate} <br> 
-            <span class="status-badge" style="color: ${isProcessing ? '#FF6B35' : '#888'}">${p.status}</span>
-          </div>
-        </div>
+  function loadProducts() {
+    fetch(API)
+      .then(res => res.json())
+      .then(products => {
+        const list = document.getElementById("order");
+        document.getElementById("length").innerText = products.length;
+        
+        if (products.length === 0) {
+          list.innerHTML = "<p>No orders found.</p>";
+          return;
+        }
 
-        <div class="item-row">
-          <img src="../${p.image}" alt="Product">
-          <div class="item-info">
-            <h4>${p.name}</h4>
-            <p>Price: ${p.price} | Quantity: ${p.quantity}</p>
-          </div>
-          <strong>৳${(p.price * p.quantity) || "unexpected"}</strong>
-        </div>
+        list.innerHTML = products.reverse().map(p => {
+          const total = (p.price * p.quantity) || 0;
+          const statusClass = p.status.toLowerCase().replace(/\s+/g, '-');
 
-        <div class="order-footer">
-          <div class="total-price">Total: ৳${(p.price * p.quantity) || "unexpected"}</div>
-          
-          <button 
-            onclick='processingOrder("${p._id}")' 
-            class="done-btn" 
-            style="background: ${isProcessing && '#e2e8f0'}; 
-                   color: ${isProcessing ? '#94a3b8' : 'white'}; 
-                   cursor: ${isProcessing ? 'not-allowed' : 'pointer'};" 
-            ${isProcessing ? 'disabled' : ''}>
-            ${isProcessing ? 'Processing' : 'Mark as Processing'}
-          </button>
-        </div>
-    </div>
-    `;
-});
+          return `
+            <div class="order-card">
+              <div class="order-header">
+                <div>
+                  <span class="customer-name">${p.customerName}</span>
+                  <span class="order-id">ID: #${p._id.slice(-5)} | 📞 ${p.customerPhone}</span>
+                  <p class="address">${p.customerAddress}</p>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 11px; color: #94a3b8; margin-bottom: 8px;">${p.orderDate}</div>
+                  <span class="status-badge ${statusClass}">${p.status}</span>
+                </div>
+              </div>
 
-          
-        })
-        .catch(() => {
-          document.getElementById("product-container").innerHTML = "Error loading products.";
-        });
-    }
-loadProducts();
-  
-  
+              <div class="item-row">
+                <img src="../${p.image}" onerror="this.src='https://via.placeholder.com/65'" alt="Product">
+                <div class="item-info">
+                  <h4>${p.name}</h4>
+                  <p>৳${p.price} × ${p.quantity}</p>
+                </div>
+                <strong>৳${total}</strong>
+              </div>
+
+              <div class="order-footer">
+                <div class="total-price">Total: ৳${total}</div>
+                <div style="display: flex; gap: 10px;">
+                  <div class="select-box">
+                    <select id="status-${p._id}" class="admin-select">
+                      <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>Pending</option>
+                      <option value="processing" ${p.status === 'processing' ? 'selected' : ''}>Processing</option>
+                      <option value="on-the-way" ${p.status === 'on-the-way' ? 'selected' : ''}>On The Way</option>
+                      <option value="delivered" ${p.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                      <option value="canceled" ${p.status === 'canceled' ? 'selected' : ''}>Canceled</option>
+                    </select>
+                  </div>
+                  <button onclick='processingOrder(event, "${p._id}")' class="done-btn">Save</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("order").innerHTML = "Failed to load orders.";
+      });
+  }
+
+  loadProducts();
   
   
   </script>

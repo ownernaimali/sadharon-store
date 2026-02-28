@@ -3,20 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sadharon Pro - Premium Admin</title>
+    <title>Sadharon Store - Admin Dashboard</title>
 
-    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Styles -->
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
-      /* 3. Feature Menu (Inventory, Marketing, Customers) */
+        /* 3. Feature Menu (Inventory, Marketing, Customers) */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         .menu-item { background: var(--white); padding: 15px; border-radius: 18px; text-align: center; border: 1px solid #f1f5f9; transition: 0.3s; }
         .menu-item:active { transform: scale(0.95); background: #f1f5f9; }
@@ -26,18 +23,53 @@
         /* Stock Alert Badge */
         .alert-badge { position: relative; }
         .dot { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 2px solid white; }
-#popup {
-    width: 95%; 
-height: 75dvh;    /* Fixed width is fine, or use a percentage */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Moves it back by half its width/height */
-    z-index: 999;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Adds some depth */
-}
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #64748b;
+            margin: 20px 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Overlay to dim the background */
+        #popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #popup {
+            display: none;
+            width: 90%;
+            max-width: 500px;
+            max-height: 85dvh;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -45%); /* Start slightly lower for effect */
+            z-index: 999;
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        /* Active classes for animation */
+        #popup.show { display: block; opacity: 1; transform: translate(-50%, -50%); }
+        #popup-overlay.show { display: block; opacity: 1; }
 
     </style>
 </head>
@@ -45,7 +77,6 @@ height: 75dvh;    /* Fixed width is fine, or use a percentage */
 <body>
 <div class="app-wrapper">
 
-    <!-- Header -->
     <header class="top-header">
         <div class="brand">
             <div class="logo-group">
@@ -67,10 +98,8 @@ height: 75dvh;    /* Fixed width is fine, or use a percentage */
         </div>
     </header>
 
-    <!-- Main Dashboard -->
     <main class="dashboard-body">
 
-        <!-- Weekly Sales Chart -->
         <div class="chart-card">
             <div class="chart-header">
                 <h3>Weekly Sales</h3>
@@ -79,7 +108,6 @@ height: 75dvh;    /* Fixed width is fine, or use a percentage */
             <div class="bar-wrapper" id="bar-chart"></div>
         </div>
 
-        <!-- Monthly Target -->
         <div class="progress-box">
             <div class="circular-progress" id="circle-box">
                 <div class="inner-circle" id="percent-text">0%</div>
@@ -90,103 +118,40 @@ height: 75dvh;    /* Fixed width is fine, or use a percentage */
             </div>
         </div>
 
-        <!-- Finance Summary -->
-        <div class="section-label">
-            Finance Summary
-            <i data-lucide="more-horizontal" size="16"></i>
-        </div>
-
+        <div class="section-label">Finance Summary <i data-lucide="more-horizontal" size="16"></i></div>
         <div class="finance-grid">
-
             <div class="f-card invest">
-                <div class="f-header">
-                    <i data-lucide="layers" color="#6366f1"></i>
-                    <span class="trend up">+12%</span>
-                </div>
+                <div class="f-header"><i data-lucide="layers" color="#6366f1"></i><span class="trend up">+12%</span></div>
                 <h2>৳ 45.2k</h2>
                 <p>Total Investment</p>
             </div>
-
             <div class="f-card revenue">
-                <div class="f-header">
-                    <i data-lucide="zap" color="#14b8a6"></i>
-                    <span class="trend up">+8%</span>
-                </div>
+                <div class="f-header"><i data-lucide="zap" color="#14b8a6"></i><span class="trend up">+8%</span></div>
                 <h2>৳ 82.3k</h2>
                 <p>Total Sell</p>
             </div>
-
             <div class="f-card profit">
-                <div class="f-header">
-                    <i data-lucide="heart" color="#ec4899"></i>
-                    <span class="trend">Stable</span>
-                </div>
+                <div class="f-header"><i data-lucide="heart" color="#ec4899"></i><span class="trend">Stable</span></div>
                 <h2>৳ 12.4k</h2>
                 <p>Total Love</p>
             </div>
-
             <div class="f-card cost">
-                <div class="f-header">
-                    <i data-lucide="activity" color="#f97316"></i>
-                    <span class="trend down">-2%</span>
-                </div>
+                <div class="f-header"><i data-lucide="activity" color="#f97316"></i><span class="trend down">-2%</span></div>
                 <h2>৳ 5.2k</h2>
                 <p>Total Cost</p>
             </div>
-
         </div>
 
-        <!-- Order Pipeline -->
         <div class="section-label">Order Pipeline</div>
-
         <div class="order-scroller">
-            <div class="order-stat">
-                <div class="icon-circle" style="background: #3b82f6;">
-                    <i data-lucide="package" size="18"></i>
-                </div>
-                <div><strong>150</strong> <small>Total</small></div>
-            </div>
-
-            <div class="order-stat">
-                <div class="icon-circle" style="background: #f97316;">
-                    <i data-lucide="flame" size="18"></i>
-                </div>
-                <div><strong>12</strong> <small>Today</small></div>
-            </div>
-
-            <div class="order-stat">
-                <div class="icon-circle" style="background: #eab308;">
-                    <i data-lucide="clock" size="18"></i>
-                </div>
-                <div><strong>08</strong> <small>Pending</small></div>
-            </div>
-
-            <div class="order-stat">
-                <div class="icon-circle" style="background: #a855f7;">
-                    <i data-lucide="truck" size="18"></i>
-                </div>
-                <div><strong>05</strong> <small>Processing</small></div>
-            </div>
-        </div>
-        
-        
-        
- 
-    
-    
-    
-        
-
-        <!-- Support Activity -->
-        <div class="section-label">
-            Support Activity
-            <a href="#" style="color: var(--accent); font-size: 11px; text-decoration: none; font-weight: 600;">
-                View All
-            </a>
+            <div class="order-stat"><div class="icon-circle" style="background: #3b82f6;"><i data-lucide="package" size="18"></i></div><div><strong>150</strong> <small>Total</small></div></div>
+            <div class="order-stat"><div class="icon-circle" style="background: #f97316;"><i data-lucide="flame" size="18"></i></div><div><strong>12</strong> <small>Today</small></div></div>
+            <div class="order-stat"><div class="icon-circle" style="background: #eab308;"><i data-lucide="clock" size="18"></i></div><div><strong>08</strong> <small>Pending</small></div></div>
+            <div class="order-stat"><div class="icon-circle" style="background: #a855f7;"><i data-lucide="truck" size="18"></i></div><div><strong>05</strong> <small>Processing</small></div></div>
         </div>
 
+        <div class="section-label">Support Activity <a href="#" style="color: var(--accent); font-size: 11px; text-decoration: none; font-weight: 600;">View All</a></div>
         <div class="support-card">
-
             <div class="msg-box unread">
                 <div class="msg-avatar">RA</div>
                 <div class="msg-content">
@@ -194,7 +159,6 @@ height: 75dvh;    /* Fixed width is fine, or use a percentage */
                     <p>আপনার কাছে কি প্রিমিয়াম লবণের স্টক আছে?</p>
                 </div>
             </div>
-
             <div class="msg-box">
                 <div class="msg-avatar" style="background: #fbbf24;">SM</div>
                 <div class="msg-content">
@@ -202,57 +166,97 @@ height: 75dvh;    /* Fixed width is fine, or use a percentage */
                     <p>অর্ডারটি এখনো প্রসেসিং কেন দেখাচ্ছে?</p>
                 </div>
             </div>
-
         </div>
-        
-        
-              
-      
+
+        <div id="popup-overlay" onclick="closePopUp()"></div>
         <section id="popup">
-        <div class="section-title">Inventory & Operations</div>
-        <div class="menu-grid">
-            <div class="menu-item"><i data-lucide="plus-circle"></i><span>Add Product</span></div>
-            <div class="menu-item alert-badge"><i data-lucide="package-search"></i><span>Stock Alert</span><span class="dot"></span></div>
-            <div class="menu-item"><i data-lucide="layers"></i><span>Categories</span></div>
-            <div class="menu-item"><i data-lucide="file-text"></i><span>Invoices</span></div>
-            <div class="menu-item"><i data-lucide="download"></i><span>Export All</span></div>
-            <div class="menu-item"><i data-lucide="users-2"></i><span>Customers</span></div>
-        </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h2 style="margin:0; font-size: 1.2rem; color: #1e293b;">Quick Actions</h2>
+                <button onclick="closePopUp()" style="border:none; background:#f1f5f9; padding: 8px; border-radius: 50%; cursor:pointer; line-height: 0;">
+                    <i data-lucide="x" size="20" color="#64748b"></i>
+                </button>
+            </div>
 
-        <div class="section-title">Marketing & Settings</div>
-        <div class="menu-grid">
-            <div class="menu-item"><i data-lucide="ticket" color="#f59e0b"></i><span>Coupons</span></div>
-            <div class="menu-item"><i data-lucide="image"></i><span>Banners</span></div>
-            <div class="menu-item"><i data-lucide="send"></i><span>Push Notif</span></div>
-            <div class="menu-item"><i data-lucide="credit-card"></i><span>Payments</span></div>
-            <div class="menu-item"><i data-lucide="truck"></i><span>Shipping</span></div>
-            <div class="menu-item"><i data-lucide="settings"></i><span>Store Set</span></div>
-        </div>
-    </div>
+            <div class="section-title">Inventory & Operations</div>
+            <div class="menu-grid">
+                <div onclick="window.location.href='add-product.html'" class="menu-item"><i data-lucide="plus-circle"></i><span>Add Product</span></div>
+                <div onclick="window.location.href='view-product.html'" class="menu-item"><i data-lucide="package"></i><span>View Product</span></div>
+                <div onclick="window.location.href='view-product.html'" class="menu-item"><i data-lucide="file-pen-line"></i><span>Update Product</span></div>
+                <div onclick="window.location.href='delete-product.html'" class="menu-item"><i data-lucide="trash-2"></i><span>Delete Product</span></div>
+                <div onclick="window.location.href='ordered.html'" class="menu-item"><i data-lucide="shopping-cart"></i><span>Orderd Product</span></div>
+                
+                
+                <div class="menu-item"><i data-lucide="file-text"></i><span>Invoices</span></div>
+                <div class="menu-item"><i data-lucide="download"></i><span>Export All</span></div>
+                <div onclick="window.location.href='users.html'" class="menu-item"><i data-lucide="users-2"></i><span>Customers</span></div>
+                 <div  class="menu-item alert-badge"><i data-lucide="package-search"></i><span>Stock Alert</span><span class="dot"></span></div>
+               
+            </div>
+
+            <div class="section-title">Marketing & Settings</div>
+            <div class="menu-grid">
+                <div class="menu-item"><i data-lucide="ticket" color="#f59e0b"></i><span>Coupons</span></div>
+                <div class="menu-item"><i data-lucide="image"></i><span>Banners</span></div>
+                <div class="menu-item"><i data-lucide="send"></i><span>Push Notif</span></div>
+                <div class="menu-item"><i data-lucide="credit-card"></i><span>Payments</span></div>
+                <div class="menu-item"><i data-lucide="truck"></i><span>Shipping</span></div>
+                <div class="menu-item"><i data-lucide="settings"></i><span>Store Set</span></div>
+            </div>
         </section>
-    
-    
-    
 
     </main>
 
-    <!-- Bottom Navigation -->
     <nav class="app-nav">
         <a href="#" class="nav-item active"><i data-lucide="home"></i></a>
         <a href="#" class="nav-item"><i data-lucide="box"></i></a>
-        <a href="#" class="nav-item plus-btn"><i data-lucide="plus"></i></a>
+        <div onclick="showPopUp()" id="plusBtn" class="nav-item plus-btn" style="cursor: pointer;">
+            <i data-lucide="plus"></i>
+        </div>
         <a href="#" class="nav-item"><i data-lucide="message-circle"></i></a>
         <a href="#" class="nav-item"><i data-lucide="user"></i></a>
     </nav>
 </div>
-    
-    
-    
 
-<!-- Scripts -->
 <script src="../js/dashboardChart.js"></script>
 <script>
     lucide.createIcons();
+
+    function showPopUp() {
+        const popup = document.getElementById("popup");
+        const overlay = document.getElementById("popup-overlay");
+
+        // Use setTimeout to ensure display:block happens before adding the opacity class for transition
+        popup.style.display = "block";
+        overlay.style.display = "block";
+        
+        setTimeout(() => {
+            popup.classList.add("show");
+            overlay.classList.add("show");
+        }, 10);
+        
+        lucide.createIcons();
+        document.body.style.overflow = "hidden";
+    }
+
+    function closePopUp() {
+        const popup = document.getElementById("popup");
+        const overlay = document.getElementById("popup-overlay");
+
+        popup.classList.remove("show");
+        overlay.classList.remove("show");
+
+        // Wait for transition to finish before hiding
+        setTimeout(() => {
+            popup.style.display = "none";
+            overlay.style.display = "none";
+        }, 300);
+        
+        document.body.style.overflow = "auto";
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") closePopUp();
+    });
 </script>
 
 </body>
