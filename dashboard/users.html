@@ -38,8 +38,8 @@
 </div>
 
 <script>
-    const LOCALHOST = "http://localhost:3000/users";
-  const SERVER = "https://sadharon-store-server.vercel.app/users";
+    const LOCALHOST = "http://localhost:3000/adminUser";
+  const SERVER = "https://sadharon-store-server.vercel.app/adminUser";
   const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
   
   async function loadUsers() {
@@ -52,6 +52,7 @@
         list.innerHTML = ""; // Clear loader text
 
         users.forEach(user => {
+          
           const row = `
             <tr>
               <td><strong>${user.name}</strong></td>
@@ -67,12 +68,13 @@
         document.getElementById('userTable').style.display = 'table';
       }
     } catch (error) {
+      alert(error.message)
       document.getElementById('loading').innerText = "Error loading users. Check API connection.";
       console.error("Fetch error:", error);
     }
   }
 
-  window.onload = loadUsers;
+  loadUsers()
 </script>
 
 </body>
