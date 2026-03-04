@@ -143,12 +143,33 @@
         </div>
 
         <div class="section-label">Order Pipeline</div>
+
         <div class="order-scroller">
-            <div class="order-stat"><div class="icon-circle" style="background: #3b82f6;"><i data-lucide="package" size="18"></i></div><div><strong>150</strong> <small>Total</small></div></div>
-            <div class="order-stat"><div class="icon-circle" style="background: #f97316;"><i data-lucide="flame" size="18"></i></div><div><strong>12</strong> <small>Today</small></div></div>
-            <div class="order-stat"><div class="icon-circle" style="background: #eab308;"><i data-lucide="clock" size="18"></i></div><div><strong>08</strong> <small>Pending</small></div></div>
-            <div class="order-stat"><div class="icon-circle" style="background: #a855f7;"><i data-lucide="truck" size="18"></i></div><div><strong>05</strong> <small>Processing</small></div></div>
-        </div>
+    <div class="order-stat">
+        <div class="icon-circle" style="background: #3b82f6;"><i data-lucide="package" size="18"></i></div>
+        <div><strong id="stat-total">0</strong> <small>Total</small></div>
+    </div>
+    <div class="order-stat">
+        <div class="icon-circle" style="background: #eab308;"><i data-lucide="clock" size="18"></i></div>
+        <div><strong id="stat-pending">0</strong> <small>Pending</small></div>
+    </div>
+    <div class="order-stat">
+        <div class="icon-circle" style="background: #a855f7;"><i data-lucide="truck" size="18"></i></div>
+        <div><strong id="stat-processing">0</strong> <small>Processing</small></div>
+    </div>
+    <div class="order-stat">
+        <div class="icon-circle" style="background: #06b6d4;"><i data-lucide="map-pin" size="18"></i></div>
+        <div><strong id="stat-on-the-way">0</strong> <small>On the way</small></div>
+    </div>
+    <div class="order-stat">
+        <div class="icon-circle" style="background: #22c55e;"><i data-lucide="check-circle" size="18"></i></div>
+        <div><strong id="stat-delivered">0</strong> <small>Delivered</small></div>
+    </div>
+    <div class="order-stat">
+        <div class="icon-circle" style="background: #ef4444;"><i data-lucide="x-circle" size="18"></i></div>
+        <div><strong id="stat-canceled">0</strong> <small>Canceled</small></div>
+    </div>
+</div>
 
         <div class="section-label">Support Activity <a href="#" style="color: var(--accent); font-size: 11px; text-decoration: none; font-weight: 600;">View All</a></div>
         <div class="support-card">
@@ -183,7 +204,7 @@
                 <div onclick="window.location.href='view-product.html'" class="menu-item"><i data-lucide="package"></i><span>View Product</span></div>
                 <div onclick="window.location.href='view-product.html'" class="menu-item"><i data-lucide="file-pen-line"></i><span>Update Product</span></div>
                 <div onclick="window.location.href='delete-product.html'" class="menu-item"><i data-lucide="trash-2"></i><span>Delete Product</span></div>
-                <div onclick="window.location.href='ordered.html'" class="menu-item"><i data-lucide="shopping-cart"></i><span>Orderd Product</span></div>
+                <div onclick="window.location.href='ordered.html'" class="menu-item"><i data-lucide="shopping-cart"></i><span>Customer Orderd</span></div>
                 
                 
                 <div class="menu-item"><i data-lucide="file-text"></i><span>Invoices</span></div>
@@ -221,6 +242,32 @@
 <script>
     lucide.createIcons();
 
+async function updateDashboardStats() {
+    try {
+        const response = await fetch('http://localhost:3000/orders/status');
+        const {data: status} = await response.json();
+        
+        // Update each status value
+        document.getElementById('stat-pending').innerText = status.pending || 0;
+        document.getElementById('stat-processing').innerText = status.processing || 0;
+        document.getElementById('stat-on-the-way').innerText = status['on-the-way'] || 0;
+        document.getElementById('stat-delivered').innerText = status.delivered || 0;
+        document.getElementById('stat-canceled').innerText = status.canceled || 0;
+
+        // Calculate Grand Total
+        const total = Object.values(status).reduce((a, b) => a + b, 0);
+        document.getElementById('stat-total').innerText = total;
+
+    } catch (error) {
+        console.error("Error loading stats:", error);
+    }
+}
+
+// Run the function when the page loads
+updateDashboardStats();
+
+    
+    
     function showPopUp() {
         const popup = document.getElementById("popup");
         const overlay = document.getElementById("popup-overlay");

@@ -129,8 +129,8 @@ button:hover{
 </div>
 
 <script>
-  const LOCALHOST = "http://localhost:3000/products?status=active";
-  const SERVER = "https://sadharon-store-server.vercel.app/products?status=active";
+  const LOCALHOST = "http://localhost:3000/products";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
 const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
   
 function loadProducts(){
@@ -141,11 +141,11 @@ function loadProducts(){
     list.innerHTML = "";
  if(products.length === 0){ list.innerHTML = "No Product Found"}
 
-    products?.forEach(p => {
+    products.data.forEach(p => {
       list.innerHTML += `
         <div class="product">
           <div class="img-box">
-            <img src="../${p.productImageLink}" alt="${p.name}" />
+            <img src="../${p.image}" alt="${p.name}" />
           </div>
           <div class="info">
             <div class="name">${p.name}</div>

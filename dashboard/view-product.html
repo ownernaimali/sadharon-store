@@ -153,8 +153,8 @@ button:hover{
 </div>
 
 <script>
-  const LOCALHOST = "http://localhost:3000/products?status=active";
-  const SERVER = "https://sadharon-store-server.vercel.app/products?status=active";
+  const LOCALHOST = "http://localhost:3000/products";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
   const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
   
   function updateProduct (id) {
@@ -165,16 +165,15 @@ function loadProducts(){
   fetch(API)
   .then(res => res.json())
   .then(products => {
+    
     const list = document.getElementById("productList");
     list.innerHTML = "";
 
-    products.forEach(p => {
-      const profit = (p.discountPrice - p.costPrice).toFixed(2) * p.totalSales;
-
+    products.data.forEach(p => {
       list.innerHTML += `
         <div class="product">
           <div class="img-box">
-            <img class="image" src="../${p.productImageLink}" alt="${p.name}"/>
+            <img class="image" src="../${p.image}" alt="${p.name}"/>
           </div>
 
           <div class="info">
@@ -187,8 +186,8 @@ function loadProducts(){
               <div><b>Actual Price:</b> ৳${p.actualPrice}</div>
               <div><b>Discount Price:</b> ৳${p.discountPrice}</div>
               <div><b>Cost Price:</b> ৳${p.costPrice}</div>
-              <div><b>Profit:</b> ৳${profit}</div>
               <div><b>Quantity:</b> ${p.quantity}</div>
+      <div><b>Stock:</b> ৳${p.stock}</div>
               <div><b>Total Sales:</b> ${p?.totalSales}</div>
             </div>
 
@@ -197,9 +196,7 @@ function loadProducts(){
               <button onclick='updateProduct("${p._id}")'>
                 Update Product
               </button>
-            </div>
-
-     
+            </div>    
           </div>
         </div>
       `;

@@ -183,7 +183,7 @@
         
         <div class="form-group full-width">
            <label>Product Image link / পণ্যের ছবি লিংক:</label>
-           <input type="text" id="productImageLink" class="input" placeholder="http://example.com/product.jpg" required/>
+           <input type="text" id="image" class="input" placeholder="http://example.com/product.jpg" required/>
         </div>
 
         <input type="submit" id="submit" value="Add Product" />
@@ -218,13 +218,15 @@ const id = urlParams.get('id');
   fetch(`${API}/${id}`)
  .then(res => res.json())
  .then(p => { 
+   p = p.data
+   
     getById("name", p.name)
    getById("actualPrize", p.actualPrice)
    getById("discountPrice", p.discountPrice)
    getById("category", p.category)
    getById("costPrice", p.costPrice)
    getById("quantity", p.quantity)
-  getById("productImageLink", p.productImageLink)
+  getById("image", p.image)
    
  }) 
   
@@ -255,7 +257,7 @@ const id = urlParams.get('id');
       category: document.getElementById('category').value,
       costPrice: parseFloat(document.getElementById('costPrice').value),
       quantity: parseInt(document.getElementById('quantity').value),
-      productImageLink: document.getElementById('productImageLink').value,
+      image: document.getElementById('image').value,
     };
     
     // 3. Perform the POST Fetch
@@ -275,7 +277,7 @@ const id = urlParams.get('id');
     })
     .catch(error => {
         console.error("Error:", error);
-        alert("Something went wrong!");
+        alert("Something went wrong!", error.message);
     })
     .finally(() => {
         // 4. Re-enable button
@@ -285,11 +287,6 @@ const id = urlParams.get('id');
         submitBtn.style.cursor = "pointer";
     
     });
-       
-    // 5. Clear the form for the next entry
-    // productForm.reset();
-    
-    
   });
   
   </script>

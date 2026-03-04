@@ -290,14 +290,13 @@ h2{
     const originalText = btn.innerText;
     btn.innerText = "Saving...";
     btn.disabled = true;
-
-    try {
+     try {
       const response = await fetch(`${API}?id=${id}&status=${newStatus}`, {
         method: 'PATCH'
       });
       const data = await response.json();
 
-      if (data.success) {
+      if (!data.error) {
         btn.innerText = "Saved!";
         btn.style.background = "#10b981";
         
@@ -323,23 +322,40 @@ h2{
     btn.innerText = text;
     btn.disabled = false;
   }
-
-  function loadProducts() {
+  
+function loadProducts() {
     fetch(API)
       .then(res => res.json())
-      .then(products => {
+      .then(data => {
         const list = document.getElementById("order");
-        document.getElementById("length").innerText = products.length;
+        // সার্ভার থেকে 'results' বা 'count' যা আসে সেটি বসান
+        document.getElementById("length").innerText = data.results || data.count || 0;
         
-        if (products.length === 0) {
+        if (!data.data || data.data.length === 0) {
           list.innerHTML = "<p>No orders found.</p>";
           return;
         }
 
-        list.innerHTML = products.reverse().map(p => {
-          const total = (p.price * p.quantity) || 0;
-          const statusClass = p.status.toLowerCase().replace(/\s+/g, '-');
+        // ডাটা রিভার্স করে ম্যাপ করা
+        list.innerHTML = data.data.reverse().map(p => {
+           const statusClass = p.status.toLowerCase().replace(/\s+/g, '-');
 
+          // আইটেমগুলোর লিস্ট তৈরি করা
+          let itemsHTML = "";
+          if (p.items && Array.isArray(p.items)) {
+            p.items.forEach(item => {
+                 itemsHTML += `
+                <div class="item-row">
+                  <img src="../${item.image}" onerror="this.src='https://via.placeholder.com/65'" alt="Product">
+                  <div class="item-info">
+                    <h4>${item.name}</h4>
+                    <p>৳${item.price} × ${item.quantity}</p>
+                  </div>
+                  <strong>৳${item.subTotal}</strong>
+                </div>`;
+            });
+          }
+           
           return `
             <div class="order-card">
               <div class="order-header">
@@ -350,21 +366,15 @@ h2{
                 </div>
                 <div style="text-align: right;">
                   <div style="font-size: 11px; color: #94a3b8; margin-bottom: 8px;">${p.orderDate}</div>
-                  <span class="status-badge ${statusClass}">${p.status}</span>
+ <span class="status-badge ${p.paymentStatus === 'paid'? 'delivered' : 'pending'}">${p.paymentStatus}</span> |	‌‌
+                <span class="status-badge ${statusClass}">${p.status}</span>
                 </div>
               </div>
 
-              <div class="item-row">
-                <img src="../${p.image}" onerror="this.src='https://via.placeholder.com/65'" alt="Product">
-                <div class="item-info">
-                  <h4>${p.name}</h4>
-                  <p>৳${p.price} × ${p.quantity}</p>
-                </div>
-                <strong>৳${total}</strong>
-              </div>
+              ${itemsHTML}
 
               <div class="order-footer">
-                <div class="total-price">Total: ৳${total}</div>
+                <div class="total-price">Total: ৳${p.totalAmount}</div>
                 <div style="display: flex; gap: 10px;">
                   <div class="select-box">
                     <select id="status-${p._id}" class="admin-select">
@@ -382,11 +392,12 @@ h2{
           `;
         }).join('');
       })
-      .catch(err => {
-        console.error(err);
-        document.getElementById("order").innerHTML = "Failed to load orders.";
+      .catch(error => {
+        console.error("Fetch Error:", error);
+        document.getElementById("order").innerHTML = "Failed to load orders: " + error.message;
       });
-  }
+}
+
 
   loadProducts();
   

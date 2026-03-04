@@ -11,104 +11,120 @@
 
 <style>
 
-.container{
-  max-width: 900px;
-  padding: 0 5px;
-  margin: 30px auto;
-  min-height: 95dvh;
+.body {
+    background-color: #f8f9fa;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
 }
+
+.order-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.order-header-main {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.order-header-main h2 {
+    font-size: 28px;
+    color: #2d3436;
+    margin-bottom: 5px;
+}
+
+/* অর্ডার কার্ড */
+.order-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border: 1px solid #edf2f7;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.customer-name {
+    font-weight: 700;
+    font-size: 16px;
+    color: #2d3436;
+}
+
+.order-id {
+    font-size: 12px;
+    color: #636e72;
+}
+
+.status-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* আইটেম লিস্ট */
+.order-items-container {
+    margin: 15px 0;
+}
+
+.item-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #f1f1f1;
+}
+
+.item-row:last-child { border-bottom: none; }
+
+.item-row img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.item-info h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #2d3436;
+}
+
+.item-info p {
+    margin: 2px 0 0 0;
+    font-size: 12px;
+    color: #636e72;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #f1f1f1;
+}
+
+.total-amount {
+    font-size: 18px;
+    font-weight: 800;
+    color: #00b894;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 50px;
+    color: #636e72;
+}
+
   
-h2{
-  margin-bottom:15px;
-}
-
-/* Admin Order Card */
-.order-card{
-  padding:20px;
-  border-radius:12px;
-  margin-bottom:20px;
-  box-shadow:0 6px 16px rgba(0,0,0,0.05);
-}
-
-.order-header{
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-}
-
-.customer-name{
-  font-weight: bold;
-  font-size: 18px;
-  display: block;
-}
-
-.order-id{
-  font-size: 13px;
-  color: #777;
-}
-.address {
-  margin-top: 1.5px;
-  font-size: 13px;
-  color: #777; 
-}
-
-/* Item inside order (matches your cart style) */
-.item-row{
-  display:flex;
-  gap:15px;
-  align-items:center;
-  margin-bottom: 12px;
-}
-.item-row img{
-  width:60px;
-  height:60px;
-  object-fit:cover;
-  border-radius:8px;
-}
-.item-info{
-  flex:1;
-}
-.item-info h4{
-  margin: 0;
-  font-size: 15px;
-}
-.item-info p{
-  margin: 2px 0;
-  font-size: 13px;
-  color: #555;
-}
-
-/* Total Section */
-.order-footer{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
-}
-
-.total-price{
-  font-size: 18px;
-  font-weight: bold;
-  color: #1e90ff;
-}
-
-/* Admin Buttons */
-.done-btn{
-  background:#1e90ff;
-  color:#fff;
-  border:none;
-  padding:8px 16px;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:14px;
-}
-.done-btn:hover{
-  background:#187bcd;
-}
 </style>
 </head>
 <body>
@@ -118,41 +134,6 @@ h2{
 
 <main class="container">
   <h2>📋 My Orders: <span id="length"></span></h2>
-  <!--
-  <div class="order-card">
-    <div class="order-header">
-      <div>
-        <span class="customer-name">Rahim Ahmed</span>
-        <span class="order-id">ID: #44921 | 📞 01700000000</span>
-      </div>
-      <div style="text-align: right; font-size: 12px; color: #888;">Oct 24, 2023</div>
-    </div>
-
-    <div class="item-row">
-      <img src="https://via.placeholder.com/60" alt="Product">
-      <div class="item-info">
-        <h4>Wireless Headphones</h4>
-        <p>Price: ৳1200 | Qty: 1</p>
-      </div>
-      <strong>৳1200</strong>
-    </div>
-
-    <div class="item-row">
-      <img src="https://via.placeholder.com/60" alt="Product">
-      <div class="item-info">
-        <h4>Fast Charger</h4>
-        <p>Price: ৳800 | Qty: 2</p>
-      </div>
-      <strong>৳1600</strong>
-    </div>
-
-    <div class="order-footer">
-      <div class="total-price">Total: ৳2800</div>
-      <button class="done-btn">Mark as Completed</button>
-    </div>
-  </div>
--->
-
 
   <div id="order">
     <!-- fetch order items -->   
@@ -171,61 +152,111 @@ h2{
   <script>
   
   const LOCALHOST = "http://localhost:3000/orders";
-  const SERVER = "https://sadharon-store-server.vercel.app/orders";
-  const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
-  const list = document.getElementById("order");
-  
-    // 3. Load Products
-    function loadProducts() {
-     
-      
-   const token = localStorage.getItem("token");
-      if(!token) {
-        list.innerHTML = "please login";
-        confirm("Please login to view order products.");
-      window.location.href = "login.html";
-     return;        
-      }
-  
-      fetch(`${API}?userId=${token}`)
-        .then(res => res.json())
-        .then(products => {
-          const list = document.getElementById("order");
-    document.getElementById("length").innerHTML = products.length 
-          list.innerHTML = "";
-          products.reverse().forEach(p => {
-            list.innerHTML += `
-            <div class="order-card">
-    <div class="order-header">
-      <div>
-        <span class="customer-name">${p.customerName}</span>
-        <span class="order-id">ID: #44920 | 📞 ${p.customerPhone}</span>
-            <p class="address">${p.customerAddress}</p>
-      </div>
-      <div style="text-align: right; font-size: 12px; color: #888;">${p.orderDate} </br> <span style="color: ${p.status === 'pending'? 'blue' : 'orange'}">${p.status}</span></div>
-    </div>
+const SERVER = "https://sadharon-store-server.vercel.app/orders";
+const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+const list = document.getElementById("order");
 
-    <div class="item-row">
-      <img src="${p.image}" alt="Product">
-      <div class="item-info">
-        <h4>${p.name}</h4>
-        <p>Price: ${p.price} | Quantity: ${p.quantity}</p>
-      </div>
-      <strong>৳${(p.price * p.quantity) || "unexcepted"}</strong>
-    </div>
+// ৩. Load Products (Orders)
+function loadProducts() {
+    const token = localStorage.getItem("token");
 
-    <div class="order-footer">
-      <div class="total-price">Total: ৳${(p.price * p.quantity) || "unexcepted"}</div>
-    </div>
-  </div>
-            `;
-          });
-        })
-        .catch(() => {
-          document.getElementById("product-container").innerHTML = "Error loading products.";
-        });
+    // ইউজার লগইন না থাকলে চেক
+    if (!token) {
+        list.innerHTML = `<p style="text-align:center; padding: 20px;">Please login to view your orders.</p>`;
+        alert("Please login to view order products.");
+        window.location.href = "login.html";
+        return;
     }
+
+    // ব্যাকএন্ড থেকে ডাটা ফেচ করা
+    fetch(`${API}?userId=${token}`)
+        .then(res => {
+            if (!res.ok) throw new Error("Network response was not ok");
+            return res.json();
+        })
+        .then(response => {
+            // আপনার ব্যাকএন্ড থেকে ডাটা 'data' প্রপার্টিতে আসে
+            const orders = response.data || [];
+            const lengthElement = document.getElementById("length");
+            
+            if (lengthElement) lengthElement.innerHTML = orders.length;
+
+            if (orders.length === 0) {
+                list.innerHTML = `<p style="text-align:center; padding: 20px;">You haven't placed any orders yet. 🛍️</p>`;
+                return;
+            }
+
+            list.innerHTML = "";
+
+            // নতুন অর্ডারগুলো লুপ চালিয়ে রেন্ডার করা
+            orders.forEach(p => {
+                // প্রতিটি অর্ডারের ভেতরের আইটেমগুলোর (Batch Items) জন্য HTML তৈরি
+                let itemsHTML = "";
+                if (p.items && Array.isArray(p.items)) {
+                    p.items.forEach(item => {
+                        itemsHTML += `
+                        <div class="item-row" style="display: flex; gap: 10px; margin-bottom: 10px; border-bottom: 1px dashed #eee; padding-bottom: 5px;">
+                            <img src="${item.image}" alt="Product" style="width: 50px; height: 50px; border-radius: 5px; object-fit: cover;">
+                            <div class="item-info" style="flex-grow: 1;">
+                                <h4 style="margin: 0; font-size: 14px;">${item.name}</h4>
+                                <p style="margin: 0; font-size: 12px; color: #666;">Price: ৳${item.price} | Qty: ${item.quantity}</p>
+                            </div>
+                            <strong style="font-size: 14px;">৳${item.subTotal}</strong>
+                        </div>
+                        `;
+                    });
+                }
+
+                // মেইন অর্ডার কার্ড রেন্ডার
+                list.innerHTML += `
+                <div class="order-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px; margin-bottom: 20px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <div class="order-header" style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
+                        <div>
+                            <span class="customer-name" style="font-weight: bold; display: block; color: #333;">${p.customerName}</span>
+                            <span class="order-id" style="font-size: 11px; color: #777;">ID: #${p._id ? p._id.slice(-6).toUpperCase() : 'N/A'} | 📞 ${p.customerPhone}</span>
+                            <p class="address" style="font-size: 12px; margin: 5px 0 0 0; color: #555;">📍 ${p.customerAddress}</p>
+                        </div>
+                        <div style="text-align: right; font-size: 12px; color: #888;">
+                            ${p.orderDate || 'N/A'} <br> 
+                            <span style="
+                                display: inline-block; 
+                                padding: 2px 8px; 
+                                border-radius: 5px; 
+                                margin-top: 5px;
+                                background: ${p.status === 'pending' ? '#e3f2fd' : '#fff3e0'};
+                                color: ${p.status === 'pending' ? 'blue' : '#e67e22'};
+                                font-weight: bold;
+                                text-transform: capitalize;
+                                font-size: 11px;
+                            ">${p.status}</span>
+                        </div>
+                    </div>
+
+                    <div class="order-items-container">
+                        ${itemsHTML} 
+                    </div>
+
+                    <div class="order-footer" style="margin-top: 10px; text-align: right; border-top: 1px solid #eee; padding-top: 10px;">
+                        <div class="total-price" style="font-size: 16px; font-weight: bold; color: #2c3e50;">
+                            Grand Total: ৳${p.totalAmount}
+                        </div>
+                        <div style="font-size: 11px; color: ${p.paymentStatus === 'paid' ? '#27ae60' : '#c0392b'}; margin-top: 5px; font-weight: 500;">
+                            PAYMENT: ${p.paymentStatus ? p.paymentStatus.toUpperCase() : 'PENDING'}
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+        })
+        .catch(err => {
+            console.error("❌ Fetch error:", err);
+            list.innerHTML = `<p style="text-align:center; color:red; padding: 20px;">Error loading orders. Please try again later.</p>`;
+        });
+}
+
+// ফাংশনটি কল করা
 loadProducts();
+
   
   </script>
   

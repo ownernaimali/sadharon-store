@@ -338,8 +338,8 @@
   <script src="js/index.js"></script>
   <script src="js/popup.js"></script>
 <script>
-  const LOCALHOST = "http://localhost:3000/products?status=active";
-  const SERVER = "https://sadharon-store-server.vercel.app/products?status=active";
+  const LOCALHOST = "http://localhost:3000/products";
+  const SERVER = "https://sadharon-store-server.vercel.app/products";
   const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
 
   // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
@@ -389,7 +389,8 @@
       container.className = "product-grid"; 
       container.innerHTML = ""; 
 
-      products.forEach(p => {
+      products.data.forEach(p => {
+          
         const savings = Math.round(((p.actualPrice - p.discountPrice) / p.actualPrice) * 100);
 
         // কার্ড তৈরি
@@ -398,7 +399,7 @@
         card.innerHTML = `
             <div class="image-container">
                 ${savings > 0 ? `<span class="discount-tag">${savings}% OFF</span>` : ''}
-                <img src="${p.productImageLink}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300'">
+                <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300'">
             </div>
             <div class="product-info">
                 <div>
@@ -432,27 +433,44 @@
     }
   }
 
-  // ৪. অ্যাড টু কার্ট লজিক
-  function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const productId = product._id;
-    const exists = cart.find(item => item.productId === productId);
+ // ৪. অ্যাড টু কার্ট লজিক (আপডেটেড)
+function addToCart(product) {
+  // ১. লোকাল স্টোরেজ থেকে বর্তমান কার্ট ডাটা নেওয়া
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+  // ২. প্রোডাক্টটি অলরেডি কার্টে আছে কি না চেক করা
+  // ব্যাকএন্ডে আমরা productId খুঁজি, তাই এখানেও সেটি ব্যবহার করা নিরাপদ
+  const productId = product._id;
+  const exists = cart.find(item => item.productId === productId);
 
-    if (exists) {
-      exists.quantity += 1;
-    } else {
-      cart.push({
-        productId,
-        name: product.name,
-        price: product.discountPrice,
-        image: product.productImageLink,
-        quantity: 1,
-      });
-    }
-    localStorage.setItem("cart", JSON.stringify(cart));
+  if (exists) {
+    // ৩. যদি থাকে, তবে শুধু কোয়ান্টিটি বাড়ানো
+    exists.quantity += 1;
+  } else {
+    // ৪. যদি না থাকে, তবে নতুন অবজেক্ট পুশ করা
+    // এখানে আমরা discountPrice বা regular price হ্যান্ডেল করার লজিক দিচ্ছি
+    const finalPrice = product.discountPrice || product.price || 0;
+
+    cart.push({
+      productId: productId,            // ব্যাকএন্ডের জন্য জরুরি
+      name: product.name,              // UI-তে দেখানোর জন্য
+      price: parseFloat(finalPrice),   // ক্যালকুলেশনের জন্য সংখ্যা হিসেবে রাখা
+      image: product.image, // UI-তে দেখানোর জন্য
+      quantity: 1,                     // ডিফল্ট ১টি
+    });
+  }
+
+  // ৫. আপডেট করা কার্ট লোকাল স্টোরেজে সেভ করা
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  // ৬. কার্ট কাউন্টার আপডেট করা (যদি আপনার ফাংশন থাকে)
+  if (typeof calMyCart === "function") {
     calMyCart();
-    alert("✅ কার্টে যোগ করা হয়েছে!");      
-  }  
+  }
+
+  alert("✅ কার্টে যোগ করা হয়েছে!");
+}
+
 
   // ফাংশন কল
   loadProducts();

@@ -220,10 +220,7 @@ const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
       category: document.getElementById('category').value,
       costPrice: parseFloat(document.getElementById('costPrize').value),
       quantity: parseInt(document.getElementById('quantity').value),
-      productImageLink: document.getElementById('productImageLink').value,
-      totalSales: 0,
-      status: "active",
-      insertDate: new Date().toLocaleString()
+      image: document.getElementById('productImageLink').value,
     };
     
 
@@ -237,14 +234,13 @@ const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
     })
     .then(res => res.json())
     .then(data => {
-        console.log("Success:", data);
-        alert("Product added successfully!");
+        alert(data.message);
       document.getElementById("m").innerHTML = JSON.stringify(data)
         // productForm.reset();
     })
     .catch(error => {
         console.error("Error:", error);
-        alert("Something went wrong!");
+        alert("Something went wrong!", error.message);
     })
     .finally(() => {
         // 4. Re-enable button
@@ -255,9 +251,6 @@ const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
     
     });
        
-    // 5. Clear the form for the next entry
-    // productForm.reset();
-    
     
   });
   

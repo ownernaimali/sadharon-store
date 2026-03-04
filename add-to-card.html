@@ -152,45 +152,52 @@ h2{
   <script src="js/index.js"></script>  
   
   <script>
- const LOCALHOST = "http://localhost:3000/orders";
-  const SERVER = "https://sadharon-store-server.vercel.app/orders";
+// ১. এপিআই ইউআরএল কনফিগারেশন
+const LOCALHOST = "http://localhost:3000/orders";
+const SERVER = "https://sadharon-store-server.vercel.app/orders";
 const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
-  
-  
+
+// ২. লোকাল স্টোরেজ থেকে ডাটা লোড করা
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const list = document.getElementById("cartList");
 const summary = document.getElementById("summary");
 const empty = document.getElementById("empty");
 
-function renderCart(){
+/**
+ * ৩. কার্ট রেন্ডার করার ফাংশন
+ * এটি চেক করে কার্ট খালি কি না, খালি থাকলে empty div দেখায়।
+ */
+function renderCart() {
   list.innerHTML = "";
   let subtotal = 0;
 
-  if(cart.length === 0){
+  // কার্ট খালি থাকলে অ্যালার্ট না দিয়ে সরাসরি মেসেজ দেখানো
+  if (!cart || cart.length === 0) {
     summary.style.display = "none";
     empty.style.display = "block";
     return;
   }
 
+  // কার্ট খালি না থাকলে লিস্ট দেখানো
   empty.style.display = "none";
   summary.style.display = "block";
 
-  cart.forEach((item,index)=>{
+  cart.forEach((item, index) => {
     const itemTotal = item.price * item.quantity;
     subtotal += itemTotal;
 
     list.innerHTML += `
-      <div class="cart-item">
-        <img src="${item.image}">
-        <div class="cart-info">
-          <h4>${item.name}</h4>
-          <p>Price: ৳${item.price}</p>
-          <div class="qty">
-            <button onclick="changeQty(${index},-1)">-</button>
+      <div class="cart-item" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+        <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+        <div class="cart-info" style="flex-grow: 1;">
+          <h4 style="margin: 0;">${item.name}</h4>
+          <p style="margin: 5px 0; color: #666;">Price: ৳${item.price}</p>
+          <div class="qty" style="display: flex; align-items: center; gap: 10px;">
+            <button onclick="changeQty(${index}, -1)" style="padding: 2px 8px;">-</button>
             <span>${item.quantity}</span>
-            <button onclick="changeQty(${index},1)">+</button>
+            <button onclick="changeQty(${index}, 1)" style="padding: 2px 8px;">+</button>
           </div>
-          <span class="remove" onclick="removeItem(${index})">Remove</span>
+          <span class="remove" onclick="removeItem(${index})" style="color: red; cursor: pointer; font-size: 14px; display: block; mt: 5px;">Remove</span>
         </div>
         <strong>৳${itemTotal}</strong>
       </div>
@@ -198,71 +205,95 @@ function renderCart(){
   });
 
   document.getElementById("subtotal").innerText = "৳" + subtotal;
-  document.getElementById("total").innerText = "৳" + (subtotal + 0);
+  document.getElementById("total").innerText = "৳" + subtotal;
 }
 
-function changeQty(index,change){
+/**
+ * ৪. কোয়ান্টিটি পরিবর্তন লজিক
+ */
+function changeQty(index, change) {
   cart[index].quantity += change;
-  if(cart[index].quantity <= 0){
-    cart.splice(index,1);
+  if (cart[index].quantity <= 0) {
+    cart.splice(index, 1);
   }
   updateCart();
 }
 
-function removeItem(index){
-    const removeItem = confirm("Remove item form my cart.");
-  if (removeItem){
-  cart.splice(index,1);
-  updateCart();
+/**
+ * ৫. কার্ট থেকে আইটেম রিমুভ করা
+ */
+function removeItem(index) {
+  const isConfirmed = confirm("Remove item from my cart?");
+  if (isConfirmed) {
+    cart.splice(index, 1);
+    updateCart();
   }
 }
 
-function updateCart(){
+/**
+ * ৬. লোকাল স্টোরেজ আপডেট এবং সিঙ্ক্রোনাইজেশন
+ */
+function updateCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
   renderCart();
+  // যদি আপনার নেভিগেশন বারে কার্ট কাউন্টার থাকে (index.js এ)
+  if (typeof calMyCart === "function") calMyCart();
 }
-  
+
+/**
+ * ৭. চেকআউট লজিক (Backend Integration)
+ */
 async function checkout() {
-let token =  localStorage.getItem("token")
- 
-  if (!token) {
-     alert("Please login to order products."); 
-      window.location.href = "login.html";
-    return; // 
+  const userId = localStorage.getItem("token"); // আপনার টোকেনই যদি userId হয়
+
+  if (!userId) {
+    alert("Please login to order products.");
+    window.location.href = "login.html";
+    return;
   }
- 
-  // 2. Confirm order/payment
+
+  // যদি কার্ট খালি থাকে তবে কিছুই হবে না, শুধু রি-রেন্ডার হবে
+  if (!cart || cart.length === 0) {
+    renderCart();
+    return;
+  }
+
   const pay = confirm("Confirm your order?");
-  
+
   if (pay) {
-    // 3. Prepare the Data
-    const productData = cart.map(item => ({
-      ...item,
-      userId: token
-    }));
+    // ব্যাকএন্ডের রিকোয়ারমেন্ট অনুযায়ী অবজেক্ট তৈরি
+    const orderData = {
+      userId: userId,
+      items: cart.map(item => ({
+        productId: item.productId,
+        quantity: item.quantity
+      }))
+    };
 
     try {
-      // 4. Send to Server
       const response = await fetch(API, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        // IMPORTANT: Must use JSON.stringify() here
-        body: JSON.stringify(productData) 
+        body: JSON.stringify(orderData)
       });
 
       const data = await response.json();
-      
-      if (response.ok) {
-        alert("Order placed successfully!");
-        
-        // 5. Clear Cart
+
+      if (response.ok && data.status === "success") {
+        alert("✅ Order placed successfully!");
+
+        // অর্ডার শেষে কার্ট ক্লিয়ার করা
         localStorage.removeItem("cart");
-        cart = [];           
-        renderCart();
+        cart = [];
+        renderCart(); // এটি কল করলে অটোমেটিক "Empty" মেসেজ দেখাবে
+        if (typeof calMyCart === "function") calMyCart();
+
+        // চাইলে ইউজারকে ড্যাশবোর্ডে পাঠাতে পারেন
+        // window.location.href = "orders.html";
       } else {
-        alert("Server Error: " + (data.message || "Failed to place order"));
+        alert("❌ Server Error: " + (data.message || "Failed to place order"));
       }
     } catch (err) {
       console.error(err);
@@ -271,11 +302,9 @@ let token =  localStorage.getItem("token")
   }
 }
 
-  
-
+// ৮. পেজ লোড হলে কার্ট রেন্ডার করা
 renderCart();
-  
-  
+
 </script>
 
 </body>
