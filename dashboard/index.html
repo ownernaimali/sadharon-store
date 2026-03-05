@@ -240,11 +240,16 @@
 
 <script src="../js/dashboardChart.js"></script>
 <script>
+      
+  const LOCALHOST = "http://localhost:3000/orders/status";
+  const SERVER = "https://sadharon-store-server.vercel.app/orders/status";
+const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+  
     lucide.createIcons();
 
 async function updateDashboardStats() {
     try {
-        const response = await fetch('http://localhost:3000/orders/status');
+        const response = await fetch(API);
         const {data: status} = await response.json();
         
         // Update each status value
