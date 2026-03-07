@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sadharon Store | Premium Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-   <link rel="stylesheet"href="css/index.css">
-    <style>
-body {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Sadharon Store | Quality Products & Fast Delivery in Bangladesh</title>
+  <meta name="description" content="Discover affordable, high-quality products at Sadharon Store. Shop the best deals in Dhaka with reliable shipping across BD."><meta property="og:type" content="website"><meta property="og:url" content="https://sadharon-store.vercel.app/"><meta property="og:title" content="Sadharon Store | Quality Products"><meta property="og:description" content="Shop the latest quality products at Sadharon Store."><meta property="og:image" content="Sadgaron store">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet"href="css/style.css">
+  <link rel="canonical" href="https://sadharon-store.vercel.app/">  
+  <script src="https://unpkg.com/lucide@latest"></script> 
+  <style>
+ body {
      padding-bottom: 88px
  }   
 /* 11. SKELETON LOADING ANIMATION */
@@ -195,54 +196,163 @@ body {
 
 .add-btn:hover {
     background: #FF6B35;
-}    
-    </style>
-</head>
-<body>   
-    <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
-    </header>
-    <!-- bottom nav section -->
-    <section class="bottom-nav">
-      <a href="index.html" class="bottom-link active"><i data-lucide="home"></i><span>হোম</span></a>
-      <a href="#category" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
-      <div class="bottom-link main-cart">
-        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
-          <i data-lucide="shopping-bag"></i>
-          <span id="myCart" class="cart-badge">0</span>
-        </div>
-      </div>      
-      <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
-      <a href="setting.html" class="bottom-link"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
-    </section>    
-
-  <main class="container">
-        <div id="product-container" >
-            <p class="loader">পণ্য লোড হচ্ছে...</p>
-        </div>
-  </main>
+}
+  
+   /* 3. BANNER */
    
+   .banner {
+  background: linear-gradient(to right, #0f9b0f, #7dd56f);
+  color: white; 
+  padding: 40px 0;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
 
-    <script>
-      // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
-      if(window.lucide) lucide.createIcons();
-    </script>
-    <script>
+.banner h1 {
+  font-size: 34px;
+  margin-bottom: 2px;
+}
+
+.banner h2 {
+  font-size: 20px;
+  color: #fff3a0;
+}
+
+
+.banner p {
+  font-size: 16px;
+  margin: 5px 0 15px;
+}
+
+.banner button {
+  padding: 12px 30px;
+  font-size: 16px;
+  background: #ffcc00;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#category {
+  margin: 30px 0 40px;
+}
+#category h2 {
+  text-align: center;
+  font-weight: normal;
+  font-size: 20px;
+  margin: 10px 0;
+  color: grey;
+}
+
+.category-container {
+  display: flex;
+  overflow-x: auto;
+  column-gap: 10px;
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.category-container::-webkit-scrollbar {
+  display: none;
+}
+
+.category-item {
+  width: 27%;
+  min-width: 105px;
+  height: 115px;
+  border-radius: 3px;
+  background-color: #FF6B55;
+  flex-shrink: 0;
+}
+
+
+  
+
+    
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-wrapper"><h1 class="top-logo">Sadharon Store</h1><div class="menu-toggle" id="open-menu"><i data-lucide="menu"></i></div><nav class="navbar-container" id="sidebar"><div class="nav-header"><div><p class="nav-title">Navigation</p><h2 style="color: white; margin-top: 5px;">Menu</h2></div><div class="close-btn" id="close-menu"><i data-lucide="x"></i></div></div><ul class="nav-link-container"><li class="nav-link active"><a href="index.html"><i data-lucide="home"></i> Home</a></li><li class="nav-link"><a href="add-to-card.html"><i data-lucide="shopping-bag"></i> My Cart</a></li><li class="nav-link"><a href="view-order.html"><i data-lucide="package"></i> My Orders</a></li><li class="nav-link"><a href="setting.html"><i data-lucide="settings"></i> Settings</a></li></ul><div class="auth-section"><a href="login.html" class="btn-login">Login</a><a href="signup.html" class="btn-signup">Create Account</a></div></nav></div>
+  </header>
+
+  <main style="line-height: 1.6;"> 
+    <div class="banner">
+      <h1>SADHARON STORE</h1>
+      <h2>নিত্যপ্রয়োজনীয় সব পণ্য একসাথে</h2>
+      <p>Quality Products for Everyday Life</p>
+      <a href="#category"><button>Shop Now</button></a>
+    </div>
+    
+   <section id="category">
+      <h2>Top Categories</h2>
+      <div class="category-container">
+        <div class="category-item"></div>
+        <div class="category-item"></div>
+        <div class="category-item"></div>
+        <div class="category-item"></div>
+        <div class="category-item"></div>
+        <div class="category-item"></div>
+      </div>
+    </section>
+
+    <section id="product" class="container">
+      <div id="product-container" class="product-container">
+        <p style="grid-column: 1/-1; text-align: center;">Loading products...</p>
+      </div>
+    </section>
+  </main>
+
+
+
+  
+  
+ 
+<footer class="site-footer">
+  <div class="footer-container"><div class="footer-brand"><h2 class="footer-logo">Sadharon Store</h2><p>Quality products delivered with speed and care. Your trusted partner for online shopping in Bangladesh.</p><div class="social-links"><a href="#"><i data-lucide="facebook"></i></a><a href="#"><i data-lucide="instagram"></i></a><a href="#"><i data-lucide="twitter"></i></a></div></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="index.html">Home</a></li><li><a href="">Shop All</a></li><li><a href="about-us.html">About Us</a></li><li><a href="contact-us.html">Contact</a></li></ul></div><div class="footer-links"><h3>Support</h3><ul><li><a href="shipping-policy.html">Shipping Policy</a></li><li><a href="returns-refunds.html">Returns & Refunds</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="terms.html">Terms and Condition</a></li></ul></div><div class="footer-newsletter"><h3>Stay Updated</h3><p>Subscribe to get special offers and first look at new arrivals.</p><form class="newsletter-form"><input type="email" placeholder="Enter your email" required><button type="submit">Join</button></form></div></div><div class="footer-bottom"><p>&copy; 2026 Sadharon Store. All rights reserved.</p></div>
+</footer>
+  
+<div class="notice-overlay" id="noticeOverlay">
+  <div class="notice-card"><div class="notice-card-header"><div class="notice-card-icon"><i data-lucide="bell-ring"></i></div><button class="notice-card-close" id="closeNoticePopup"><i data-lucide="x"></i></button></div>
+  <div class="notice-card-body"><h2>Important Update!</h2><p>Dear Valued Customer, we are upgrading our delivery system to serve you better. Orders placed today might experience a slight delay of 24 hours.</p><div class="notice-badge">Express Shipping is still active</div></div><div class="notice-card-footer"><button class="btn-continue" id="continueBtn">Understood</button></div></div>
+</div>
+    
+
+  <div class="bottom-nav">
+    <a href="index.html" class="bottom-link active"><i data-lucide="home"></i><span>হোম</span></a>
+    <a href="#category" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
+    <div class="bottom-link main-cart">
+      <div onclick="window.location.href='add-to-card.html'" class="cart-btn-inner">
+        <i data-lucide="shopping-bag"></i>
+        <span id="myCart" class="cart-badge">২</span>
+      </div>
+    </div>
+      
+    <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
+    <a href="setting.html" class="bottom-link"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
+  </div>    
+  
+  <!-- formate javascript code start-->
+  <script src="js/index.js"></script>
+  <script src="js/popup.js"></script>
+<script>
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
-  const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
-  
-    
+  const API = SERVER || window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+
   // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
   function calMyCart() {
     const myCartEle = document.getElementById("myCart");
-      const topCart = document.getElementById("count")
+    if (!myCartEle) return;
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let total = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
     
     myCartEle.innerHTML = total;
-    topCart.innerHTML= total;
-      }
+    console.log("Cart count updated:", total);
+  }
 
   window.addEventListener('pageshow', function(event) {
     if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
@@ -366,8 +476,7 @@ function addToCart(product) {
   loadProducts();
   calMyCart();
 </script>
+
+  
 </body>
 </html>
-
-   
-   

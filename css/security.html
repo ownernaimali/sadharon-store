@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sadharon Store | Premium Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Password & Security | Sadharon Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-   <link rel="stylesheet"href="css/index.css">
     <style>
-    
-        .settings-container.container {
-            margin: 40px auto 100px;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; padding: 20px; }
+
+        .settings-container {
+            max-width: 1100px;
+            margin: 40px auto;
             display: grid;
             grid-template-columns: 1fr;
             gap: 30px;
@@ -61,29 +63,11 @@
 
         .btn-save { background: #FF6B35; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; }
         .btn-cancel { background: #f1f5f9; color: #64748b; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-
-    
     </style>
 </head>
-<body>   
-    <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
-    </header>
-    <!-- bottom nav section -->
-    <section class="bottom-nav">
-      <a href="index.html" class="bottom-link"><i data-lucide="home"></i><span>হোম</span></a>
-      <a href="#category" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
-      <div class="bottom-link main-cart">
-        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
-          <i data-lucide="shopping-bag"></i>
-          <span id="myCart" class="cart-badge">0</span>
-        </div>
-      </div>      
-      <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
-      <a href="setting.html" class="bottom-link active"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
-    </section>    
+<body>
 
-<div class="settings-container container">
+<div class="settings-container">
 <main class="settings-main">
     <div class="settings-card">
         <div class="card-header">
@@ -138,38 +122,15 @@
 
 </div>
 
-
-    <script>
-    
+<script>
 // 1. Config
+const token = localStorage.getItem('token');
 const LOCALHOST = "http://localhost:3000/users";
 const SERVER = "https://sadharon-store-server.vercel.app/users";
 const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
 
-      // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
-      if(window.lucide) lucide.createIcons();
-      // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
-  function calMyCart() {
-    const myCartEle = document.getElementById("myCart");
-      const topCart = document.getElementById("count")
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let total = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
-    
-    myCartEle.innerHTML = total;
-    topCart.innerHTML= total;
-      }
+lucide.createIcons();
 
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-      calMyCart();
-    }
-  });
-    
-calMyCart()
-
-const token = localStorage.getItem('token');
-
-    
 // 2. Fetch User Data to fill Sidebar info
 if (token) {
     fetch(`${API}?token=${token}`)
@@ -181,7 +142,7 @@ if (token) {
         })
         .catch(err => console.error("Error:", err));
 } else {
-    window.location.href = "login.html?page=security.html";
+    window.location.href = "index.html";
 }
 
 // 3. Handle Password Update
@@ -230,11 +191,7 @@ document.getElementById('cancelBtn').onclick = () => {
         window.location.href = "index.html"; // Redirect user
     }
 };
-    
-    
-    </script>
+
+</script>
 </body>
 </html>
-
-   
-   

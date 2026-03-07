@@ -2,3 +2,27 @@
   margin: 0;
   padding: 0;
 }
+     /* প্রোডাক্ট গ্রিড */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* মোবাইলে ২ কলাম */
+            gap: 12px;
+            padding: 15px 0;
+        }
+
+        @media (min-width: 768px) {
+            .product-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        }
+
+        /* প্রোডাক্ট কার্ড */
+        .product-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #f1f5f9;
+            position: relative;
+            transition: 0.3s;
+        }

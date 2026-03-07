@@ -1,23 +1,27 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders | Sadharon Store | Premium Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-   <link rel="stylesheet"href="css/index.css">
-    <style>
-      main {
-    padding: 35px 0 100px;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Sadharon Store | Quality Products & Fast Delivery in Bangladesh</title>
+  <meta name="description" content="Discover affordable, high-quality products at Sadharon Store. Shop the best deals in Dhaka with reliable shipping across BD."><meta property="og:type" content="website"><meta property="og:url" content="https://sadharon-store.vercel.app/"><meta property="og:title" content="Sadharon Store | Quality Products"><meta property="og:description" content="Shop the latest quality products at Sadharon Store."><meta property="og:image" content="Sadgaron store">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet"href="style.css">
+  <link rel="canonical" href="https://sadharon-store.vercel.app/">  
+  <script src="https://unpkg.com/lucide@latest"></script> 
 
-.loading{
-  text-align:center;
-  color:#777;
-  margin-top:40px;
+<style>
+
+.body {
+    background-color: #f8f9fa;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
 }
-  
+
+.order-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
 
 .order-header-main {
     margin-bottom: 30px;
@@ -120,68 +124,40 @@
     color: #636e72;
 }
 
-    
-    </style>
+  
+</style>
 </head>
-<body>   
-    <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
-    </header>
-    <!-- bottom nav section -->
-    <section class="bottom-nav">
-      <a href="index.html" class="bottom-link"><i data-lucide="home"></i><span>হোম</span></a>
-      <a href="#category" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
-      <div class="bottom-link main-cart">
-        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
-          <i data-lucide="shopping-bag"></i>
-          <span id="myCart" class="cart-badge">0</span>
-        </div>
-      </div>      
-      <a href="view-order.html" class="bottom-link active">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
-      <a href="setting.html" class="bottom-link"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
-    </section>    
+<body>
+  <header>
+    <div class="nav-wrapper"><h1 class="top-logo">Sadharon Store</h1><div class="menu-toggle" id="open-menu"><i data-lucide="menu"></i></div><nav class="navbar-container" id="sidebar"><div class="nav-header"><div><p class="nav-title">Navigation</p><h2 style="color: white; margin-top: 5px;">Menu</h2></div><div class="close-btn" id="close-menu"><i data-lucide="x"></i></div></div><ul class="nav-link-container"><li class="nav-link active"><a href="index.html"><i data-lucide="home"></i> Home</a></li><li class="nav-link"><a href="add-to-card.html"><i data-lucide="shopping-bag"></i> My Cart</a></li><li class="nav-link"><a href="view-order.html"><i data-lucide="truck"></i> My Orders</a></li><li class="nav-link"><a href="#"><i data-lucide="settings"></i> Settings</a></li></ul><div class="auth-section"><a href="login.html" class="btn-login">Login</a><a href="signup.html" class="btn-signup">Create Account</a></div></nav></div>
+  </header>
 
 <main class="container">
-  <h2>📋 My Orders: <span id="length">0</span></h2>
+  <h2>📋 My Orders: <span id="length"></span></h2>
 
   <div id="order">
     <!-- fetch order items -->   
-      
-  <div class="loading">Loading orders...</div>
-
   </div>
-      
+    
 </main>
-   
+  
 
-    <script>
+<footer class="site-footer">
+  <div class="footer-container"><div class="footer-brand"><h2 class="footer-logo">Sadharon Store</h2><p>Quality products delivered with speed and care. Your trusted partner for online shopping in Bangladesh.</p><div class="social-links"><a href="#"><i data-lucide="facebook"></i></a><a href="#"><i data-lucide="instagram"></i></a><a href="#"><i data-lucide="twitter"></i></a></div></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop All</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div><div class="footer-links"><h3>Support</h3><ul><li><a href="#">Shipping Policy</a></li><li><a href="#">Returns & Refunds</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">FAQs</a></li></ul></div><div class="footer-newsletter"><h3>Stay Updated</h3><p>Subscribe to get special offers and first look at new arrivals.</p><form class="newsletter-form"><input type="email" placeholder="Enter your email" required><button type="submit">Join</button></form></div></div><div class="footer-bottom"><p>&copy; 2026 Sadharon Store. All rights reserved.</p></div>
+</footer>  
+  
+  <!-- formate javascript code start-->
+  <script src="js/index.js"></script>
+     
+  <script>
+      // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
+      if(window.lucide) lucide.createIcons();
+
   const LOCALHOST = "http://localhost:3000/orders";
 const SERVER = "https://sadharon-store-server.vercel.app/orders";
 const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
 const list = document.getElementById("order");
 
-      // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
-      if(window.lucide) lucide.createIcons();
-      // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
-  function calMyCart() {
-    const myCartEle = document.getElementById("myCart");
-      const topCart = document.getElementById("count")
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let total = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
-    
-    myCartEle.innerHTML = total;
-    topCart.innerHTML= total;
-      }
-
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-      calMyCart();
-    }
-  });
-    
-calMyCart()
-    
-  
 // ৩. Load Products (Orders)
 function loadProducts() {
     const token = localStorage.getItem("token");
@@ -283,10 +259,9 @@ function loadProducts() {
 // ফাংশনটি কল করা
 loadProducts();
 
-    
-    </script>
+  
+  </script>
+  
+  
 </body>
 </html>
-
-   
-   

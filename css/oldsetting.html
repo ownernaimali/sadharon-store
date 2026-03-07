@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Setting | Sadharon Store | Premium Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Account Settings | Sadharon Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-   <link rel="stylesheet"href="css/index.css">
     <style>
-    
-.settings-container.container {
-    margin: 40px auto 80px;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; padding: 20px; }
+
+.settings-container {
+    max-width: 1100px;
+    margin: 40px auto;
     display: grid;
     grid-template-columns: 1fr;
     gap: 30px;
@@ -120,33 +122,16 @@
 .danger-zone h3 { color: #b91c1c; margin-bottom: 10px; }
 .btn-delete { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: 600; }
     </style>
-
 </head>
-<body>   
-    <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
-    </header>
-    <!-- bottom nav section -->
-    <section class="bottom-nav">
-      <a href="index.html" class="bottom-link"><i data-lucide="home"></i><span>হোম</span></a>
-      <a href="#category" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
-      <div class="bottom-link main-cart">
-        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
-          <i data-lucide="shopping-bag"></i>
-          <span id="myCart" class="cart-badge">0</span>
-        </div>
-      </div>      
-      <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
-      <a href="setting.html" class="bottom-link  active"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
-    </section>    
+<body>
 
-<div class="settings-container container">
+<div class="settings-container">
     <aside class="settings-sidebar">
         <div class="user-profile-brief">
-            <div id="avatar" class="avatar">JS</div>
+            <div class="avatar">JS</div>
             <div class="user-details">
-                <h3 id="name">John Sadharon</h3>
-                <p>Customer ID: <span id="userId"></span></p>
+                <h3>John Sadharon</h3>
+                <p>Customer ID: #8821</p>
             </div>
         </div>
         <nav class="settings-nav">
@@ -210,31 +195,9 @@
         </div>
         -->
     </main>
-</div>   
+</div>
 
-    <script>
-      // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
-      if(window.lucide) lucide.createIcons();
-      // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
-  function calMyCart() {
-    const myCartEle = document.getElementById("myCart");
-      const topCart = document.getElementById("count")
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let total = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
-    
-    myCartEle.innerHTML = total;
-    topCart.innerHTML= total;
-      }
-
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-      calMyCart();
-    }
-  });
-    
-calMyCart()
-    
-    
+<script>
    // 1. Get the token from storage
 const token = localStorage.getItem('token');
 
@@ -243,7 +206,10 @@ const LOCALHOST = "http://localhost:3000/users";
 const SERVER = "https://sadharon-store-server.vercel.app/users";
 const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
 
-    // 3. Optimized Fetch Call
+// Initialize icons (Lucide)
+lucide.createIcons();
+
+// 3. Optimized Fetch Call
 if (token) {
    fetch(`${API}?token=${token}`)
         .then(res => res.json())
@@ -251,24 +217,17 @@ if (token) {
             // Get the first user from the array
             const user = Array.isArray(data) ? data[0] : data;
             if (user) {
-                
-            const avatar = user.name.trim().split(/\s+/).map(part => part[0]).join('').toUpperCase().slice(0, 2);       
-                document.getElementById('name').innerHTML = user.name;
-               document.getElementById('userId').innerHTML = user._id;
-              document.getElementById("avatar").innerHTML = avatar
                 // Mapping the data to the HTML IDs
-                document.getElementById('userName').value = user.name;
-                document.getElementById('userPhone').value = user.phone;
-                document.getElementById('userAddress').value = user.address; // New field
-                
-                
-            }
+                document.getElementById('userName').value = user.name || "";
+                document.getElementById('userPhone').value = user.phone || "";
+                document.getElementById('userAddress').value = user.address || ""; // New field
+                  }
         })
         .catch(err => console.error("Error fetching user:", err));
 } else {
     console.warn("No token found, redirecting or showing login...");
     localStorage.removeItem('token');
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 
 // 4. Logout Function
@@ -322,10 +281,6 @@ document.getElementById('cancelBtn').onclick = () => {
     }
 };
 
-    
-    </script>
+</script>
 </body>
 </html>
-
-   
-   
