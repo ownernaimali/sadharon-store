@@ -137,7 +137,7 @@
         </div>
       </div>      
       <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
-      <a href="setting.html" class="bottom-link  active"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
+      <a href="profile.html" class="bottom-link  active"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
     </section>    
 
 <div class="settings-container container">
@@ -250,7 +250,7 @@ if (token) {
         .then(data => {
             // Get the first user from the array
             const user = Array.isArray(data) ? data[0] : data;
-            if (user) {
+            if (user && user._id) {
                 
             const avatar = user.name.trim().split(/\s+/).map(part => part[0]).join('').toUpperCase().slice(0, 2);       
                 document.getElementById('name').innerHTML = user.name;
@@ -262,13 +262,24 @@ if (token) {
                 document.getElementById('userAddress').value = user.address; // New field
                 
                 
-            }
+            }  else {
+                
+     console.warn("No token found, redirecting or showing login...");
+    localStorage.removeItem('token');
+    window.location.href = "login.html?page=setting";
+              }
         })
-        .catch(err => console.error("Error fetching user:", err));
+        .catch(err => {
+            console.error("Error fetching user:", err)
+              alert(err.message + " | No token found, redirecting or showing login...");
+    localStorage.removeItem('token');
+    window.location.href = "login.html?page=setting";
+        });
 } else {
+    
     console.warn("No token found, redirecting or showing login...");
     localStorage.removeItem('token');
-    window.location.href = "login.html";
+    window.location.href = "login.html?page=setting";
 }
 
 // 4. Logout Function

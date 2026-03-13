@@ -208,7 +208,41 @@ function loadProducts() {
             if (lengthElement) lengthElement.innerHTML = orders.length;
 
             if (orders.length === 0) {
-                list.innerHTML = `<p style="text-align:center; padding: 20px;">You haven't placed any orders yet. 🛍️</p>`;
+                list.innerHTML = `
+             <div style="
+    max-width: 450px; 
+    margin: 50px auto; 
+    padding: 30px; 
+    background: rgba(255, 255, 255, 0.8); 
+    backdrop-filter: blur(10px); 
+    border-radius: 20px; 
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1); 
+    text-align: center; 
+    font-family: 'Hind Siliguri', sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.3);">
+
+    <div style="font-size: 50px; margin-bottom: 15px;">🛍️</div>
+    
+    <h3 style="color: #333; margin-bottom: 10px;">আপনার অর্ডার লিস্টটি খালি</h3>
+    
+    <p style="color: #666; font-size: 17px; line-height: 1.6; margin-bottom: 25px;">
+        সফলভাবে অর্ডার সম্পন্ন করতে প্রথমেই পছন্দের পণ্যগুলো কার্টে যোগ করুন।
+    </p>
+
+    <a href="add-to-cart.html" style="
+        display: inline-block; 
+        padding: 12px 25px; 
+        background: linear-gradient(135deg, #6e8efb, #a777e3); 
+        color: white; 
+        text-decoration: none; 
+        border-radius: 30px; 
+        font-weight: bold; 
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(110, 142, 251, 0.4);">
+        পণ্য যোগ করতে এখানে যান
+    </a>
+</div>
+    `;
                 return;
             }
 

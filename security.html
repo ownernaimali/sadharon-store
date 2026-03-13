@@ -176,12 +176,24 @@ if (token) {
         .then(res => res.json())
         .then(data => {
             const user = Array.isArray(data) ? data[0] : data;
-            if (user) {
+            if (!user._id) {                
+     console.warn("No token found, redirecting or showing login...");
+    localStorage.removeItem('token');
+ window.location.href = "login.html?page=security";
+            
            }
         })
-        .catch(err => console.error("Error:", err));
+        .catch(err => {         
+                   console.error("Error fetching user:", err)
+              alert(err.message + " | No token found, redirecting or showing login...");
+    localStorage.removeItem('token');
+ window.location.href = "login.html?page=security";
+
+        });
 } else {
-    window.location.href = "login.html?page=security.html";
+      console.warn("No token found, redirecting or showing login...");
+    localStorage.removeItem('token');
+    window.location.href = "login.html?page=security";
 }
 
 // 3. Handle Password Update
@@ -227,7 +239,7 @@ document.getElementById('securityForm').onsubmit = async (e) => {
     
 document.getElementById('cancelBtn').onclick = () => {
     if(confirm("Discard changes?")) {
-        window.location.href = "index.html"; // Redirect user
+        window.location.href = "setting.html"; // Redirect user
     }
 };
     

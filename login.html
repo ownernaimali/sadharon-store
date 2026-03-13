@@ -194,7 +194,14 @@
    
 
     <script>
-      const loginForm = document.getElementById('loginForm');
+  
+  const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
+// 3. Get specific values
+const page = urlParams.get('page');
+  
+ const loginForm = document.getElementById('loginForm');
   const loginBtn = document.getElementById('loginBtn');
    const LOCALHOST = "http://localhost:3000/login";
   const SERVER = "https://sadharon-store-server.vercel.app/login";
@@ -255,7 +262,11 @@ calMyCart()
         localStorage.setItem("token", result.user.id);
         
         // Redirect to home or dashboard
+        if (page) {
+          window.location.href = `${page}.html`
+        } else {
        window.location.href = "index.html"; 
+        }
       } else {
         // 5. Error Alert (from server message)
         alert("Login Failed: " + result.message);

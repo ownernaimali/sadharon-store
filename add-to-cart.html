@@ -148,9 +148,64 @@
     <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
   </div>
 
-  <div class="empty" id="empty">
-    <p>Your cart is empty</p>
-  </div>
+<div id="empty" style="
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    max-width: 450px; 
+    padding: 30px; 
+    background: rgba(255, 255, 255, 0.7); 
+    backdrop-filter: blur(15px); 
+    border-radius: 24px; 
+    border: 1px solid rgba(255, 255, 255, 0.4); 
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); 
+    max-width: 500px; 
+    margin: 40px auto; 
+    text-align: center;">
+
+    <div style="
+        font-size: 68px; 
+        margin-bottom: 16px; 
+        filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));">
+        🛒
+    </div>
+
+    <h2 style="
+        font-family: 'Hind Siliguri', sans-serif; 
+        font-size: 20px;
+      color: #1a1a1a; 
+        margin-bottom: 10px; 
+        font-weight: 700;">
+        আপনার কার্ট বর্তমানে খালি!
+    </h2>
+
+    <p style="
+        font-family: 'Hind Siliguri', sans-serif; 
+        color: #636e72; 
+        font-size: 17px; 
+        line-height: 1.6; 
+        margin-bottom: 30px; 
+        padding: 0 10px;">
+        অর্ডার শুরু করতে প্রথমে আপনার পছন্দের পণ্যগুলো নির্বাচন করে কার্টে যোগ করুন।
+    </p>
+
+    <a href="index.html" style="
+        display: inline-block; 
+        padding: 14px 40px; 
+        background: linear-gradient(135deg, #00b894, #00cec9); 
+        color: #ffffff; 
+        text-decoration: none; 
+        border-radius: 50px; 
+        font-weight: 600; 
+        font-family: 'Hind Siliguri', sans-serif; 
+        transition: all 0.3s ease; 
+        box-shadow: 0 6px 20px rgba(0, 184, 148, 0.3); 
+        letter-spacing: 0.5px;">
+        কেনাকাটা শুরু করুন
+    </a>
+</div>
+
 </main>
 
 
@@ -224,7 +279,7 @@ function renderCart() {
             <span>${item.quantity}</span>
             <button onclick="changeQty(${index}, 1)" style="padding: 2px 8px;">+</button>
           </div>
-          <span class="remove" onclick="removeItem(${index})" style="color: red; cursor: pointer; font-size: 14px; display: block; mt: 5px;">Remove</span>
+          <span class="remove" onclick="removeItem(${index})" style="color: red; cursor: pointer; font-size: 14px; display: block;">Remove</span>
         </div>
         <strong>৳${itemTotal}</strong>
       </div>
@@ -275,7 +330,7 @@ async function checkout() {
 
   if (!userId) {
     alert("Please login to order products.");
-    window.location.href = "login.html";
+    window.location.href = "login.html?page=add-to-cart";
     return;
   }
 
