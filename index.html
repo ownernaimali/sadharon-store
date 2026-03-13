@@ -211,7 +211,7 @@ body {
 </head>
 <body>   
     <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><a href >? সহায়তা</a><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
+        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><a class="help" href="help.html">? সহায়তা</a><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
     </header>
     <!-- bottom nav section -->
     <section class="bottom-nav">
@@ -313,7 +313,7 @@ body {
                     </div>
                 </div>
                 <button class="add-btn">
-                    Add to Cart
+                    অর্ডার করুন
                 </button>
             </div>
         `;
@@ -352,7 +352,7 @@ function addToCart(product) {
   } else {
     // ৪. যদি না থাকে, তবে নতুন অবজেক্ট পুশ করা
     // এখানে আমরা discountPrice বা regular price হ্যান্ডেল করার লজিক দিচ্ছি
-    const finalPrice = product.discountPrice || product.price || 0;
+    const finalPrice = product.discountPrice || 0;
 
     cart.push({
       productId: productId,            // ব্যাকএন্ডের জন্য জরুরি
@@ -371,7 +371,7 @@ function addToCart(product) {
     calMyCart();
   }
 
-  alert("✅ কার্টে যোগ করা হয়েছে!");
+  window.location.href = "add-to-cart.html"
 }
 
 

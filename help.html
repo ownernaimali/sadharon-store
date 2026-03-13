@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সাহায্য কেন্দ্র | Sadharon Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
+        .container { width: 92%; max-width: 700px; margin: 30px auto; }
+        
+        /* হেডার স্টাইল */
+        .help-header { text-align: center; margin-bottom: 40px; }
+        .help-header h1 { font-size: 28px; color: #1e293b; margin-bottom: 10px; }
+        .help-header span { color: #FF6B35; }
+
+        /* হেল্প সেকশন কার্ড */
+        .help-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .help-card h3 { display: flex; align-items: center; gap: 10px; font-size: 18px; color: #334155; margin-bottom: 12px; }
+        .help-card h3 i { color: #FF6B35; width: 20px; }
+        .help-card p { font-size: 15px; color: #64748b; padding-left: 32px; }
+
+        /* অর্ডার করার ধাপ */
+        .step-list { list-style: none; padding-left: 32px; margin-top: 10px; }
+        .step-list li { font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .step-list li::before { content: "•"; color: #FF6B35; font-weight: bold; }
+
+        /* যোগাযোগ বাটন */
+        .contact-box { background: #1e293b; color: white; border-radius: 12px; padding: 25px; text-align: center; margin-top: 30px; }
+        .contact-box h2 { margin-bottom: 15px; font-size: 20px; }
+        .contact-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .c-btn { background: #FF6B35; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .c-btn.whatsapp { background: #25D366; }
+
+        /* ব্যাক বাটন */
+        .back-link { display: inline-block; margin-bottom: 20px; color: #64748b; text-decoration: none; font-size: 14px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="#" class="back-link">← হোম পেজে ফিরে যান</a>
+
+        <div class="help-header">
+            <h1>সাধারণ <span>সাহায্য কেন্দ্র</span></h1>
+            <p>আপনার সমস্যার সমাধানে আমরা পাশে আছি</p>
+        </div>
+
+        <div class="help-card">
+            <h3><i data-lucide="shopping-bag"></i> কীভাবে অর্ডার করবেন?</h3>
+            <ul class="step-list">
+                <li>প্রথমে পছন্দের পণ্যটি সিলেক্ট করুন।</li>
+                <li>'কার্টে যোগ করুন' বাটনে ক্লিক করুন।</li>
+                <li>আপনার নাম, মোবাইল নম্বর এবং ঠিকানা দিন।</li>
+                <li>'অর্ডার কনফার্ম করুন' বাটনে চাপ দিন।</li>
+            </ul>
+        </div>
+
+        <div class="help-card">
+            <h3><i data-lucide="truck"></i> ডেলিভারি সময় ও খরচ</h3>
+            <p>ঢাকার ভিতরে ডেলিভারি সময় ২৪-৪৮ ঘণ্টা (চার্জ ৬০ টাকা)। ঢাকার বাইরে ৩-৫ দিন (চার্জ ১২০ টাকা)।</p>
+        </div>
+
+        <div class="help-card">
+            <h3><i data-lucide="refresh-cw"></i> পণ্য পরিবর্তন বা রিটার্ন</h3>
+            <p>পণ্য হাতে পাওয়ার পর কোনো সমস্যা থাকলে ৪৮ ঘণ্টার মধ্যে আমাদের সাথে যোগাযোগ করুন। আমরা পণ্য পরিবর্তন করে দেব।</p>
+        </div>
+
+        <div class="contact-box">
+            <h2>সরাসরি সহায়তা প্রয়োজন?</h2>
+            <p style="font-size: 14px; margin-bottom: 20px; opacity: 0.8;">সকাল ১০টা থেকে রাত ৮টা পর্যন্ত কল করুন</p>
+            <div class="contact-btns">
+                <a href="tel:01700000000" class="c-btn"><i data-lucide="phone-call" size="18"></i> কল করুন</a>
+                <a href="https://wa.me/8801700000000" class="c-btn whatsapp"><i data-lucide="message-circle" size="18"></i> হোয়াটসঅ্যাপ</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // আইকন লোড করার জন্য
+        lucide.createIcons();
+    </script>
+</body>
+</html>

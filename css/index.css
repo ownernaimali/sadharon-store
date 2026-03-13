@@ -14,7 +14,14 @@ body { font-family: 'Inter', sans-serif; background-color: var(--body-bg); color
 .logo { font-size: 26px; font-weight: 800; color: #1e293b; }
 .logo span { color: #FF6B35; }
 .loader {text-align: center; font-size: 20px;  padding: 50px; font-weight: 600; color: #94a3b8; }
-    
+
+ /* help  */   
+.help {
+    text-decoration: none;
+    color: gray;
+    font-weight: 600;
+}
+
 /* Bottom Navigation */
 .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 13px 5px; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; }
 .bottom-link { text-decoration: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
@@ -30,8 +37,12 @@ body { font-family: 'Inter', sans-serif; background-color: var(--body-bg); color
    Devices: Redmi 13C, Galaxy S24, iPhone 15/16 */
 @media (min-width: 360px) {
   .bottom-link span {
-    font-size: 12px;
+    font-size: 11px;
   }
+       .logo {
+    font-size: 20px;
+  }
+    
 }
 
 /* --- 3. LARGE MOBILE / PHABLET (430px - 499px) --- 
@@ -40,20 +51,32 @@ body { font-family: 'Inter', sans-serif; background-color: var(--body-bg); color
   .bottom-link span {
     font-size: 13px;
   }
+    .logo {
+    font-size: 21px;
+  }
+    
 }
 
 /* --- 4. THE MIDDLE BREAKPOINT (500px - 599px) --- 
    Devices: Landscape Phones, Large Phablets, Foldables (Flip) */
-@media (min-width: 500px) {
+@media (min-width: 460px) {
   .bottom-link span {
     font-size: 14px;
   }
+       .logo {
+    font-size: 23px;
+  }
+    
 }
 
 /* --- 5. TABLETS & FOLDABLES (600px and up) --- 
    Devices: iPad Mini, Xiaomi Pad 7, Galaxy Z Fold */
-@media (min-width: 600px) {
+@media (min-width: 500px) {
   .bottom-link span {
     font-size: 15px;
   }
+    .logo {
+    font-size: 26px;
+  }
+    
 }

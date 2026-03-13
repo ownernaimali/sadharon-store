@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Page | Sadharon Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f1f5f9; padding: 20px; }
+        
+        .container { max-width: 500px; margin: 0 auto; }
+
+        /* প্রাথমিক বাটন */
+        .order-trigger-btn {
+            background: #FF6B35; color: white; border: none; padding: 15px 30px;
+            font-size: 18px; font-weight: 700; border-radius: 10px; cursor: pointer;
+            width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        /* অর্ডার ফর্ম কার্ড */
+        .order-card {
+            background: white; padding: 25px; border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: none; margin-top: 20px;
+        }
+
+        .order-card h2 { font-size: 20px; margin-bottom: 20px; color: #1e293b; text-align: center; }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600; color: #475569; }
+        input, textarea {
+            width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px;
+            outline: none; transition: 0.3s; font-size: 15px;
+        }
+        input:focus, textarea:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+
+        /* ফ্রি ডেলিভারি ব্যাজ */
+        .delivery-info {
+            background: #f0fdf4; border: 1px dashed #22c55e; color: #15803d;
+            padding: 10px; border-radius: 8px; text-align: center;
+            font-weight: 700; font-size: 14px; margin-bottom: 20px;
+        }
+
+        .confirm-btn {
+            background: #1e293b; color: white; border: none; width: 100%;
+            padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: 0.3s;
+        }
+        .confirm-btn:hover { background: #0f172a; }
+
+        .hidden { display: none; }
+
+        /* সাকসেস মেসেজ */
+        #success-msg { text-align: center; padding: 40px 20px; }
+        .success-icon { color: #22c55e; font-size: 50px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button id="mainOrderBtn" class="order-trigger-btn" onclick="openOrderForm()">
+            <i data-lucide="shopping-cart"></i> অর্ডার করুন
+        </button>
+
+        <div id="orderFormCard" class="order-card">
+            <h2>অর্ডার কনফার্ম করুন</h2>
+            
+            <div class="delivery-info">
+                <i data-lucide="truck" style="vertical-align: middle; width: 18px;"></i> হোম ডেলিভারি একদম ফ্রি!
+            </div>
+
+            <form id="orderLiveForm">
+                <div class="form-group">
+                    <label>আপনার নাম</label>
+                    <input type="text" id="userName" placeholder="নাম লিখুন" required>
+                </div>
+
+                <div class="form-group">
+                    <label>ফোন নম্বর</label>
+                    <input type="tel" id="userPhone" placeholder="০১৭XXXXXXXX" required>
+                </div>
+
+                <div class="form-group">
+                    <label>বিস্তারিত ঠিকানা</label>
+                    <textarea id="userAddress" rows="3" placeholder="গ্রাম/মহল্লা, থানা, জেলা" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>মেসেজ (ঐচ্ছিক)</label>
+                    <textarea id="userMessage" rows="2" placeholder="পণ্য সম্পর্কে কোনো বিশেষ অনুরোধ থাকলে লিখুন"></textarea>
+                </div>
+
+                <button type="submit" class="confirm-btn">অর্ডার নিশ্চিত করুন</button>
+            </form>
+        </div>
+
+        <div id="successPage" class="order-card hidden">
+            <div id="success-msg">
+                <div class="success-icon"><i data-lucide="badge-check" size="60"></i></div>
+                <h2 style="color: #22c55e;">ধন্যবাদ!</h2>
+                <p>আপনার অর্ডারটি গ্রহণ করা হয়েছে। খুব শীঘ্রই আমাদের প্রতিনিধি আপনাকে কল করবেন।</p>
+                <br>
+                <button class="confirm-btn" style="background: #64748b;" onclick="location.reload()">ফিরে যান</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // আইকন সক্রিয় করা
+        lucide.createIcons();
+
+        // ফর্ম ওপেন করা
+        function openOrderForm() {
+            document.getElementById('mainOrderBtn').style.display = 'none';
+            document.getElementById('orderFormCard').style.display = 'block';
+        }
+
+        // অর্ডার সাবমিট করা
+        document.getElementById('orderLiveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // ডেটা সংগ্রহ (এগুলো আপনি সার্ভারে পাঠাতে পারেন)
+            const orderData = {
+                name: document.getElementById('userName').value,
+                phone: document.getElementById('userPhone').value,
+                address: document.getElementById('userAddress').value,
+                msg: document.getElementById('userMessage').value
+            };
+
+            console.log("New Order Received:", orderData);
+
+            // সফল মেসেজ দেখানো
+            document.getElementById('orderFormCard').classList.add('hidden');
+            document.getElementById('successPage').classList.remove('hidden');
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
