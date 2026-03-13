@@ -211,7 +211,7 @@ body {
 </head>
 <body>   
     <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
+        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><a href >? সহায়তা</a><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
     </header>
     <!-- bottom nav section -->
     <section class="bottom-nav">
@@ -240,6 +240,7 @@ body {
       if(window.lucide) lucide.createIcons();
     </script>
     <script>
+     
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
   const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;

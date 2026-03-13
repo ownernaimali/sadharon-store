@@ -149,6 +149,17 @@
         <div class="icon-circle" style="background: #3b82f6;"><i data-lucide="package" size="18"></i></div>
         <div><strong id="stat-total">0</strong> <small>Total</small></div>
     </div>
+     <div class="order-stat">
+    <div class="icon-circle" style="background: #3b82c6;">
+        <i data-lucide="shopping-cart" size="18"></i>
+    </div>
+    <div>
+        <strong id="stat-today">0</strong> 
+        <small>Today</small>
+        <span style="font-size:12px"> * note all status</span>
+    </div>
+    </div>
+
     <div class="order-stat">
         <div class="icon-circle" style="background: #eab308;"><i data-lucide="clock" size="18"></i></div>
         <div><strong id="stat-pending">0</strong> <small>Pending</small></div>
@@ -253,16 +264,15 @@ async function updateDashboardStats() {
         const {data: status} = await response.json();
         
         // Update each status value
-        document.getElementById('stat-pending').innerText = status.pending || 0;
-        document.getElementById('stat-processing').innerText = status.processing || 0;
-        document.getElementById('stat-on-the-way').innerText = status['on-the-way'] || 0;
-        document.getElementById('stat-delivered').innerText = status.delivered || 0;
-        document.getElementById('stat-canceled').innerText = status.canceled || 0;
+        document.getElementById('stat-total').innerText = status.total;
+        document.getElementById('stat-today').innerText = status.today;
+        document.getElementById('stat-pending').innerText = status.pending;
+        document.getElementById('stat-processing').innerText = status.processing;
+        document.getElementById('stat-on-the-way').innerText = status['on-the-way'];
+        document.getElementById('stat-delivered').innerText = status.delivered;
+        document.getElementById('stat-canceled').innerText = status.canceled;
 
-        // Calculate Grand Total
-        const total = Object.values(status).reduce((a, b) => a + b, 0);
-        document.getElementById('stat-total').innerText = total;
-
+         
     } catch (error) {
         console.error("Error loading stats:", error);
     }
