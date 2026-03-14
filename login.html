@@ -3,138 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sadharon Store | Premium Shop</title>
+    <title>Sadharon Store | Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-   <link rel="stylesheet"href="css/index.css">
+    <link rel="stylesheet" href="css/index.css">
     <style>
-    
-      /*. CLEAN LOGIN PAGE STYLES */
-.login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f1f5f9;
-  padding: 15px;
-}
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f1f5f9; padding-bottom: 80px; }
+        
+        .form-container { max-width: 500px; margin: 20px auto 80px; padding: 0 15px; }
 
-.login-container {
-  background: white;
-  width: 100%;
-  max-width: 550px;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-}
+        .form-card {
+            background: white; padding: 25px; border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
 
-.login-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
+        .form-group { margin-bottom: 15px; position: relative; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #475569; }
+        
+        input {
+            width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px;
+            outline: none; transition: 0.3s; font-size: 15px;
+        }
+        input:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
 
-.back-home {
-  display: inline-block;
-  margin-bottom: 15px;
-  font-size: 13px;
-  color: #64748b;
-  text-decoration: none;
-  font-weight: 600;
-}
+        .pass-wrapper { position: relative; }
+        #togglePass {
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            font-size: 12px; font-weight: 700; color: #FF6B35; cursor: pointer;
+            user-select: none; text-transform: uppercase;
+        }
 
-.back-home:hover { color: #FF6B35; }
+        .confirm-btn {
+            background: #1e293b; color: white; border: none; width: 100%;
+            padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .confirm-btn:hover { background: #0f172a; }
+        .confirm-btn:disabled { background: #94a3b8; cursor: not-allowed; }
 
-.login-logo {
-  color: #FF6B35;
-  font-size: 26px;
-  font-weight: 800;
-  margin-bottom: 5px;
-}
-
-.login-header p {
-  color: #64748b;
-  font-size: 14px;
-}
-
-.input-group {
-  margin-bottom: 20px;
-}
-
-.input-group label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #1e293b;
-}
-
-.label-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.forgot-link {
-  font-size: 12px;
-  color: #FF6B35;
-  text-decoration: none;
-}
-
-.input-wrapper input {
-  width: 100%;
-  padding: 12px 16px; /* Balanced padding without icons */
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 15px;
-  background: #fff;
-}
-
-.input-wrapper input:focus {
-  outline: none;
-  border-color: #FF6B35;
-}
-
-.remember-me {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 25px;
-}
-
-.btn-login-submit {
-  width: 100%;
-  background: #FF6B35;
-  color: white;
-  border: none;
-  padding: 14px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-login-submit:hover {
-  background: #e55a2b;
-}
-
-.login-footer {
-  text-align: center;
-  margin-top: 25px;
-  font-size: 14px;
-  color: #64748b;
-}
-
-.login-footer a {
-  color: #FF6B35;
-  text-decoration: none;
-  font-weight: 600;
-}
+        #message {
+            margin-top: 15px; padding: 12px; border-radius: 8px;
+            font-size: 14px; text-align: center; display: none;
+        }
+        .msg-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; display: block !important; }
+        .msg-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; display: block !important; }
     </style>
 </head>
 <body>   
     <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
+        <div class="container nav-flex">
+            <div onclick="window.location.href='index.html'" class="logo">Sadharon<span>Store</span></div>
+            <div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                <i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> 
+                <span id="count">0</span>
+            </div>
+        </div>
     </header>
-    <!-- bottom nav section -->
+
+    <div class="form-container"> 
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            <i data-lucide="info" style="color: #64748b; width: 20px;"></i>
+            <p style="color: #475569; font-size: 15px; font-weight: 500; margin: 0;">
+                অর্ডার করতে হলে আগে আপনার অ্যাকাউন্টটি যাছাই করুন।
+            </p>
+        </div>
+
+        <form class="form-card" id="loginForm">
+            <h2 style="text-align:center; margin-bottom: 5px; color: #1e293b; font-size: 20px;">লগইন করুন</h2>
+            <p style="text-align:center; margin-bottom: 20px; font-size: 15px; color: #64748b;">
+                অ্যাকাউন্ট নেই? 
+                <a href="signup.html" style="color: #FF6B35; font-weight: 600; text-decoration: none;">নিবন্ধন করুন</a>
+            </p>
+
+            <div class="form-group">
+                <label>ফোন নম্বর</label>
+                <input type="tel" id="phone" placeholder="০১৭XXXXXXXX" required>
+            </div>
+
+            <div class="form-group">
+                <label>পাসওর্য়াড</label>
+                <div class="pass-wrapper">
+                    <input type="password" id="password" placeholder="********" required>
+                    <span id="togglePass">Show</span>
+                </div>
+            </div>
+
+            <p id="message"></p>
+
+            <button id="submitBtn" type="submit" class="confirm-btn">লগইন করুন</button>
+        </form>
+    </div>
+
     <section class="bottom-nav">
       <a href="index.html" class="bottom-link"><i data-lucide="home"></i><span>হোম</span></a>
       <a href="index.html" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
@@ -144,147 +104,98 @@
           <span id="myCart" class="cart-badge">0</span>
         </div>
       </div>      
-      <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
+      <a href="view-order.html" class="bottom-link"><i data-lucide="package"></i><span>অর্ডার</span></a>
       <a href="profile.html" class="bottom-link active"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
     </section>    
 
-<main class="container" style="line-height: 1.6;"> 
-
-<div class="login-page">
-  <div class="login-container">
-    <div class="login-header">
-      <a href="index.html" class="back-home">Back to Home</a>
-      <h1 class="login-logo">Sadharon Store</h1>
-      <p>Welcome back! Please enter your details.</p>
-    </div>
-
-    <form id="loginForm" class="login-form">
-      <div class="input-group">
-        <label for="loginPhone">Phone Number</label>
-        <div class="input-wrapper">
-          <input type="tel" id="loginPhone" placeholder="01XXXXXXXXX" required>
-        </div>
-      </div>
-
-      <div class="input-group">
-        <div class="label-row">
-          <label for="loginPassword">Password</label>
-          <a href="#" class="forgot-link">Forgot?</a>
-        </div>
-        <div class="input-wrapper">
-          <input type="password" id="loginPassword" placeholder="••••••••" required>
-        </div>
-      </div>
-
-      <div class="remember-me">
-        <input type="checkbox" id="remember">
-        <label for="remember">Keep me logged in</label>
-      </div>
-
-      <button type="submit" id="loginBtn" class="btn-login-submit">Login</button>
-    </form>
-
-    <div class="login-footer">
-      <p>Don't have an account? <a href="signup.html">Register Account</a></p>
-    </div>
-  </div>
-</div>
-   
-</main>
-   
-
     <script>
-  
-  const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
+        // 1. API & URL Parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
 
-// 3. Get specific values
-const page = urlParams.get('page');
-  
- const loginForm = document.getElementById('loginForm');
-  const loginBtn = document.getElementById('loginBtn');
-   const LOCALHOST = "http://localhost:3000/login";
-  const SERVER = "https://sadharon-store-server.vercel.app/login";
-    const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+        const LOCALHOST = "http://localhost:3000/login";
+        const SERVER = "https://sadharon-store-server.vercel.app/login";
+        const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
 
-      // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
-      if(window.lucide) lucide.createIcons();
-      // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
-  function calMyCart() {
-    const myCartEle = document.getElementById("myCart");
-      const topCart = document.getElementById("count")
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let total = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
-    
-    myCartEle.innerHTML = total;
-    topCart.innerHTML= total;
-      }
+        if(window.lucide) lucide.createIcons();
 
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-      calMyCart();
-    }
-  });
-    
-calMyCart()
-    
-      
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+        // 2. Show/Hide Password
+        const passwordInput = document.getElementById("password");
+        const toggleBtn = document.getElementById("togglePass");
 
-    // 1. Gather data
-    const loginData = {
-      phone: document.getElementById('loginPhone').value,
-      password: document.getElementById('loginPassword').value
-    };
+        toggleBtn.addEventListener("click", () => {
+            const isPass = passwordInput.type === "password";
+            passwordInput.type = isPass ? "text" : "password";
+            toggleBtn.textContent = isPass ? "Hide" : "Show";
+        });
 
-    // 2. UI Feedback: Disable button while waiting
-    loginBtn.innerText = "Checking...";
-    loginBtn.disabled = true;
-
-    try {
-      // 3. Send data to your Vercel Server
-      const response = await fetch(API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData)
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        // 4. Success Alert
-        alert(result.message);
-        // Optional: Save user info to use on other pages
-        if(!result.user.id) {
-          return alert("please! try again later or contact us")
+        // 3. Update Cart Function
+        function calMyCart() {
+            const myCartEle = document.getElementById("myCart");
+            const topCart = document.getElementById("count");
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let total = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
+            if(myCartEle) myCartEle.innerHTML = total;
+            if(topCart) topCart.innerHTML = total;
         }
-        localStorage.setItem("token", result.user.id);
-        
-        // Redirect to home or dashboard
-        if (page) {
-          window.location.href = `${page}.html`
-        } else {
-       window.location.href = "index.html"; 
-        }
-      } else {
-        // 5. Error Alert (from server message)
-        alert("Login Failed: " + result.message);
-      }
-    } catch (error) {
-      console.error("Login Error:", error);
-      alert("Error connecting to server. Please try again later.");
-    } finally {
-      // Reset button state
-      loginBtn.innerText = "Login";
-      loginBtn.disabled = false;
-    }
-  });
-  
-    
+        calMyCart();
+
+        // 4. Login Functionality
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const msgElement = document.getElementById('message');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const loginData = {
+                phone: document.getElementById('phone').value,
+                password: document.getElementById('password').value
+            };
+
+            // Loading state
+            submitBtn.innerText = "যাচাই করা হচ্ছে...";
+            submitBtn.disabled = true;
+            msgElement.style.display = "none";
+            msgElement.className = "";
+
+            try {
+                const response = await fetch(API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(loginData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    msgElement.innerText = "লগইন সফল! কিছুক্ষণ অপেক্ষা করুন...";
+                    msgElement.classList.add("msg-success");
+                    
+                    // Save info
+                    localStorage.setItem("token", result.user.id);
+                     // Redirect
+                    setTimeout(() => {
+                        window.location.href = page ? `${page}.html` : "index.html";
+                    }, 1000);
+
+                } else {
+                    msgElement.innerText = "ব্যর্থ: " + result.message;
+                    msgElement.classList.add("msg-error");
+                    submitBtn.innerText = "লগইন করুন";
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                msgElement.innerText = "সার্ভারের সাথে সংযোগ বিচ্ছিন্ন হয়েছে।";
+                msgElement.classList.add("msg-error");
+                submitBtn.innerText = "লগইন করুন";
+                submitBtn.disabled = false;
+            }
+        });
+
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) calMyCart();
+        });
     </script>
 </body>
 </html>
-
-   
-   

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Access | Sadharon Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { 
+            background: radial-gradient(circle at top right, #1e293b, #0f172a); 
+            display: flex; align-items: center; justify-content: center; 
+            min-height: 100vh; overflow: hidden;
+        }
+        
+        .admin-card {
+            background: white; width: 100%; max-width: 420px; 
+            padding: 35px; border-radius: 24px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h2 { color: #1e293b; font-size: 22px; font-weight: 800; }
+        .header p { color: #64748b; font-size: 14px; margin-top: 4px; }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: #334155; }
+        
+        input {
+            width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px;
+            outline: none; transition: 0.3s; font-size: 15px; background: #f8fafc;
+        }
+        input:focus { border-color: #FF6B35; background: white; box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1); }
+
+        /* OTP Section Styles */
+        #otpSection { display: none; text-align: center; animation: fadeIn 0.5s ease; }
+        .otp-inputs { display: flex; gap: 8px; justify-content: center; margin: 25px 0; }
+        .otp-box { 
+            width: 45px; height: 50px; text-align: center; font-size: 22px; 
+            font-weight: 800; border: 2px solid #e2e8f0; border-radius: 10px; 
+            background: #fff; color: #1e293b;
+        }
+        .otp-box:focus { border-color: #FF6B35; outline: none; }
+
+        .btn {
+            background: #1e293b; color: white; border: none; width: 100%;
+            padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .btn:hover { background: #000; transform: translateY(-2px); }
+        .btn-otp { background: #FF6B35; }
+        .btn-otp:hover { background: #fa5a1f; }
+
+        #message { 
+            margin-top: 20px; padding: 12px; border-radius: 10px; 
+            font-size: 13px; text-align: center; display: none; 
+        }
+        .error { background: #fee2e2; color: #991b1b; }
+        .success { background: #dcfce7; color: #166534; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="admin-card">
+        <div class="header">
+            <i data-lucide="shield-check" style="color: #FF6B35; margin-bottom: 10px; width: 40px; height: 40px;"></i>
+            <h2>অ্যাডমিন প্যানেল</h2>
+            <p id="instruction">প্রবেশ করতে আপনার তথ্য দিন</p>
+        </div>
+
+        <div id="authFields">
+            <div class="form-group">
+                <label>ইমেইল এড্রেস</label>
+                <input type="email" id="email" placeholder="admin@store.com">
+            </div>
+            <div class="form-group">
+                <label>ফোন নম্বর</label>
+                <input type="tel" id="phone" placeholder="017XXXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>পাসওয়ার্ড</label>
+                <input type="password" id="password" placeholder="********">
+            </div>
+            <button id="getOtpBtn" class="btn">ওটিপি পাঠান</button>
+        </div>
+
+        <div id="otpSection">
+            <div class="otp-inputs">
+                <input type="number" class="otp-box" maxlength="1">
+                <input type="number" class="otp-box" maxlength="1">
+                <input type="number" class="otp-box" maxlength="1">
+                <input type="number" class="otp-box" maxlength="1">
+                <input type="number" class="otp-box" maxlength="1">
+                <input type="number" class="otp-box" maxlength="1">
+            </div>
+            <button id="verifyBtn" class="btn btn-otp">লগইন কনফার্ম করুন</button>
+            <p onclick="location.reload()" style="margin-top: 20px; font-size: 13px; color: #64748b; cursor: pointer;">তথ্য পরিবর্তন করুন</p>
+        </div>
+
+        <p id="message"></p>
+    </div>
+
+<script>
+ 
+        const LOCALHOST = "http://localhost:3000/login";
+        const SERVER = "https://sadharon-store-server.vercel.app/login";
+        const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+
+    if(window.lucide) lucide.createIcons();
+
+    const authFields = document.getElementById('authFields');
+    const otpSection = document.getElementById('otpSection');
+    const instruction = document.getElementById('instruction');
+    const msg = document.getElementById('message');
+    const getOtpBtn = document.getElementById('getOtpBtn');
+    const verifyBtn = document.getElementById('verifyBtn');
+
+  function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    // SameSite=Lax যোগ করা হয়েছে
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+}
+
+
+    // ৩. ওটিপি পাঠানোর ফাংশন
+    getOtpBtn.addEventListener('click', async () => {
+        const payload = {
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            password: document.getElementById('password').value
+        };
+
+        if(!payload.email || !payload.phone || !payload.password) {
+            return showMsg("সবগুলো ঘর সঠিকভাবে পূরণ করুন", "error");
+        }
+
+        getOtpBtn.innerText = "যাচাই করা হচ্ছে...";
+        getOtpBtn.disabled = true;
+
+        try {
+            // আপনার সার্ভার এন্ডপয়েন্ট অনুযায়ী URL ঠিক করুন
+            const response = await fetch(API, { 
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // সেশনে টোকেন ও স্ট্যাটাস রাখা
+                sessionStorage.setItem('preAuth', 'true');
+                // সার্ভার থেকে আসা ইউজার আইডি বা টোকেন রাখা
+                sessionStorage.setItem('tempAdminId', result.user.id);
+         
+                authFields.style.opacity = '0';
+                setTimeout(() => {
+                    authFields.style.display = 'none';
+                    otpSection.style.display = 'block';
+                    instruction.innerText = "আপনার ইমেইল ও ফোনে সিকিউরিটি কোড পাঠানো হয়েছে";
+                    showMsg("তথ্য সঠিক। ওটিপি দিন।", "success");
+                }, 300);
+            } else {
+                showMsg(result.message || "ভুল তথ্য প্রদান করা হয়েছে", "error");
+            }
+        } catch (err) {
+            showMsg("সার্ভার এরর! ইন্টারনেট কানেকশন চেক করুন।", "error");
+        } finally {
+            getOtpBtn.innerText = "ওটিপি পাঠান";
+            getOtpBtn.disabled = false;
+        }
+    });
+
+    // ৪. ওটিপি ভেরিফিকেশন
+    verifyBtn.addEventListener('click', async () => {
+        let otp = "";
+        document.querySelectorAll('.otp-box').forEach(input => otp += input.value);
+
+        if(otp.length < 6) return showMsg("৬ ডিজিটের ওটিপি প্রদান করুন", "error");
+
+        const isValidPreAuth = sessionStorage.getItem('preAuth');
+        if (isValidPreAuth !== 'true') {
+            window.location.href = "login.html"; // সেশন না থাকলে রিডাইরেক্ট
+            return;
+        }
+
+        verifyBtn.innerText = "সিকিউরিটি চেক...";
+        verifyBtn.disabled = true;
+
+        // এখানে আপনি চাইলে সার্ভারে ওটিপি চেক করতে পারেন fetch দিয়ে
+        if (otp === "123456") { 
+            showMsg("সফল! প্রবেশ করা হচ্ছে...", "success");
+            
+            // সেশন থেকে আইডি নিয়ে কুকিতে সেট করা
+            const adminId = sessionStorage.getItem('tempAdminId');
+            setCookie("adminToken", adminId, 7); // ৭ দিনের জন্য
+            
+            sessionStorage.removeItem('preAuth');
+            sessionStorage.removeItem('tempAdminId');
+
+            setTimeout(() => {
+                window.location.href = "index.html"; 
+            }, 1500);
+        } else {
+            showMsg("ভুল ওটিপি কোড!", "error");
+            verifyBtn.disabled = false;
+            verifyBtn.innerText = "লগইন কনফার্ম করুন";
+        }
+    });
+
+    // ৫. ওটিপি বক্স কন্ট্রোল
+    const otpInputs = document.querySelectorAll('.otp-box');
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
+            if (e.target.value && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+            }
+        });
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+    });
+
+    function showMsg(text, type) {
+        msg.innerText = text;
+        msg.className = type;
+        msg.style.display = 'block';
+    }
+</script>
+
+
+</body>
+</html>
