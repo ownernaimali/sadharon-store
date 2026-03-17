@@ -177,13 +177,21 @@ body {
     margin-left: 5px;
 }
      
-@media (min-width: 500px) {
+@media (min-width: 380px) {
  .current-price {
     font-size: 20px;
 }
-
 .old-price {
     font-size: 19px;    
+}
+}
+     
+@media (min-width: 470px) {
+ .current-price {
+    font-size: 22px;
+}
+.old-price {
+    font-size: 21px;    
 }
 }
 
@@ -242,11 +250,10 @@ body {
     <script>
      
   const LOCALHOST = "http://localhost:3000/products";
-  const SERVER = "https://sadharon-store-server.vercel.app/products";
-  const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
-  
-    
-  // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
+  const SERVER = "https://sadharon-store-server.vercel.app/products"; 
+  const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+  const API = isLocal ? LOCALHOST : SERVER;
+
   function calMyCart() {
     const myCartEle = document.getElementById("myCart");
       const topCart = document.getElementById("count")

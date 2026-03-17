@@ -36,6 +36,45 @@
 
         /* ব্যাক বাটন */
         .back-link { display: inline-block; margin-bottom: 20px; color: #64748b; text-decoration: none; font-size: 14px; font-weight: 600; }
+    
+    
+    
+   /* form */   
+        .form-container { max-width: 500px; margin: 20px auto 80px; padding: 0 15px; }
+
+        .form-card {
+            background: white; padding: 25px; border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .form-group { margin-bottom: 15px; position: relative; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #475569; }
+        
+        input, textarea {
+            width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px;
+            outline: none; transition: 0.3s; font-size: 15px;
+        }
+        input:focus, textarea:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+
+  
+        .confirm-btn {
+            background: #1e293b; color: white; border: none; width: 100%;
+            padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .confirm-btn:hover { background: #0f172a; }
+        .confirm-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        #display-message {
+            margin-top: 15px; padding: 12px; border-radius: 8px;
+            font-size: 14px; text-align: center; display: none;
+        }
+        .msg-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .msg-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+    
+    
+    
     </style>
 </head>
 <body>
@@ -60,7 +99,7 @@
 
         <div class="help-card">
             <h3><i data-lucide="truck"></i> ডেলিভারি সময় ও খরচ</h3>
-            <p>চালাবাজারে ভিতরে ডেলিভারি সময় ২৪-৪৮ ঘণ্টা (চার্জ ০ টাকা)</p>
+            <p>চালাবাজারে ভিতরে ডেলিভারি সময় ২৪-৪৮ ঘণ্টা (চার্জ ০ টাকা) এবং বাহিরে ১০ টাকা</p>
         </div>
 
         <div class="help-card">
@@ -76,12 +115,100 @@
                 <a class="c-btn whatsapp"><i data-lucide="message-circle" size="18"></i>হোয়াটসঅ্যাপ 01916182034</a>
             </div>
         </div>
-
     </div>
 
+    
+   <div class="form-container"> 
+       
+        <form class="form-card" id="form">
+            <h2 style="text-align:center; margin-bottom: 5px; color: #1e293b; font-size: 20px;">যোগাযোগ করুন</h2>    
+               
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+    <i data-lucide="info" style="color: #64748b; width: 20px;"></i>
+    <p style="color: #475569; font-size: 16px; font-weight: 500; margin: 0;">
+        আমরা পরর্বতিতে আপনার সাথে যোগাযোগ করবো।
+    </p>
+</div>
+            <div class="form-group">
+                <label>আপনার নাম</label>
+                <input type="text" id="name" placeholder="পুরো নাম লিখুন" required>
+            </div>
+
+            <div class="form-group">
+                <label>ফোন নম্বর</label>
+                <input type="tel" id="phone" placeholder="০১৭XXXXXXXX" required>
+            </div>
+      
+            <div class="form-group">
+                <label>মন্তব্য</label>
+                <textarea id="message" rows="3" placeholder="আপনার মন্তব্য লিখুন...." required></textarea>
+            </div>
+
+            <p id="display-message"></p>
+
+            <button id="submitBtn" type="submit" class="confirm-btn">মেসেজ পাঠান</button>
+        </form>
+    </div>    
+    
     <script>
         // আইকন লোড করার জন্য
-        lucide.createIcons();
+ if(window.lucide) lucide.createIcons();
+    
+        const LOCALHOST = "http://localhost:3000/messages";
+        const SERVER = "https://sadharon-store-server.vercel.app/messages";
+          const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+          const API = isLocal ? LOCALHOST : SERVER;
+
+
+    
+    // 3. Form Submission
+        document.getElementById('form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById("submitBtn");
+            const msgElement = document.getElementById("display-message");
+
+            const messageData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                message: document.getElementById('message').value,
+              };
+
+            // Loading state
+            submitBtn.innerText = "পাঠানো হচ্ছে...";
+            submitBtn.disabled = true;
+            msgElement.style.display = "none";
+
+            try {
+                const response = await fetch(API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(messageData)
+                });
+
+                const data = await response.json();
+
+                msgElement.style.display = "block";
+                
+                if (response.ok) {
+                    msgElement.className = "msg-success";
+                    msgElement.innerText = "সাফল্য হয়েছে।";
+                    this.reset(); // Reset form on success
+                } else {
+                    throw new Error(data.message || "ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
+                }
+            } catch (err) {
+                msgElement.style.display = "block";
+                msgElement.className = "msg-error";
+                msgElement.innerText = "ত্রুটি: " + err.message;
+            } finally {
+                submitBtn.innerText = "মেসেজ পাঠান";
+                submitBtn.disabled = false;
+            }
+        });
+
+
+    
     </script>
 </body>
 </html>

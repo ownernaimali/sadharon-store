@@ -142,7 +142,7 @@
     </section>    
 
 <main class="container">
-  <h2>📋 My Orders: <span id="length">0</span></h2>
+  <h2 id="orderTitle">📋 My Orders: <span id="length">0</span></h2>
 
   <div id="order">
     <!-- fetch order items -->   
@@ -157,7 +157,8 @@
     <script>
   const LOCALHOST = "http://localhost:3000/orders";
 const SERVER = "https://sadharon-store-server.vercel.app/orders";
-const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+  const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+  const API = isLocal ? LOCALHOST : SERVER;
 const list = document.getElementById("order");
 
       // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
@@ -188,9 +189,33 @@ function loadProducts() {
 
     // ইউজার লগইন না থাকলে চেক
     if (!token) {
-        list.innerHTML = `<p style="text-align:center; padding: 20px;">Please login to view your orders.</p>`;
-        alert("Please login to view order products.");
-        window.location.href = "login.html";
+        document.getElementById("orderTitle").innerHTML = ""
+             list.innerHTML = `
+            <div style="
+                text-align: center; 
+                padding: 40px 20px; 
+                border: 1px solid #ddd; 
+                border-radius: 10px; 
+                background-color: #f9f9f9; 
+                max-width: 500px; 
+                margin: 20px auto;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            ">
+                <h2 style="color: #333; margin-bottom: 15px;">অর্ডার ট্রাক করতে লগইন করুন</h2>
+                <p style="color: #666; font-size: 17px; margin-bottom: 20px;">
+                    আপনার অর্ডারের বর্তমান অবস্থা জানতে অনুগ্রহ করে আগে লগইন করুন।
+                </p>
+                <a href="login.html?view-order" style="
+                    text-decoration: none; 
+                    background-color: #007bff; 
+                    color: white; 
+                    padding: 10px 25px; 
+                    border-radius: 5px; 
+                    display: inline-block;
+                    font-weight: bold;
+                ">লগইন পেজে যান</a>
+            </div>
+        `;
         return;
     }
 

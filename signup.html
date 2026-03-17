@@ -127,7 +127,8 @@
         // API Configuration
         const LOCALHOST = "http://localhost:3000/users";
         const SERVER = "https://sadharon-store-server.vercel.app/users";
-        const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
+          const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+  const API = isLocal ? LOCALHOST : SERVER;
 
         // Initialize Lucide Icons
         if(window.lucide) lucide.createIcons();

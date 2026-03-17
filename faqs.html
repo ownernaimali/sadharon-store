@@ -129,7 +129,7 @@ body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #1f29
 </section>
 
 <script>
-    lucide.createIcons();
+   if(window.lucide) lucide.createIcons();
     
     // Accordion Logic
     const questions = document.querySelectorAll('.faq-question');

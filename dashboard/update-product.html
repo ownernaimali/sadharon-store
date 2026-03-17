@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Products - Sadharon Store</title>
+  <title>Update Products - Sadharon Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -148,7 +148,7 @@
         <p>আপনার বাজেট যদি হয় সীমিত আর চাহিদা যদি হয় সেরা পণ্যের, তবে Sadharon Store আছে আপনার পাশে।</p>
       </div>
       
-      <h2>Add Product / পণ্য যোগ করুন</h2>
+      <h2>Update Product / পণ্য আপডেট করুন</h2>
       
       <form>
         <div class="form-group full-width">
@@ -199,8 +199,9 @@
   
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
-const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
-  
+  const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+  const API = isLocal ? LOCALHOST : SERVER;
+
   
   // 1. Get the query string from the current URL
 const queryString = window.location.search;

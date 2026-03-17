@@ -86,7 +86,7 @@
                 <span>Sadharon <strong>Store</strong></span>
             </div>
 
-            <div class="notif-bell">
+            <div class="notif-bell" onclick="window.location.href='message.html'">
                 <i data-lucide="bell" size="24" color="#64748b"></i>
                 <span class="notif-dot"></span>
             </div>
@@ -248,15 +248,15 @@
         <a href="#" class="nav-item"><i data-lucide="user"></i></a>
     </nav>
 </div>
-    <script src="js/index.js"></script>
-
+<script src="js/index.js"></script>
 <script src="../js/dashboardChart.js"></script>
 <script>
       
   const LOCALHOST = "http://localhost:3000/orders/status";
   const SERVER = "https://sadharon-store-server.vercel.app/orders/status";
-const API = window.location.hostname.includes("vercel") ? SERVER : LOCALHOST;
-  
+  const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+  const API = isLocal ? LOCALHOST : SERVER;
+
     lucide.createIcons();
 
 async function updateDashboardStats() {
