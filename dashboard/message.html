@@ -1,9 +1,22 @@
-<script src="https://unpkg.com/lucide@latest"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadharon Store - Admin Dashboard</title>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    
 <div class="admin-container" style="max-width: 1000px; margin: 30px auto; font-family: 'Inter', sans-serif; padding: 0 15px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
         <h2 style="color: #0f172a; font-size: 24px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 10px;">
-            <i data-lucide="mail"></i> মেসেজ ইনবক্স
+            <i data-lucide="mail"></i> মেসেজ ইনবক্স <span id="total">0</span>
         </h2>
         <button onclick="loadMessages()" style="background: #3b82f6; color: white; border: none; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
             <i data-lucide="refresh-cw" style="width: 18px;"></i> রিফ্রেশ
@@ -14,12 +27,12 @@
         <p style="text-align: center; grid-column: 1/-1; color: #64748b;">মেসেজ লোড হচ্ছে...</p>
     </div>
 </div>
-
+    <script src="js/index.js"></script>
 <script>
-       const LOCALHOST = "http://localhost:3000/messages";
-        const SERVER = "https://sadharon-store-server.vercel.app/messages";
-          const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
-          const API = isLocal ? LOCALHOST : SERVER;
+    const LOCALHOST = "http://localhost:3000/messages";
+    const SERVER = "https://sadharon-store-server.vercel.app/messages";
+    const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+    const API = isLocal ? LOCALHOST : SERVER;
 
     // ১. মেসেজ লোড করার ফাংশন
     async function loadMessages() {
@@ -27,30 +40,30 @@
             const res = await fetch(API);
             const result = await res.json();
             const container = document.getElementById('message-list');
-            
+            document.getElementById("total").innerHTML = result.count;
             if (!result.data || result.data.length === 0) {
                 container.innerHTML = "<p style='text-align: center; grid-column: 1/-1;'>কোনো মেসেজ পাওয়া যায়নি।</p>";
                 return;
             }
 
             container.innerHTML = result.data.map(msg => `
-                <div id="card-${msg._id}" style="background: #ffffff; height: 270px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; overflow: hidden;">
-                    <div style="padding: 15px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: start; background: ${msg.isRead ? '#fff' : '#f8faff'}">
+                <div id="card-${msg._id}" style="background: #ffffff; height: 270px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; overflow: hidden; transition: 0.3s;">
+                    <div style="padding: 15px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: start; background: ${msg.isRead ? '#ffffff' : '#f0f7ff'}">
                         <div style="flex: 1; overflow: hidden;">
                             <h4 style="margin: 0; color: #1e293b; font-size: 15px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: flex; align-items: center; gap: 5px;">
                                 <i data-lucide="user" style="width: 14px; color: #64748b;"></i> ${msg.name} 
-                                ${!msg.isRead ? '<span style="background: #10b981; color: white; font-size: 9px; padding: 2px 6px; border-radius: 20px; margin-left: 5px;">NEW</span>' : ''}
+                                ${!msg.isRead ? '<span style="background: #ef4444; color: white; font-size: 9px; padding: 2px 6px; border-radius: 20px; margin-left: 5px;">NEW</span>' : ''}
                             </h4>
                             <p style="margin: 5px 0 0; color: #3b82f6; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
                                 <i data-lucide="phone" style="width: 14px;"></i> ${msg.phone}
                             </p>
                         </div>
-                        <button onclick="deleteMessage('${msg._id}')" style="background: #fee2e2; color: #ef4444; border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+                        <button onclick="deleteMessage('${msg._id}')" style="background: #fee2e2; color: #ef4444; border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
                             <i data-lucide="trash-2" style="width: 16px;"></i>
                         </button>
                     </div>
 
-                    <div style="padding: 15px; flex: 1; overflow-y: auto; font-size: 14px; color: #475569; line-height: 1.6; background: #fff;">
+                    <div style="padding: 15px; flex: 1; overflow-y: auto; font-size: 14px; color: ${msg.isRead ? '#64748b' : '#1e293b'}; line-height: 1.6; background: #fff;">
                         ${msg.message}
                     </div>
 
@@ -58,7 +71,12 @@
                         <small style="color: #94a3b8; font-size: 11px; display: flex; align-items: center; gap: 4px;">
                             <i data-lucide="calendar" style="width: 12px;"></i> ${new Date(msg.createdAt).toLocaleDateString('bn-BD')}
                         </small>
-                        <div style="display: flex; gap: 12px; align-items: center;">
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <button onclick="toggleReadStatus('${msg._id}', ${msg.isRead})" style="background: none; border: none; cursor: pointer; color: ${msg.isRead ? '#94a3b8' : '#10b981'}; display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 0;">
+                                <i data-lucide="${msg.isRead ? 'eye-off' : 'eye'}" style="width: 16px;"></i> 
+                                ${msg.isRead ? 'Unread' : 'Mark Read'}
+                            </button>
+
                             <a href="tel:${msg.phone}" style="text-decoration: none; color: #3b82f6; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px;">
                                 <i data-lucide="phone-forwarded" style="width: 14px;"></i> Call
                             </a>
@@ -68,40 +86,84 @@
             `).join('');
 
             if(window.lucide) lucide.createIcons();
+            
+            
+            // ১. URL থেকে হ্যাশ (#) আইডিটি খুঁজে বের করা
+            const hashId = window.location.hash; // এটি আসবে '#65f1a2...' এই ফরম্যাটে
+
+            if (hashId) {
+                // ২. একটু সময় অপেক্ষা করা যাতে ব্রাউজার এলিমেন্টগুলো ঠিকমতো রেন্ডার করতে পারে
+                setTimeout(() => {
+                    // যদি আপনার এলিমেন্ট আইডি card-ID হয়, তবে:
+                    const element = document.querySelector(hashId); 
+                    
+                    if (element) {
+                        // ৩. স্মুথ স্ক্রল করা
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // ৪. হাইলাইট করার জন্য একটু এনিমেশন (অপশনাল)
+                        element.style.border = "2px solid #3b82f6";
+                        element.style.boxShadow = "0 0 15px rgba(59, 130, 246, 0.3)";
+                    }
+                }, 300); // ৩০০ মিলিসেকেন্ড ডিলে দিলে স্ক্রলটি নিখুঁত হয়
+            }
+            
         } catch (err) {
             console.error("Load Error:", err);
             document.getElementById('message-list').innerHTML = "<p style='text-align: center; grid-column: 1/-1; color: #ef4444;'>সার্ভার এরর!</p>";
-        }
+        } 
+            
+       
     }
 
     // ২. মেসেজ ডিলিট করার ফাংশন
     async function deleteMessage(id) {
         if (!confirm("আপনি কি নিশ্চিতভাবে এই মেসেজটি ডিলিট করতে চান?")) return;
-
         try {
             const res = await fetch(`${API}/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+                },
             });
-            const result = await res.json();
-
+            const data = await res.json()
             if (res.ok) {
-                // অ্যানিমেশন দিয়ে কার্ডটি রিমুভ করা
-                const card = document.getElementById(`card-${id}`);
-                card.style.transition = "0.3s";
-                card.style.opacity = "0";
-                card.style.transform = "scale(0.9)";
-                
-                setTimeout(() => {
-                    loadMessages(); // লিস্ট রিফ্রেশ করা
-                }, 300);
+                loadMessages();
+                alert(data.message)
             } else {
-                alert("ডিলিট করা সম্ভব হয়নি: " + result.message);
+                alert("ডিলিট করা সম্ভব হয়নি? " + data.message);
             }
         } catch (err) {
+            alert(err.message)
             console.error("Delete Error:", err);
-            alert("সার্ভার এরর! ডিলিট করা যায়নি।");
+        }
+    }
+
+    // ৩. মেসেজ স্ট্যাটাস আপডেট করার নতুন ফাংশন
+    async function toggleReadStatus(id, currentStatus) {
+        try {
+            const res = await fetch(`${API}/${id}`, {
+                method: 'PATCH',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem('adminToken')}`,          
+                },
+                body: JSON.stringify({ isRead: !currentStatus })
+            });
+
+            const data = await res.json()
+        if (res.ok) {
+                loadMessages(); // সফল হলে ডাটা রিফ্রেশ হবে
+            } else {
+                alert("স্ট্যাটাস আপডেট করা যায়নি? " + data.message);
+            }
+        } catch (err) {
+            console.error("Update Error:", err);
+            alert("সার্ভার এরর!");
         }
     }
 
     loadMessages();
 </script>
+</body>
+</html>

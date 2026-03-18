@@ -52,15 +52,23 @@
     </style>
 </head>
 <body>   
-    <header>
-        <div class="container nav-flex">
-            <div onclick="window.location.href='index.html'" class="logo">Sadharon<span>Store</span></div>
-            <div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">
-                <i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> 
-                <span id="count">0</span>
-            </div>
-        </div>
+     <header>
+        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><a class="help" href="help.html">? সহায়তা</a><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
     </header>
+    <!-- bottom nav section -->
+    <section class="bottom-nav">
+      <a href="index.html" class="bottom-link active"><i data-lucide="home"></i><span>হোম</span></a>
+      <a href="index.html" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
+      <div class="bottom-link main-cart">
+        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
+          <i data-lucide="shopping-bag"></i>
+          <span id="myCart" class="cart-badge">0</span>
+        </div>
+           <span>আমার কার্ট</span>
+      </div>      
+      <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
+      <a href="profile.html" class="bottom-link"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
+    </section>    
 
     <div class="form-container"> 
 <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
@@ -109,19 +117,6 @@
             <button id="submitBtn" type="submit" class="confirm-btn">নিবন্ধন করুন</button>
         </form>
     </div>
-
-    <section class="bottom-nav">
-      <a href="index.html" class="bottom-link"><i data-lucide="home"></i><span>হোম</span></a>
-      <a href="index.html" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
-      <div class="bottom-link main-cart">
-        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
-          <i data-lucide="shopping-bag"></i>
-          <span id="myCart" class="cart-badge">0</span>
-        </div>
-      </div>      
-      <a href="view-order.html" class="bottom-link"><i data-lucide="package"></i><span>অর্ডার</span></a>
-      <a href="profile.html" class="bottom-link active"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
-    </section>    
 
     <script>
         // API Configuration

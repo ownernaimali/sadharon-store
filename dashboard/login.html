@@ -105,8 +105,8 @@
 
 <script>
  
-        const LOCALHOST = "http://localhost:3000/login";
-        const SERVER = "https://sadharon-store-server.vercel.app/login";
+        const LOCALHOST = "http://localhost:3000/admin-login";
+        const SERVER = "https://sadharon-store-server.vercel.app/admin-login";
           const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
   const API = isLocal ? LOCALHOST : SERVER;
 
@@ -157,10 +157,11 @@
             const result = await response.json();
 
             if (result.success) {
+                
                 // সেশনে টোকেন ও স্ট্যাটাস রাখা
                 sessionStorage.setItem('preAuth', 'true');
                 // সার্ভার থেকে আসা ইউজার আইডি বা টোকেন রাখা
-                sessionStorage.setItem('tempAdminId', result.user.id);
+                sessionStorage.setItem('tempAdminId', result.token);
          
                 authFields.style.opacity = '0';
                 setTimeout(() => {
@@ -197,18 +198,21 @@
         verifyBtn.disabled = true;
 
         // এখানে আপনি চাইলে সার্ভারে ওটিপি চেক করতে পারেন fetch দিয়ে
-        if (otp === "123456") { 
+        if (otp === "223344") { 
             showMsg("সফল! প্রবেশ করা হচ্ছে...", "success");
             
             // সেশন থেকে আইডি নিয়ে কুকিতে সেট করা
             const adminId = sessionStorage.getItem('tempAdminId');
-            setCookie("adminToken", adminId, 7); // ৭ দিনের জন্য
-            
+            if(!adminId) {
+                alert("token is missing");
+            }
+            setCookie("adminToken", adminId, 2);
+            localStorage.setItem("adminToken", adminId)
             sessionStorage.removeItem('preAuth');
             sessionStorage.removeItem('tempAdminId');
 
             setTimeout(() => {
-                window.location.href = "index.html"; 
+              window.location.href = "index.html"; 
             }, 1500);
         } else {
             showMsg("ভুল ওটিপি কোড!", "error");

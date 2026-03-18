@@ -88,7 +88,7 @@
 
             <div class="notif-bell" onclick="window.location.href='message.html'">
                 <i data-lucide="bell" size="24" color="#64748b"></i>
-                <span class="notif-dot"></span>
+                <span id="notifDot"></span>
             </div>
         </div>
 
@@ -182,16 +182,16 @@
     </div>
 </div>
 
-        <div class="section-label">Support Activity <a href="#" style="color: var(--accent); font-size: 11px; text-decoration: none; font-weight: 600;">View All</a></div>
+        <div class="section-label">Support Activity <a href="message.html" style="color: var(--accent); font-size: 11px; text-decoration: none; font-weight: 600;">View All</a></div>
         <div class="support-card">
             <div class="msg-box unread">
-                <div class="msg-avatar">RA</div>
+                <div class="msg-avatar">SA</div>
                 <div class="msg-content">
                     <h4>Rakib Ahmed <span class="time">2m ago</span></h4>
                     <p>আপনার কাছে কি প্রিমিয়াম লবণের স্টক আছে?</p>
                 </div>
             </div>
-            <div class="msg-box">
+            <div class="msg-box unread">
                 <div class="msg-avatar" style="background: #fbbf24;">SM</div>
                 <div class="msg-content">
                     <h4>Sumi Akter <span class="time">1h ago</span></h4>
@@ -248,20 +248,96 @@
         <a href="#" class="nav-item"><i data-lucide="user"></i></a>
     </nav>
 </div>
-<script src="js/index.js"></script>
+    <script src="js/index.js"></script>
 <script src="../js/dashboardChart.js"></script>
 <script>
       
-  const LOCALHOST = "http://localhost:3000/orders/status";
-  const SERVER = "https://sadharon-store-server.vercel.app/orders/status";
+  const LOCALHOST = "http://localhost:3000";
+  const SERVER = "https://sadharon-store-server.vercel.app";
   const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
   const API = isLocal ? LOCALHOST : SERVER;
 
-    lucide.createIcons();
+    if (window.lucide) {lucide.createIcons();}
+    
+
+    
+async function loadFinanceData() {
+   
+    try {
+            const response = await fetch(`${API}/orders/admin`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            // 'Bearer' এরপর একটি স্পেস দিয়ে টোকেনটি বসান
+            "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+        }
+    });
+       const result = await response.json();
+        if(result.status == "error") {
+            alert(result.message)
+            localStorage.removeItem("adminToken");
+            window.location.href ="login.html"
+        }
+
+        if (Array.isArray(result.data)) {
+            const allOrders = result.data;
+
+            // 1. Filter out canceled orders
+            const activeOrders = allOrders.filter(order => order.status !== "canceled");
+
+            let totalSell = 0;
+            let totalProfit = 0;
+            let totalInvestment = 0;
+
+            // 2. Calculation logic
+            activeOrders.forEach(order => {
+                totalSell += Number(order.totalAmount) || 0;
+                totalProfit += Number(order.totalProfit) || 0;
+                
+                // Safety check for items array
+                if (order.items && Array.isArray(order.items)) {
+                    order.items.forEach(item => {
+                        const cost = Number(item.costPrice) || 0;
+                        const qty = Number(item.quantity) || 0;
+                        totalInvestment += (cost * qty);
+                    });
+                }
+            });
+
+            // 3. UI Update Helper Function
+            const updateUI = (selector, value) => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.innerText = value;
+                }
+            };
+
+            updateUI('.invest h2', totalInvestment);
+            updateUI('.revenue h2', totalSell);
+            updateUI('.profit h2', totalProfit);
+            updateUI('.cost h2', totalInvestment);
+
+            // 4. Conditional styling for Profit
+            const profitEl = document.querySelector('.profit h2');
+            if (profitEl) {
+                profitEl.style.color = totalProfit < 0 ? "#ef4444" : "#10b981";
+            }
+
+        } else {
+            alert()
+            console.warn("API returned success but no data was found.");
+        }
+    } catch (error) {
+        console.error("Finance Data Load Error:", error);
+    }
+}
+
+
+loadFinanceData()
 
 async function updateDashboardStats() {
     try {
-        const response = await fetch(API);
+        const response = await fetch(`${API}/orders/status`);
         const {data: status} = await response.json();
         
         // Update each status value
@@ -281,6 +357,77 @@ async function updateDashboardStats() {
 
 // Run the function when the page loads
 updateDashboardStats();
+
+    
+//// ১. সুন্দর এবং মডার্ন কালার প্যালেট
+const bgColors = ['#3b82f6', '#10b981', '#fbbf24', '#f87171', '#8b5cf6', '#ec4899'];
+
+async function loadSupportActivity() {
+    try {
+        const response = await fetch(`${API}/messages`);
+        const result = await response.json();
+        const container = document.querySelector('.support-card');
+         const notifDot = document.getElementById("notifDot");
+
+            // ১. শুধুমাত্র আনরিড মেসেজগুলো আলাদা করা
+        const unreadMessages = result.data ? result.data.filter(msg => msg.isRead === false) : [];
+
+        // ২. যদি আনরিড মেসেজ থাকে তবে নোটিফিকেশন ডট দেখাবে
+        if (unreadMessages.length > 0) {
+            notifDot.classList.add("notif-dot");
+        } else {
+            notifDot.classList.remove("notif-dot");
+        }
+
+        // ৩. যদি কোনো আনরিড মেসেজ না থাকে
+        if (unreadMessages.length === 0) {
+            container.innerHTML = "<p style='padding:15px; font-size:12px; color:#64748b; text-align:center;'>নতুন কোনো মেসেজ নেই</p>";
+            return;
+        }
+        
+        if (!result.data || result.data.length === 0) {
+            container.innerHTML = "<p style='padding:15px; font-size:12px; color:#64748b; text-align:center;'>কোনো মেসেজ নেই</p>";
+            return;
+        }
+
+
+        container.innerHTML = unreadMessages.slice(0, 3).map((msg, index) => {
+            const avatarTxt = msg.name.trim().split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+            const randomBg = bgColors[index % bgColors.length];
+        
+   
+            return `
+                <div class="msg-box ${msg.isRead ? '' : 'unread'}" style="cursor:pointer;" onclick="location.href='message.html#card-${msg._id}'">
+                    <div class="msg-avatar" style="background: ${randomBg}; color: white; font-weight: 700;">
+                        ${avatarTxt}
+                    </div>
+                    <div class="msg-content">
+                        <h4>
+                            ${msg.name} 
+                            <span class="time">${formatTime(msg.createdAt)}</span>
+                        </h4>
+                        <p>${msg.message.substring(0, 40)}${msg.message.length > 40 ? '...' : ''}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+    } catch (error) {
+        console.error("Support Activity Error:", error);
+    }
+}
+
+// ৩. সময় ফরম্যাট করার ফাংশন
+function formatTime(date) {
+    const diff = Math.floor((new Date() - new Date(date)) / 1000);
+    if (diff < 60) return 'Just now';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    return Math.floor(diff / 86400) + 'd ago';
+}
+
+// পেজ লোড হলে কল করুন
+loadSupportActivity();
 
     
     

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Inventory Admin</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; }
+        .admin-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden; max-width: 1100px; margin: 0 auto; }
+        .header { padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #fff; }
+        
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f1f5f9; padding: 12px 15px; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+        td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        
+        .input-group { display: flex; flex-direction: column; gap: 4px; }
+        .input-group label { font-size: 10px; color: #94a3b8; font-weight: bold; }
+        input { border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px; font-size: 14px; width: 80px; transition: 0.2s; }
+        input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        
+        .btn-update { background: #0f172a; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .btn-update:hover { background: #334155; transform: translateY(-1px); }
+        .btn-update:active { transform: translateY(0); }
+        
+        .status-badge { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .stock-low { background: #fee2e2; color: #ef4444; }
+        .stock-ok { background: #dcfce7; color: #10b981; }
+
+        /* Success Animation */
+        .saved { background: #10b981 !important; }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <div class="header">
+        <h2 style="margin:0; color: #1e293b; display: flex; align-items: center; gap: 10px;">
+            <i data-lucide="package"></i> ইনভেন্টরি ম্যানেজমেন্ট
+        </h2>
+        <button onclick="fetchProducts()" style="background:none; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #64748b;">
+            <i data-lucide="refresh-cw" style="width: 16px;"></i> রিফ্রেশ
+        </button>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Info</th>
+                    <th>Sort Index (idx)</th>
+                    <th>Total Sales</th>
+                    <th>Current Stock</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+    <script src="js/index.js"></script>
+<script>             
+    const LOCALHOST = "http://localhost:3000/products";
+    const SERVER = "https://sadharon-store-server.vercel.app/products";
+    const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+    const API = isLocal ? LOCALHOST : SERVER;
+
+    // ১. ডাটা লোড করা
+    async function fetchProducts() {
+        const tbody = document.getElementById('product-list');
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 40px; color: #94a3b8;">লোড হচ্ছে...</td></tr>`;
+
+        try {
+            const res = await fetch(API, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('authToken')}` 
+                },
+            });
+            const result = await res.json();
+
+            if (!result.data || result.data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 40px;">কোনো প্রোডাক্ট পাওয়া যায়নি।</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = result.data.map(p => `
+                <tr>
+                    <td>
+                        <div style="font-weight: 600; color: #1e293b;">${p.name}</div>
+                        <div style="font-size: 11px; color: #64748b;">ID: ${p._id.slice(-6).toUpperCase()}</div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <label>ORDER</label>
+                            <input type="number" id="idx-${p._id}" value="${p.idx || 0}">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <label>SOLD</label>
+                            <input type="number" id="sales-${p._id}" value="${p.totalSales || 0}" disabled>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <label>AVAILABLE</label>
+                            <input type="number" id="stock-${p._id}" value="${p.stock || 0}" 
+                                   style="color: ${p.stock < 5 ? '#ef4444' : '#1e293b'}; font-weight: ${p.stock < 5 ? 'bold' : 'normal'}">
+                        </div>
+                    </td>
+                    <td>
+                        <button id="btn-${p._id}" onclick="handleUpdate('${p._id}')" class="btn-update">
+                            <i data-lucide="save" style="width: 16px;"></i> Update
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            
+            lucide.createIcons();
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: red; padding: 40px;">সার্ভার কানেকশন এরর!</td></tr>`;
+        }
+    }
+
+    // ২. ডাটা আপডেট করা
+    async function handleUpdate(id) {
+        const btn = document.getElementById(`btn-${id}`);
+        const idx = document.getElementById(`idx-${id}`).value;
+        const stock = document.getElementById(`stock-${id}`).value;
+
+        // বাটনে লোডিং স্টেট দেখানো
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = `<i data-lucide="loader-2" class="spin" style="width: 16px;"></i>...`;
+        lucide.createIcons();
+
+        try {
+            const res = await fetch(`${API}/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem('authToken')}`,     
+                },
+                body: JSON.stringify({
+                    idx: parseInt(idx),
+                    stock: parseInt(stock)
+                })
+            });
+          const resData = await res.json()
+            if (res.ok) {
+                // সাকসেস এনিমেশন
+                btn.classList.add('saved');
+                btn.innerHTML = `<i data-lucide="check" style="width: 16px;"></i> Saved`;
+                lucide.createIcons();
+                
+                setTimeout(() => {
+                    btn.classList.remove('saved');
+                    btn.innerHTML = originalContent;
+                    lucide.createIcons();
+                }, 2000);
+            } else {
+                alert("আপডেট ব্যর্থ হয়েছে! ", resData.message);
+                btn.innerHTML = originalContent;
+                lucide.createIcons();
+            }
+        } catch (err) {
+            alert("সার্ভার এরর! ", err.message);
+            btn.innerHTML = originalContent;
+            lucide.createIcons();
+        }
+    }
+
+    // শুরুতে কল করা
+    fetchProducts();
+</script>
+
+<style>
+    /* লোডিং স্পিনার এনিমেশন */
+    .spin {
+        animation: rotate 1s linear infinite;
+    }
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
+
+</body>
+</html>

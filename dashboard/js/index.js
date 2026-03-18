@@ -7,10 +7,17 @@ function getCookie(name) {
 
 function checkAdminAuth() {
     const token = getCookie("adminToken");
+    const localToken = localStorage.getItem("adminToken");
 
-    if (!token) {
+    // যদি কুকি বা লোকাল স্টোরেজ—যেকোনো একটিতে টোকেন মিসিং থাকে
+    if (!token || !localToken) {
+        // সব ডেটা রিমুভ করে দেওয়া হচ্ছে (Security Clean-up)
+        localStorage.removeItem("adminToken");
+        // কুকি ডিলিট করার জন্য এক্সপায়ারি ডেট পাস্টে সেট করতে হয়
+        document.cookie = "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // লগইন পেজে পাঠিয়ে দেওয়া
         window.location.href = "login.html";
-        return; // এখানে এটি নিচের কোডকে ব্লক করে দেবে
+        return; 
     }
 }
 

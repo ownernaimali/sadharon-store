@@ -105,16 +105,20 @@
  <script src="js/index.js"></script>
 
 <script>
-     const SERVER = "https://sadharon-store-server.vercel.app/users";
-     const LOCALHOST = "http://localhost:3000/users";
+     const SERVER = "https://sadharon-store-server.vercel.app/users/all";
+     const LOCALHOST = "http://localhost:3000/users/all";
   const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
   const API = isLocal ? LOCALHOST : SERVER;
 
     async function getUsers() {
         try {
-            const response = await fetch(API);
+            const response = await fetch(API, {
+                   headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+                },
+            });
             const users = await response.json();
-            const tableBody = document.getElementById('userBody');
+              const tableBody = document.getElementById('userBody');
             document.getElementById("total").innerHTML = users.length || 0;
             tableBody.innerHTML = "";
             users.forEach(user => {
@@ -145,7 +149,7 @@
     }
 
     function deleteUser(id) {
-        if(confirm("আপনি কি নিশ্চিত?")) {
+        if(confirm("আপনি কি নিশ্চিত? pending work?")) {
             console.log("Deleting:", id);
         }
     }

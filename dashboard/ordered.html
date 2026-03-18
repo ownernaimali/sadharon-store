@@ -112,7 +112,7 @@ h2{
   
   .select-box {
     position: relative;
-    width: 160px; /* আপনার প্রয়োজন অনুযায়ী ছোট-বড় করতে পারেন */
+    width: 120px; /* আপনার প্রয়োজন অনুযায়ী ছোট-বড় করতে পারেন */
 }
 
 .admin-select {
@@ -234,51 +234,13 @@ h2{
 
 <div class="container">
   <h2>📋 Customer Orders: <span id="length"></span></h2>
-  <!--
-  <div class="order-card">
-    <div class="order-header">
-      <div>
-        <span class="customer-name">Rahim Ahmed</span>
-        <span class="order-id">ID: #44921 | 📞 01700000000</span>
-      </div>
-      <div style="text-align: right; font-size: 12px; color: #888;">Oct 24, 2023</div>
-    </div>
-
-    <div class="item-row">
-      <img src="https://via.placeholder.com/60" alt="Product">
-      <div class="item-info">
-        <h4>Wireless Headphones</h4>
-        <p>Price: ৳1200 | Qty: 1</p>
-      </div>
-      <strong>৳1200</strong>
-    </div>
-
-    <div class="item-row">
-      <img src="https://via.placeholder.com/60" alt="Product">
-      <div class="item-info">
-        <h4>Fast Charger</h4>
-        <p>Price: ৳800 | Qty: 2</p>
-      </div>
-      <strong>৳1600</strong>
-    </div>
-
-    <div class="order-footer">
-      <div class="total-price">Total: ৳2800</div>
-      <button class="done-btn">Mark as Completed</button>
-    </div>
-  </div>
--->
 
 
   <div id="order">
     <!-- fetch order items -->   
-  </div>
-  
-  
+  </div>  
 </div>
-  
- <script src="js/index.js"></script>
-
+  <script src="js/index.js"></script>
   <script>
   const LOCALHOST = "http://localhost:3000/orders";
   const SERVER = "https://sadharon-store-server.vercel.app/orders";
@@ -287,16 +249,24 @@ h2{
 
   async function processingOrder(event, id) {
     const btn = event.currentTarget;
-    const statusSelect = document.getElementById(`status-${id}`);
-    const newStatus = statusSelect.value;
-    
+    const newStatus = document.getElementById(`status-${id}`).value;
+    const payStatus = document.getElementById(`pay-${id}`).value;
+   if(newStatus === "canceled"){
+     if(!confirm("Cancele operation not recovery")) {
+       return
+     }
+   }
+      
     // UI Feedback: Loading
     const originalText = btn.innerText;
     btn.innerText = "Saving...";
     btn.disabled = true;
      try {
-      const response = await fetch(`${API}?id=${id}&status=${newStatus}`, {
-        method: 'PATCH'
+      const response = await fetch(`${API}?id=${id}&status=${newStatus}&pay=${payStatus}`, {
+        method: 'PATCH',
+           headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+                },
       });
       const data = await response.json();
 
@@ -328,7 +298,12 @@ h2{
   }
   
 function loadProducts() {
-    fetch(API)
+  
+    fetch(`${API}/admin`, {
+      headers: {
+      "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+      }
+    })
       .then(res => res.json())
       .then(data => {
         const list = document.getElementById("order");
@@ -350,12 +325,12 @@ function loadProducts() {
             p.items.forEach(item => {
                  itemsHTML += `
                 <div class="item-row">
-                  <img src="../${item.image}" onerror="this.src='https://via.placeholder.com/65'" alt="Product">
+                  <img src="../${item.image}"  alt="${item.name}">
                   <div class="item-info">
                     <h4>${item.name}</h4>
                     <p>৳${item.price} × ${item.quantity}</p>
                   </div>
-                  <strong>৳${item.subTotal}</strong>
+                  <strong>৳${item.price * item.quantity}</strong>
                 </div>`;
             });
           }
@@ -370,7 +345,7 @@ function loadProducts() {
                 </div>
                 <div style="text-align: right;">
                   <div style="font-size: 11px; color: #94a3b8; margin-bottom: 8px;">${p.orderDate}</div>
- <span class="status-badge ${p.paymentStatus === 'paid'? 'delivered' : 'pending'}">${p.paymentStatus}</span> |	‌‌
+ <span class="status-badge ${p.pay === 'paid' ? 'delivered' : 'pending'}">${p.pay}</span> |	‌‌
                 <span class="status-badge ${statusClass}">${p.status}</span>
                 </div>
               </div>
@@ -380,8 +355,14 @@ function loadProducts() {
               <div class="order-footer">
                 <div class="total-price">Total: ৳${p.totalAmount}</div>
                 <div style="display: flex; gap: 10px;">
+                <div>
+                    <select id="pay-${p._id}" class="admin-select">
+                      <option select value="">Pay</option>
+                      <option value="paid">Paid</option>
+                   </select>
+                  </div>
                   <div class="select-box">
-                    <select id="status-${p._id}" class="admin-select">
+                    <select id="status-${p._id}" class="admin-select" ${p.status == 'canceled' ?  'disabled' : ''}>
                       <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>Pending</option>
                       <option value="processing" ${p.status === 'processing' ? 'selected' : ''}>Processing</option>
                       <option value="on-the-way" ${p.status === 'on-the-way' ? 'selected' : ''}>On The Way</option>

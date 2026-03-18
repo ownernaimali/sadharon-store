@@ -152,9 +152,8 @@ button:hover{
   <div id="productList"></div>
 </div>
 
- <script src="js/index.js"></script>
 
-  
+  <script src="js/index.js"></script>
   <script>
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
@@ -166,7 +165,11 @@ button:hover{
   }
   
 function loadProducts(){
-  fetch(API)
+  fetch(API, {
+       headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('authToken')}` 
+                },
+  })
   .then(res => res.json())
   .then(products => {
     
@@ -182,7 +185,7 @@ function loadProducts(){
 
           <div class="info">
             <div class="top">
-              <div class="name">${p.name}</div>
+              <div class="name">${p.idx}. ${p.name}</div>
               <div class="category">${p.category}</div>
             </div>
 
@@ -192,7 +195,7 @@ function loadProducts(){
               <div><b>Cost Price:</b> ৳${p.costPrice}</div>
               <div><b>Quantity:</b> ${p.quantity}</div>
       <div><b>Stock:</b> ৳${p.stock}</div>
-              <div><b>Total Sales:</b> ${p?.totalSales}</div>
+              <div><b>Sold:</b> ${p?.totalSales}</div>
             </div>
 
             <div class="actions">
@@ -205,7 +208,11 @@ function loadProducts(){
         </div>
       `;
     });
-  });
+  })
+ .catch(err => {
+   alert(err.message);
+   console.log(err)
+ })
 }
   
 loadProducts();

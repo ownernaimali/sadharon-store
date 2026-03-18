@@ -124,11 +124,10 @@ button:hover{
 
 <div class="container">
   <button><a href="index.html" style="text-decoration:none;color:white;">⬅️ Back</a></button>
-  <h1>🗑️ Delete Products</h1>
+  <h1>🗑️ Deletable Products <span id="total">0</span></h1>
   <div id="productList">Loading....</div>
 </div>
- <script src="js/index.js"></script>
-
+  <script src="js/index.js"></script>
 <script>
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
@@ -140,8 +139,9 @@ function loadProducts(){
   .then(res => res.json())
   .then(products => {
     const list = document.getElementById("productList");
+    document.getElementById("total").innerHTML = products.results;
     list.innerHTML = "";
- if(products.length === 0){ list.innerHTML = "No Product Found"}
+ if(products.results === 0){ list.innerHTML = "No Product Found"}
 
     products.data.forEach(p => {
       list.innerHTML += `
@@ -163,11 +163,13 @@ function loadProducts(){
  }
 
 function deleteProduct(id) {
- 
-  
+   
   if (confirm("Are you sure you want to disabled this product?")) {
     fetch(`${API}/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+             "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+        },
     })
     .then(res => res.json())
     .then(data => {

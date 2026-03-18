@@ -11,6 +11,7 @@
   
   main {
     padding: 35px 0 80px;
+    margin-bottom: 100px !important;
   }
   h2{
   margin-bottom:15px;
@@ -117,22 +118,24 @@
   </style>
 </head>
 <body>   
-    <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
+     <header>
+        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><a class="help" href="help.html">? সহায়তা</a><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
     </header>
     <!-- bottom nav section -->
     <section class="bottom-nav">
-      <a href="index.html" class="bottom-link"><i data-lucide="home"></i><span>হোম</span></a>
+      <a href="index.html" class="bottom-link active"><i data-lucide="home"></i><span>হোম</span></a>
       <a href="index.html" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
       <div class="bottom-link main-cart">
-        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner cart-active">
+        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
           <i data-lucide="shopping-bag"></i>
           <span id="myCart" class="cart-badge">0</span>
         </div>
+           <span>আমার কার্ট</span>
       </div>      
       <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
       <a href="profile.html" class="bottom-link"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
     </section>    
+  
 
   
 <main class="container">
@@ -328,7 +331,6 @@ function updateCart() {
  */
 async function checkout() {
   const userId = localStorage.getItem("token"); // আপনার টোকেনই যদি userId হয়
-
   if (!userId) {
     alert("Please login to order products.");
     window.location.href = "login.html?page=add-to-cart";
@@ -346,7 +348,6 @@ async function checkout() {
   if (pay) {
     // ব্যাকএন্ডের রিকোয়ারমেন্ট অনুযায়ী অবজেক্ট তৈরি
     const orderData = {
-      userId: userId,
       items: cart.map(item => ({
         productId: item.productId,
         quantity: item.quantity
@@ -357,14 +358,15 @@ async function checkout() {
       const response = await fetch(API, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${userId}`,
         },
         body: JSON.stringify(orderData)
       });
 
       const data = await response.json();
 
-      if (response.ok && data.status === "success") {
+      if (response.ok) {
         alert("✅ Order placed successfully!");
 
         // অর্ডার শেষে কার্ট ক্লিয়ার করা
@@ -373,14 +375,12 @@ async function checkout() {
         renderCart(); // এটি কল করলে অটোমেটিক "Empty" মেসেজ দেখাবে
         if (typeof calMyCart === "function") calMyCart();
 
-        // চাইলে ইউজারকে ড্যাশবোর্ডে পাঠাতে পারেন
-        // window.location.href = "orders.html";
-      } else {
+         } else {
         alert("❌ Server Error: " + (data.message || "Failed to place order"));
       }
     } catch (err) {
       console.error(err);
-      alert("Network error. Is your server running?");
+      alert("Network error. Please Try again or latter");
     }
   }
 }

@@ -350,6 +350,7 @@ body {
     border-radius: 18px; 
     transition: 0.2s; 
     gap: 15px; 
+    margin: 3px 0;
 }
 
 .msg-box:not(:last-child) { border-bottom: 1px solid #f8fafc; }

@@ -192,7 +192,6 @@
     </div>
   </main>
    <script src="js/index.js"></script>
-
   <script>
   const LOCALHOST = "http://localhost:3000/products";
   const SERVER = "https://sadharon-store-server.vercel.app/products";
@@ -226,12 +225,12 @@
       image: document.getElementById('productImageLink').value,
     };
     
-
     // 3. Perform the POST Fetch
     fetch(API, {
         method: "POST", // Specify the method
         headers: {
-            "Content-Type": "application/json" // Tell server we are sending JSON
+            "Content-Type": "application/json",
+             "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
         },
         body: JSON.stringify(productData) // Convert object to JSON string
     })
