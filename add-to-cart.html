@@ -363,7 +363,7 @@ function updateCart() {
   
 async function checkout() {
   const userId = localStorage.getItem("token"); // আপনার টোকেনই যদি userId হয়
-  if (!userId) {
+  if (!userId || userId.length < 10) {
     alert("Please login to order products.");
     window.location.href = "login.html?page=add-to-cart";
     return;
@@ -398,22 +398,30 @@ async function checkout() {
 
   // ১. সরাসরি json() কল করার আগে রেসপন্স টাইপ চেক করা ভালো
   const data = await response.json();
-if(data.status === "success") {
-  
-  alert(data.message || "অর্ডার সফল হয়েছে!");
+i// ২. শুধুমাত্র 'ok' (status 200-299) এবং 'success' হলেই কার্ট মুছুন
+  if (response.ok && data.status === "success") {
+    
+    alert(data.message || "অর্ডার সফল হয়েছে!");
 
-      // অর্ডার শেষে কার্ট ক্লিয়ার করা
-      localStorage.removeItem("cart");
-      cart = [];
-      
-      // UI আপডেট
-       renderCart();
-       calMyCart();
+    // অর্ডার সফল হলেই কেবল কার্ট ক্লিয়ার হবে
+    localStorage.removeItem("cart");
+    cart = [];
+    
+    // UI আপডেট
+    renderCart();
+    calMyCart();
 
-} else if (data.jwt === "error" || data.success === "error")  {
-  errorPrint(data.message || "অর্ডার প্রক্রিয়াকরণ করা যায়নি।");
-  
-} 
+  } 
+  // ৩. টোকেন বা অথরাইজেশন এরর হ্যান্ডলিং (status 401/403)
+  else if (response.status === 401 || response.status === 403 || data.jwt === "error") {
+    // এখানে কার্ট মোছা হবে না, ইউজারকে লগইন করতে বলা হবে
+    errorPrint(data.message || "আপনার সেশন শেষ হয়ে গেছে। দয়া করে আবার লগইন করুন।");
+    
+  } 
+  // ৪. অন্য যেকোনো এরর (যেমন: ৪০০ বা ৫০০ স্ট্যাটাস)
+  else {
+    errorPrint(data.message || "অর্ডার প্রক্রিয়াকরণ করা যায়নি। আবার চেষ্টা করুন।");
+  }
   
 } catch (err) {
   // ২. নেটওয়ার্ক ফেইলুর বা JSON পার্সিং এরর এখানে আসবে
