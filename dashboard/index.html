@@ -85,7 +85,9 @@
                 </div>
                 <span>Sadharon <strong>Store</strong></span>
             </div>
-
+            <div>
+                <i onclick="logout()" data-lucide="log-out" size="24" color="#64748b"></i>
+            </div>
             <div class="notif-bell" onclick="window.location.href='message.html'">
                 <i data-lucide="bell" size="24" color="#64748b"></i>
                 <span id="notifDot"></span>
@@ -251,6 +253,17 @@
     <script src="js/index.js"></script>
 <script src="../js/dashboardChart.js"></script>
 <script>
+    
+  function logout() {
+          // সব ডেটা রিমুভ করে দেওয়া হচ্ছে (Security Clean-up)
+        localStorage.removeItem("adminToken");
+        // কুকি ডিলিট করার জন্য এক্সপায়ারি ডেট পাস্টে সেট করতে হয়
+        document.cookie = "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // লগইন পেজে পাঠিয়ে দেওয়া
+        window.location.href = "login.html";
+        return; 
+  }
+    
       
   const LOCALHOST = "http://localhost:3000";
   const SERVER = "https://sadharon-store-server.vercel.app";
