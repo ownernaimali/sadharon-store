@@ -1,8 +1,7 @@
-
 {
   "hosting": [
     {
-      "target": "store-site",
+      "target": "s1",
       "public": ".",
       "ignore": [
         "firebase.json",
@@ -14,9 +13,9 @@
       ]
     },
     {
-      "target": "second-site",
+      "target": "s2",
       "public": ".",
-     "ignore": [
+      "ignore": [
         "firebase.json",
         "**/.*",
         "**/node_modules/**",
@@ -26,5 +25,4 @@
       ]
     }
   ]
-
 }

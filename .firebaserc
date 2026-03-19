@@ -5,10 +5,10 @@
   "targets": {
     "sadharonstore": {
       "hosting": {
-        "store-site": [
+        "s1": [
           "sadharonstore"
         ],
-        "second-site": [
+        "s2": [
           "storebd"
         ]
       }

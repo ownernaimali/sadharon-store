@@ -148,7 +148,7 @@
     <p><span>Delivery</span><span>Free</span></p>
     <p class="total"><span>Total</span><span id="total"></span></p>
 
-    <button class="checkout-btn" onclick="checkout()">অর্ডার নিশ্চিত করুন</button>
+    <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">অর্ডার নিশ্চিত করুন</button>
   </div>
 
 <div id="empty" style="
@@ -329,7 +329,7 @@ function updateCart() {
 /**
  * ৭. চেকআউট লজিক (Backend Integration)
  */
-  function errorPrint (message) {
+  function errorPrint (message) {    
     
       summary.style.display = "none";
     empty.style.display = "none";
@@ -359,12 +359,18 @@ function updateCart() {
                 ">লগইন করুন</a>
             </div>
   `
+    
+
+    
   }
   
 async function checkout() {
+  
+  const btn = document.getElementById('checkoutBtn');
+  
   const userId = localStorage.getItem("token"); // আপনার টোকেনই যদি userId হয়
   if (!userId || userId.length < 10) {
-    alert("Please login to order products.");
+    alert("অর্ডার করতে হলে লগইন করুন?");
     window.location.href = "login.html?page=add-to-cart";
     return;
   }
@@ -377,7 +383,7 @@ async function checkout() {
 
   const pay = confirm("Confirm your order?");
 
-  if (pay) {
+  if (!pay) { return }
     // ব্যাকএন্ডের রিকোয়ারমেন্ট অনুযায়ী অবজেক্ট তৈরি
     const orderData = {
       items: cart.map(item => ({
@@ -387,6 +393,9 @@ async function checkout() {
     };
 
  try {
+     btn.disabled = true;
+  btn.innerText = " অর্ডার প্রসেসিং হচ্ছে...";
+
   const response = await fetch(API, {
     method: "POST",
     headers: {
@@ -398,7 +407,7 @@ async function checkout() {
 
   // ১. সরাসরি json() কল করার আগে রেসপন্স টাইপ চেক করা ভালো
   const data = await response.json();
-i// ২. শুধুমাত্র 'ok' (status 200-299) এবং 'success' হলেই কার্ট মুছুন
+// ২. শুধুমাত্র 'ok' (status 200-299) এবং 'success' হলেই কার্ট মুছুন
   if (response.ok && data.status === "success") {
     
     alert(data.message || "অর্ডার সফল হয়েছে!");
@@ -422,14 +431,16 @@ i// ২. শুধুমাত্র 'ok' (status 200-299) এবং 'success' �
   else {
     errorPrint(data.message || "অর্ডার প্রক্রিয়াকরণ করা যায়নি। আবার চেষ্টা করুন।");
   }
-  
+     
 } catch (err) {
   // ২. নেটওয়ার্ক ফেইলুর বা JSON পার্সিং এরর এখানে আসবে
   console.error("Fetch Error:", err);
     errorPrint(`নেটওয়ার্ক সমস্যা! দয়া করে ইন্টারনেট কানেকশন চেক করে আবার চেষ্টা করুন। ${err.message}`)             
-}
-    
- }    
+  
+} finally {
+  btn.disabled = false;
+  btn.innerText = "অর্ডার নিশ্চিত করুন";
+}       
 }
 // ৮. পেজ লোড হলে কার্ট রেন্ডার করা
 renderCart();

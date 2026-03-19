@@ -149,18 +149,43 @@
 </div>
             <div class="form-group">
                 <label>আপনার নাম</label>
-                <input type="text" id="name" placeholder="পুরো নাম লিখুন" required>
+                <input
+                    maxlength="25" 
+                      minlength="3"
+                    type="text" id="name" placeholder="পুরো নাম লিখুন" required>
             </div>
+   
+      <div class="form-group">
+    <label>ফোন নম্বর</label>
+    <input 
+        type="tel" 
+        id="phone" 
+        placeholder="০১৭XXXXXXXX" 
+        pattern="01[3-9][0-9]{8}" 
+        maxlength="11" 
+        minlength="11" 
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+        required
+    >
+</div>
 
+       
+            
+            
             <div class="form-group">
-                <label>ফোন নম্বর</label>
-                <input type="tel" id="phone" placeholder="০১৭XXXXXXXX" required>
-            </div>
-      
-            <div class="form-group">
-                <label>মন্তব্য</label>
-                <textarea id="message" rows="3" placeholder="আপনার মন্তব্য লিখুন...." required></textarea>
-            </div>
+    <label>মন্তব্য</label>
+    <textarea 
+        id="message" 
+        rows="3" 
+        placeholder="আপনার মন্তব্য লিখুন...." 
+        maxlength="300" 
+        required
+    ></textarea>
+    <div id="char-count" style="font-size: 12px; color: #666; text-align: right; margin-top: 5px;">
+        ০ / ৩০০
+    </div>
+</div>
+
 
             <p id="display-message"></p>
 
@@ -170,6 +195,26 @@
     
 
     <script>
+    
+    
+const messageArea = document.getElementById('message');
+const charCount = document.getElementById('char-count');
+
+messageArea.addEventListener('input', function() {
+    const length = this.value.length;
+    // Converts the number to Bengali digits for a consistent look
+    const bnLength = length.toLocaleString('bn-BD');
+    charCount.textContent = `${bnLength} / ৩০০`;
+
+    // Visual feedback when approaching the limit
+    if (length >= 280) {
+        charCount.style.color = 'red';
+    } else {
+        charCount.style.color = '#666';
+    }
+});
+
+    
       // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
       if(window.lucide) lucide.createIcons();
       // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
