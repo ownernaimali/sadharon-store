@@ -6,6 +6,9 @@
     "sadharonstore": {
       "hosting": {
         "store-site": [
+          "sadharonstore"
+        ],
+        "second-site": [
           "storebd"
         ]
       }

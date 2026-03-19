@@ -1,15 +1,30 @@
-{
-  "hosting": {
-    "target": "store-site",
-    "public": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
-      ".env",
-      ".git/**",
-      ".gitignore"
-    ]
-  }
-}
 
+{
+  "hosting": [
+    {
+      "target": "store-site",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        ".env",
+        ".git/**",
+        ".gitignore"
+      ]
+    },
+    {
+      "target": "second-site",
+      "public": ".",
+     "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        ".env",
+        ".git/**",
+        ".gitignore"
+      ]
+    }
+  ]
+
+}
