@@ -226,6 +226,52 @@ h2{
 }
 
   
+/* Container for horizontal swipe on mobile */
+.status-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin: 25px 0 35px;
+  padding: 5px 2px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+.status-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+/* Base Modern Button */
+.btn-status {
+  padding: 15px 16px;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-status:active { opacity: 0.7; transform: scale(0.96); }
+
+  /* Active State: Full color and slight lift */
+.btn-status.active {
+  background: white;
+  color: green;
+  margin: 0 14px;
+   border: 2px solid green;
+ }
+
+/* Status Specific Deep Colors */
+ .bg-all {background: #1e20af;}
+.bg-pending { background: #92400e; }
+.bg-processing { background: #1e40af; }
+.bg-ontheway { background: #5b21b6; }
+.bg-delivered { background: #166534; }
+.bg-paid { background: #0f766e; }
+.bg-unpaid { background: #991b1b; }
+.bg-canceled { background: #334155; }
   
 </style>
 </head>
@@ -235,6 +281,16 @@ h2{
 <div class="container">
   <h2>📋 Customer Orders: <span id="length"></span></h2>
 
+<div class="status-container">
+  <button class="btn-status active bg-all" onclick="filterData(event, 'all')">All</button>
+  <button class="btn-status bg-pending" onclick="filterData(event, 'pending')">Pending</button>
+  <button class="btn-status bg-processing" onclick="filterData(event, 'processing')">Processing</button>
+  <button class="btn-status bg-ontheway" onclick="filterData(event, 'on-the-way')">On The Way</button>
+  <button class="btn-status  bg-delivered" onclick="filterData(event, 'delivered')">Delivered</button>
+  <button class="btn-status bg-paid" onclick="filterData(event, 'paid')">Paid</button>
+  <button class="btn-status bg-unpaid" onclick="filterData(event, 'unpaid')">Unpaid</button>
+  <button class="btn-status bg-canceled" onclick="filterData(event, 'canceled')">Canceled</button>
+</div>
 
   <div id="order">
     <!-- fetch order items -->   
@@ -247,6 +303,9 @@ h2{
   const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
   const API = isLocal ? LOCALHOST : SERVER;
 
+  // don't delete
+  let allOrders = []; // Global variable to store original data
+
   async function processingOrder(event, id) {
     const btn = event.currentTarget;
     const newStatus = document.getElementById(`status-${id}`).value;
@@ -255,8 +314,7 @@ h2{
      if(!confirm("Cancele operation not recovery")) {
        return
      }
-   }
-      
+   }      
     // UI Feedback: Loading
     const originalText = btn.innerText;
     btn.innerText = "Saving...";
@@ -297,26 +355,24 @@ h2{
     btn.disabled = false;
   }
   
-function loadProducts() {
   
-    fetch(`${API}/admin`, {
-      headers: {
-      "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        const list = document.getElementById("order");
+  
+function renderOrders (status) {
+    const list = document.getElementById("order");
         // সার্ভার থেকে 'results' বা 'count' যা আসে সেটি বসান
-        document.getElementById("length").innerText = data.results || data.count || 0;
-        
-        if (!data.data || data.data.length === 0) {
-          list.innerHTML = "<p>No orders found.</p>";
-          return;
-        }
-
+  let filter = [];
+  
+  if(status === "all" || status === "" || !status) {
+    filter = allOrders;
+  } else if(status === "paid" || status === "unpaid") {
+    filter = allOrders.filter(i => i.pay === status)
+  } else {
+    filter = allOrders.filter(i => i.status === status)
+  }
+         
+                
         // ডাটা রিভার্স করে ম্যাপ করা
-        list.innerHTML = data.data.reverse().map(p => {
+        list.innerHTML = filter.map(p => {
            const statusClass = p.status.toLowerCase().replace(/\s+/g, '-');
 
           // আইটেমগুলোর লিস্ট তৈরি করা
@@ -376,6 +432,28 @@ function loadProducts() {
             </div>
           `;
         }).join('');
+}  
+  
+function loadProducts() {
+  
+    fetch(`${API}/admin`, {
+      headers: {
+      "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+                      
+        
+      const list = document.getElementById("order");
+       document.getElementById("length").innerText = data.results || data.count || 0;
+       if (!data.data || data.data.length === 0) {
+          list.innerHTML = "<p>No orders found.</p>";
+          return;
+        }
+        allOrders = data.data;
+        renderOrders()
+        
       })
       .catch(error => {
         console.error("Fetch Error:", error);
@@ -384,6 +462,21 @@ function loadProducts() {
 }
 
 
+  
+function filterData(event, status) {
+    const clickedBtn = event.currentTarget;   
+     const container = document.querySelector('.status-container');
+    
+    container.querySelectorAll('.btn-status').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    clickedBtn.classList.add('active');
+  renderOrders(status)
+
+}
+
+  
+  
   loadProducts();
   
   

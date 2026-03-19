@@ -193,7 +193,7 @@
         অর্ডার শুরু করতে প্রথমে আপনার পছন্দের পণ্যগুলো নির্বাচন করে কার্টে যোগ করুন।
     </p>
 
-    <a href="index.html" style="
+    <a href="/" style="
         display: inline-block; 
         padding: 14px 40px; 
         background: linear-gradient(135deg, #00b894, #00cec9); 
@@ -371,7 +371,7 @@ async function checkout() {
   const userId = localStorage.getItem("token"); // আপনার টোকেনই যদি userId হয়
   if (!userId || userId.length < 10) {
     alert("অর্ডার করতে হলে লগইন করুন?");
-    window.location.href = "login.html?page=page=add-to-cart";
+    window.location.href = "login.html?page=add-to-cart";
     return;
   }
 
