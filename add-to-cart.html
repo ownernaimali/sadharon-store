@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sadharon Store | Premium Shop</title>
+    <title>Cart | Sadharon Store | Premium Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
    <link rel="stylesheet"href="css/index.css">
@@ -348,7 +348,7 @@ function updateCart() {
                 <p style="color: red; font-size: 17px; margin-bottom: 20px;">
                    ${message}
                 </p>
-                <a href="login.html?add-to-cart" style="
+                <a href="login.html?page=add-to-cart" style="
                     text-decoration: none; 
                     background-color: #007bff; 
                     color: white; 
@@ -371,7 +371,7 @@ async function checkout() {
   const userId = localStorage.getItem("token"); // আপনার টোকেনই যদি userId হয়
   if (!userId || userId.length < 10) {
     alert("অর্ডার করতে হলে লগইন করুন?");
-    window.location.href = "login.html?page=add-to-cart";
+    window.location.href = "login.html?page=page=add-to-cart";
     return;
   }
 

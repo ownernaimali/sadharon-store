@@ -301,14 +301,14 @@ body {
 
       products.data.forEach(p => {
           
-        const savings = Math.round(((p.actualPrice - p.discountPrice) / p.actualPrice) * 100);
+        const savings = Math.round(p.actualPrice - p.discountPrice);
 
         // কার্ড তৈরি
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
             <div class="image-container">
-                ${savings > 0 ? `<span class="discount-tag">${savings}% OFF</span>` : ''}
+                ${savings > 0 ? `<span class="discount-tag">${savings} TK OFF</span>` : ''}
                 <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300'">
             </div>
             <div class="product-info">
