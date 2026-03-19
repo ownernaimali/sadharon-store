@@ -1,13 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সাহায্য কেন্দ্র | Sadharon Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Sadharon Store | Premium Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+   <link rel="stylesheet"href="css/index.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
         .container { width: 92%; max-width: 700px; margin: 30px auto; }
         
@@ -73,13 +76,28 @@
         .msg-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
     
-    
-    
     </style>
 </head>
-<body>
+<body>   
+      <header>
+        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><a class="help" href="help.html">? সহায়তা</a><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
+    </header>
+    <!-- bottom nav section -->
+    <section class="bottom-nav">
+      <a href="index.html" class="bottom-link active"><i data-lucide="home"></i><span>হোম</span></a>
+      <a href="index.html" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
+      <div class="bottom-link main-cart">
+        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
+          <i data-lucide="shopping-bag"></i>
+          <span id="myCart" class="cart-badge">0</span>
+        </div>
+           <span>আমার কার্ট</span>
+      </div>      
+      <a href="view-order.html" class="bottom-link">  <i data-lucide="package"></i> <span>আমার অর্ডার</span></a>
+      <a href="profile.html" class="bottom-link"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
+    </section>    
 
-    <div class="container">
+ <div class="container">
         <a href="index.html" class="back-link">← হোম পেজে ফিরে যান</a>
 
         <div class="help-header">
@@ -150,11 +168,30 @@
         </form>
     </div>    
     
+
     <script>
-        // আইকন লোড করার জন্য
- if(window.lucide) lucide.createIcons();
+      // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
+      if(window.lucide) lucide.createIcons();
+      // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
+  function calMyCart() {
+    const myCartEle = document.getElementById("myCart");
+      const topCart = document.getElementById("count")
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let total = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
     
-        const LOCALHOST = "http://localhost:3000/messages";
+    myCartEle.innerHTML = total;
+    topCart.innerHTML= total;
+      }
+
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+      calMyCart();
+    }
+  });
+    
+calMyCart()
+    
+       const LOCALHOST = "http://localhost:3000/messages";
         const SERVER = "https://sadharon-store-server.vercel.app/messages";
           const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
           const API = isLocal ? LOCALHOST : SERVER;
@@ -206,8 +243,7 @@
                 submitBtn.disabled = false;
             }
         });
-
-
+    
     
     </script>
 </body>

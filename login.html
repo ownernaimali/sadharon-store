@@ -176,10 +176,16 @@
                     msgElement.innerText = "লগইন সফল! কিছুক্ষণ অপেক্ষা করুন...";
                     msgElement.classList.add("msg-success");
                     // Save info
-                     localStorage.setItem("token", result.userToken);
+                     
+                    if(!result.token) {
+                        alert("Token get problem. Please try again?")
+                        window.location.reload()
+                        return;
+                    }
+                      localStorage.setItem("token", result.token);
                      // Redirect
                     setTimeout(() => {
-                        window.location.href = page ? `${page}.html` : "index.html";
+                       window.location.href = page ? `${page}.html` : "index.html";
                     }, 1000);
 
                 } else {

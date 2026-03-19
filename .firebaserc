@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "sadharonstore"
+  },
+  "targets": {
+    "sadharonstore": {
+      "hosting": {
+        "store-site": [
+          "storebd"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

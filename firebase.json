@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "target": "store-site",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      ".env",
+      ".git/**",
+      ".gitignore"
+    ]
+  }
+}
+

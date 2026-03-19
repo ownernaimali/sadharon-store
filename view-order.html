@@ -220,23 +220,44 @@ function loadProducts() {
         return;
     }
 
-    // ব্যাকএন্ড থেকে ডাটা ফেচ করা
-    fetch(API, {
-        headers: {  "Authorization": `Bearer ${token}` }        
-      }
-    )
-        .then(res => {
-              if (res.status === 401 || res.status === 403) {
-        // টোকেন ভুল বা এক্সপায়ার হলে লগআউট করিয়ে দিন
-        localStorage.removeItem("authToken");
-        window.location.href = "login.html?page=view-order";
-        throw new Error("Unauthorized access");
+ // ব্যাকএন্ড থেকে ডাটা ফেচ করা
+fetch(API, {
+    headers: { "Authorization": `Bearer ${token}` }
+})
+.then(res => res.json())
+.then(response => {
+    // আপনার কাস্টম লজিক: যদি JWT বা টোকেনে সমস্যা থাকে
+    if (response?.jwt === "error") {
+list.innerHTML = `
+          <div style="
+                text-align: center; 
+                padding: 40px 20px; 
+                border: 1px solid #ddd; 
+                border-radius: 10px; 
+                background-color: #f9f9f9; 
+                max-width: 500px; 
+                margin: 20px auto;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            ">
+                <h2 style="color: #333; margin-bottom: 15px;"> ত্রুটি</h2>
+                <p style="color: red; font-size: 17px; margin-bottom: 20px;">
+                   ${response.message}
+                </p>
+                <a href="login.html?view-order" style="
+                    text-decoration: none; 
+                    background-color: #007bff; 
+                    color: white; 
+                    padding: 10px 25px; 
+                    border-radius: 5px; 
+                    display: inline-block;
+                    font-weight: bold;
+                ">লগইন করুন</a>
+            </div>
+        `;
+
+         return;
     }
-            if (!res.ok) throw new Error("Network response was not ok");
-            return res.json();
-        })
-        .then(response => {
-            // আপনার ব্যাকএন্ড থেকে ডাটা 'data' প্রপার্টিতে আসে
+              // আপনার ব্যাকএন্ড থেকে ডাটা 'data' প্রপার্টিতে আসে
             const orders = response.data || [];
             const lengthElement = document.getElementById("length");
             
@@ -345,8 +366,32 @@ function loadProducts() {
         })
         .catch(err => {
             console.error("❌ Fetch error:", err);
-            list.innerHTML = `<p style="text-align:center; color:red; padding: 20px;">Error loading orders. Please try again later. ${err.message}</p>`;
-        });
+    list.innerHTML = `
+          <div style="
+                text-align: center; 
+                padding: 40px 20px; 
+                border: 1px solid #ddd; 
+                border-radius: 10px; 
+                background-color: #f9f9f9; 
+                max-width: 500px; 
+                margin: 20px auto;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            ">
+                <h2 style="color: #333; margin-bottom: 15px;"> ত্রুটি</h2>
+                <p style="color: red; font-size: 17px; margin-bottom: 20px;">
+                   নেটওয়ার্ক সমস্যা! দয়া করে ইন্টারনেট কানেকশন চেক করে আবার চেষ্টা করুন। ${err.message}
+                </p>
+                <a href="login.html?view-order" style="
+                    text-decoration: none; 
+                    background-color: #007bff; 
+                    color: white; 
+                    padding: 10px 25px; 
+                    border-radius: 5px; 
+                    display: inline-block;
+                    font-weight: bold;
+                ">লগইন করুন</a>
+            </div>
+        `; });
 }
 
 // ফাংশনটি কল করা

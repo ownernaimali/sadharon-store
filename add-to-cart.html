@@ -329,6 +329,38 @@ function updateCart() {
 /**
  * ৭. চেকআউট লজিক (Backend Integration)
  */
+  function errorPrint (message) {
+    
+      summary.style.display = "none";
+    empty.style.display = "none";
+  list.innerHTML = `
+       <div style="
+                text-align: center; 
+                padding: 40px 20px; 
+                border: 1px solid #ddd; 
+                border-radius: 10px; 
+                background-color: #f9f9f9; 
+                max-width: 500px; 
+                margin: 20px auto;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            ">
+                <h2 style="color: #333; margin-bottom: 15px;"> ত্রুটি</h2>
+                <p style="color: red; font-size: 17px; margin-bottom: 20px;">
+                   ${message}
+                </p>
+                <a href="login.html?add-to-cart" style="
+                    text-decoration: none; 
+                    background-color: #007bff; 
+                    color: white; 
+                    padding: 10px 25px; 
+                    border-radius: 5px; 
+                    display: inline-block;
+                    font-weight: bold;
+                ">লগইন করুন</a>
+            </div>
+  `
+  }
+  
 async function checkout() {
   const userId = localStorage.getItem("token"); // আপনার টোকেনই যদি userId হয়
   if (!userId) {
@@ -338,9 +370,9 @@ async function checkout() {
   }
 
   // যদি কার্ট খালি থাকে তবে কিছুই হবে না, শুধু রি-রেন্ডার হবে
-  if (!cart || cart.length === 0) {
-    renderCart();
-    return;
+ if (!cart || cart.length === 0) {
+   renderCart();
+   return;
   }
 
   const pay = confirm("Confirm your order?");
@@ -354,41 +386,51 @@ async function checkout() {
       }))
     };
 
-    try {
-      const response = await fetch(API, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${userId}`,
-        },
-        body: JSON.stringify(orderData)
-      });
+ try {
+  const response = await fetch(API, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${userId}`,
+    },
+    body: JSON.stringify(orderData)
+  });
 
-      const data = await response.json();
+  // ১. সরাসরি json() কল করার আগে রেসপন্স টাইপ চেক করা ভালো
+  const data = await response.json();
+if(data.status = "success") {
+  
+  alert(data.message || "অর্ডার সফল হয়েছে!");
 
-      if (response.ok) {
-        alert("✅ Order placed successfully!");
+      // অর্ডার শেষে কার্ট ক্লিয়ার করা
+      localStorage.removeItem("cart");
+      cart = [];
+      
+      // UI আপডেট
+      if (typeof renderCart === "function") renderCart();
+      if (typeof calMyCart === "function") calMyCart();
 
-        // অর্ডার শেষে কার্ট ক্লিয়ার করা
-        localStorage.removeItem("cart");
-        cart = [];
-        renderCart(); // এটি কল করলে অটোমেটিক "Empty" মেসেজ দেখাবে
-        if (typeof calMyCart === "function") calMyCart();
+} else if (data.jwt == "error") {
+  errorPrint(data.message || "অর্ডার প্রক্রিয়াকরণ করা যায়নি।");
 
-         } else {
-        alert("❌ Server Error: " + (data.message || "Failed to place order"));
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Network error. Please Try again or latter");
-    }
-  }
+  
+} else if (data.success == "error") {
+ errorPrint(data.message || "অর্ডার প্রক্রিয়াকরণ করা যায়নি।");
+
 }
-
+  
+} catch (err) {
+  // ২. নেটওয়ার্ক ফেইলুর বা JSON পার্সিং এরর এখানে আসবে
+  console.error("Fetch Error:", err);
+    errorPrint(`নেটওয়ার্ক সমস্যা! দয়া করে ইন্টারনেট কানেকশন চেক করে আবার চেষ্টা করুন। ${err.message}`)             
+}
+    
+ }    
+}
 // ৮. পেজ লোড হলে কার্ট রেন্ডার করা
 renderCart();
     
-    </script>
+  </script>
 </body>
 </html>
 
