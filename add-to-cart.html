@@ -398,7 +398,7 @@ async function checkout() {
 
   // ১. সরাসরি json() কল করার আগে রেসপন্স টাইপ চেক করা ভালো
   const data = await response.json();
-if(data.status = "success") {
+if(data.status === "success") {
   
   alert(data.message || "অর্ডার সফল হয়েছে!");
 
@@ -407,17 +407,13 @@ if(data.status = "success") {
       cart = [];
       
       // UI আপডেট
-      if (typeof renderCart === "function") renderCart();
-      if (typeof calMyCart === "function") calMyCart();
+       renderCart();
+       calMyCart();
 
-} else if (data.jwt == "error") {
+} else if (data.jwt === "error" || data.success === "error")  {
   errorPrint(data.message || "অর্ডার প্রক্রিয়াকরণ করা যায়নি।");
-
   
-} else if (data.success == "error") {
- errorPrint(data.message || "অর্ডার প্রক্রিয়াকরণ করা যায়নি।");
-
-}
+} 
   
 } catch (err) {
   // ২. নেটওয়ার্ক ফেইলুর বা JSON পার্সিং এরর এখানে আসবে
