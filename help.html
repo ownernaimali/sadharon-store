@@ -12,8 +12,7 @@
     
          * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
-        .container { width: 92%; max-width: 700px; margin: 30px auto; }
-        
+      
         /* হেডার স্টাইল */
         .help-header { text-align: center; margin-bottom: 40px; }
         .help-header h1 { font-size: 28px; color: #1e293b; margin-bottom: 10px; }
@@ -80,14 +79,14 @@
 </head>
 <body>   
       <header>
-        <div class="container nav-flex"><div onclick="window.location.href='index.html'"  class="logo">Sadharon<span>Store</span></div><a class="help" href="help.html">? সহায়তা</a><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
+        <div class="container nav-flex"><div onclick="window.location.href='/'"  class="logo">Sadharon<span>Store</span></div><a class="help active" href="help.html">? সহায়তা</a><div onclick="window.location.href='add-to-cart.html'" id="cart-count-display" style="background: #1e293b; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;"><i data-lucide="shopping-cart" style="width: 14px; vertical-align: middle;"></i> <span id="count">0</span></div></div>
     </header>
     <!-- bottom nav section -->
     <section class="bottom-nav">
-      <a href="index.html" class="bottom-link active"><i data-lucide="home"></i><span>হোম</span></a>
-      <a href="index.html" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
+      <a href="/" class="bottom-link"><i data-lucide="home"></i><span>হোম</span></a>
+      <a href="/category.html" class="bottom-link"><i data-lucide="grid"></i><span>ক্যাটাগরি</span></a>
       <div class="bottom-link main-cart">
-        <div onclick="window.location.href='add-to-cart.html'" class="cart-btn-inner">
+        <div onclick="window.location.href='/add-to-cart.html'" class="cart-btn-inner">
           <i data-lucide="shopping-bag"></i>
           <span id="myCart" class="cart-badge">0</span>
         </div>
@@ -98,7 +97,7 @@
     </section>    
 
  <div class="container">
-        <a href="index.html" class="back-link">← হোম পেজে ফিরে যান</a>
+        <a href="index.html" style="margin:15px 0;" class="back-link">← হোম পেজে ফিরে যান</a>
 
         <div class="help-header">
             <h1>সাধারণ <span>সাহায্য কেন্দ্র</span></h1>
