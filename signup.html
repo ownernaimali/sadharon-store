@@ -184,21 +184,18 @@
                 
                 if (response.ok) {
                     msgElement.className = "msg-success";
-                    msgElement.innerText = "সাফল্য! আপনার অ্যাকাউন্ট তৈরি হয়েছে।";
+                    msgElement.innerText = data.message || "সাফল্য! আপনার অ্যাকাউন্ট তৈরি হয়েছে।";
                     this.reset(); // Reset form on success
                     toggleBtn.textContent = "Show";
-                    passwordInput.type = "password";
+                    passwordInput.type = "password";          
                     if(data.userId) {
-                        localStorage.setItem("token", data.userId);
-                         // Use setTimeout to delay the redirect
-                      setTimeout(() => {
-                          window.location.href = "index.html"; 
-                      }, 2000); 
-                    } else {
-                           setTimeout(() => {
+                         setTimeout(() => {
                           window.location.href = "login.html"; 
                       }, 2000); 
+                    } else {
+                        throw new Error(data.message || "নিবন্ধন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
                     }
+                    
                 } else {
                     throw new Error(data.message || "নিবন্ধন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
                 }
