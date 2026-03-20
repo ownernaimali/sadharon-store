@@ -73,11 +73,7 @@
         tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 40px; color: #94a3b8;">লোড হচ্ছে...</td></tr>`;
 
         try {
-            const res = await fetch(API, {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('authToken')}` 
-                },
-            });
+            const res = await fetch(API);
             const result = await res.json();
 
             if (!result.data || result.data.length === 0) {
@@ -140,7 +136,7 @@
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${localStorage.getItem('authToken')}`,     
+                    "Authorization": `Bearer ${localStorage.getItem('adminToken')}`,     
                 },
                 body: JSON.stringify({
                     idx: parseInt(idx),
@@ -160,12 +156,12 @@
                     lucide.createIcons();
                 }, 2000);
             } else {
-                alert("আপডেট ব্যর্থ হয়েছে! ", resData.message);
+                alert("আপডেট ব্যর্থ হয়েছে! "+ resData.message);
                 btn.innerHTML = originalContent;
                 lucide.createIcons();
             }
         } catch (err) {
-            alert("সার্ভার এরর! ", err.message);
+            alert("সার্ভার এরর! "+ err.message);
             btn.innerHTML = originalContent;
             lucide.createIcons();
         }
