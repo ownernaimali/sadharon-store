@@ -141,7 +141,7 @@
       <a href="profile.html" class="bottom-link active"><i data-lucide="user"></i><span>প্রোফাইল</span></a>
     </section>    
 
-<div class="settings-container container">
+<div id="container" class="settings-container container">
     <aside class="settings-sidebar">
         <div class="user-profile-brief">
             <div id="avatar" class="avatar">JS</div>
@@ -217,6 +217,8 @@
       // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
       if(window.lucide) lucide.createIcons();
       // ১. কার্ট সংখ্যা আপডেট (ব্যাক বাটন সাপোর্ট সহ)
+const container = document.getElementById("container");
+    
   function calMyCart() {
     const myCartEle = document.getElementById("myCart");
       const topCart = document.getElementById("count")
@@ -245,6 +247,41 @@ const SERVER = "https://sadharon-store-server.vercel.app/users";
   const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
   const API = isLocal ? LOCALHOST : SERVER;
 
+ function errorPrint (message) {    
+          
+  container.innerHTML = `
+       <div style="
+                text-align: center; 
+                padding: 40px 20px; 
+                border: 1px solid #ddd; 
+                border-radius: 10px; 
+                background-color: #f9f9f9; 
+                width:380px;
+                max-width: 500px; 
+                margin: 20px auto;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            ">
+                <h2 style="color: #333; margin-bottom: 15px;"> ত্রুটি</h2>
+                <p style="color: red; font-size: 17px; margin-bottom: 20px;">
+                   ${message}
+                </p>
+                <a href="login.html?page=setting" style="
+                    text-decoration: none; 
+                    background-color: #007bff; 
+                    color: white; 
+                    padding: 10px 25px; 
+                    border-radius: 5px; 
+                    display: inline-block;
+                    font-weight: bold;
+                ">লগইন করুন</a>
+            </div>
+  `
+}
+    
+    
+    
+    
+    
     // 3. Optimized Fetch Call
 if (token) {
    fetch(API, {
@@ -264,33 +301,36 @@ if (token) {
                 // Mapping the data to the HTML IDs
                 document.getElementById('userName').value = user.name;
                 document.getElementById('userPhone').value = user.phone;
-                document.getElementById('userAddress').value = user.address; // New field
+                document.getElementById('userAddress').value = user.address; // New field                
                 
-                
-            }  else {
-                
-     console.warn("No token found, redirecting or showing login...");
-    localStorage.removeItem('token');
-    window.location.href = "login.html?page=setting";
-              }
+            }   // ৩. টোকেন বা অথরাইজেশন এরর হ্যান্ডলিং (status 401/403)
+  else if (res.status === 401 || res.status === 403 || data.jwt === "error" || data.status === "error") {
+    // এখানে কার্ট মোছা হবে না, ইউজারকে লগইন করতে বলা হবে
+    errorPrint(data.message || "আপনার সেশন শেষ হয়ে গেছে। দয়া করে আবার লগইন করুন।");
+    
+  } 
+  // ৪. অন্য যেকোনো এরর (যেমন: ৪০০ বা ৫০০ স্ট্যাটাস)
+  else {
+    errorPrint("নেটওয়ার্ক সমস্যা!" + data.message);
+  }
         })
         .catch(err => {
             console.error("Error fetching user:", err)
-              alert(err.message + " | No token found, redirecting or showing login...");
-    localStorage.removeItem('token');
-    window.location.href = "login.html?page=setting";
+              errorPrint("নেটওয়ার্ক সমস্যা! দয়া করে ইন্টারনেট কানেকশন চেক করে আবার চেষ্টা করুন।" + err.message);                             
+        // localStorage.removeItem('token');
+  //  window.location.href = "login.html?page=setting";
         });
 } else {
     
     console.warn("No token found, redirecting or showing login...");
     localStorage.removeItem('token');
-    window.location.href = "login.html?page=setting";
+     errorPrint("টোকেন পাওয়া যাইনি।  আবার লগইন করুন");                                
 }
 
 // 4. Logout Function
 function logout() {    
     localStorage.removeItem('token');
-    window.location.href = "index.html";
+    window.location.href = "/";
 }
 
 // Form handling
@@ -335,7 +375,7 @@ settingsForm.onsubmit = async (e) => {
 
 document.getElementById('cancelBtn').onclick = () => {
     if(confirm("Discard changes?")) {
-        window.location.href = "index.html"; // Redirect user
+        window.location.href = "/"; // Redirect user
     }
 };
 
