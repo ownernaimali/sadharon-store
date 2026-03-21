@@ -368,7 +368,7 @@ async function checkout() {
   const userId = localStorage.getItem("token"); // আপনার টোকেনই যদি userId হয়
   if (!userId || userId.length < 10) {
     alert("অর্ডার করতে হলে লগইন করুন?");
-    window.location.href = "login.html?page=add-to-cart";
+    window.location.href = "/login.html?page=add-to-cart";
     return;
   }
 
