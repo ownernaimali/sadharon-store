@@ -330,7 +330,7 @@ list.innerHTML = `
                         <div>
                             <span class="customer-name" style="font-weight: bold; display: block; color: #333;">${p.customerName}</span>
                             <span class="order-id" style="font-size: 11px; color: #777;">ID: #${p._id ? p._id.slice(-6).toUpperCase() : 'N/A'} | 📞 ${p.customerPhone}</span>
-                            <p class="address" style="font-size: 12px; margin: 5px 0 0 0; color: #555;">📍 ${p.customerAddress}</p>
+                            <p class="address" style="font-size: 12px; margin: 5px 0 0 0; color: #555;">${p.customerAddress}</p>
                         </div>
                         <div style="text-align: right; font-size: 12px; color: #888;">
                             ${p.orderDate || 'N/A'} <br> 

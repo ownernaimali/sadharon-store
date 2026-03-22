@@ -395,7 +395,7 @@ function renderOrders (status) {
             <div class="order-card">
               <div class="order-header">
                 <div>
-                  <span class="customer-name">${p.customerName}</span>
+                  <span class="customer-name">${p.customerName} |  <span style='color: green'>${p.totalProfit} TK</span></span>
                   <span class="order-id">ID: #${p._id.slice(-5)} | 📞 ${p.customerPhone}</span>
                   <p class="address">${p.customerAddress}</p>
                 </div>
@@ -409,7 +409,7 @@ function renderOrders (status) {
               ${itemsHTML}
 
               <div class="order-footer">
-                <div class="total-price">Total: ৳${p.totalAmount}</div>
+                <div class="total-price">Total: ৳${p.totalAmount} </div>
                 <div style="display: flex; gap: 10px;">
                 <div>
                     <select id="pay-${p._id}" class="admin-select">
