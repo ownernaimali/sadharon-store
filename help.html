@@ -274,8 +274,9 @@ calMyCart()
                 if (response.ok) {
                     msgElement.className = "msg-success";
                     msgElement.innerText = "সাফল্য হয়েছে।";
-                    this.reset(); // Reset form on success
-                } else {
+                    
+                    setTimeout(() => {this.reset(); }, 1300);
+                  } else {
                     throw new Error(data.message || "ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
                 }
             } catch (err) {

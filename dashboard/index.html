@@ -13,6 +13,18 @@
 
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
+    /* স্লিট এনিমেশন বেস */
+.skeleton { background: #e2e8f0; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; border-radius: 4px; }
+@keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.fade-in { animation: fadeIn 0.6s ease-out forwards; opacity: 0; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.skeleton-wrapper { display: flex; gap: 12px; padding: 10px; align-items: center; }
+.msg-avatar.skeleton { width: 45px; height: 45px; border-radius: 50%; flex-shrink: 0; }
+.skeleton-title { width: 120px; height: 14px; margin-bottom: 8px; }
+.skeleton-text { width: 100%; height: 10px; margin-bottom: 6px; }
+.skeleton-text.short { width: 60%; }
+
+    
         /* 3. Feature Menu (Inventory, Marketing, Customers) */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         .menu-item { background: var(--white); padding: 15px; border-radius: 18px; text-align: center; border: 1px solid #f1f5f9; transition: 0.3s; }
@@ -184,24 +196,26 @@
     </div>
 </div>
 
-        <div class="section-label">Support Activity <a href="message.html" style="color: var(--accent); font-size: 11px; text-decoration: none; font-weight: 600;">View All</a></div>
-        <div class="support-card">
-            <div class="msg-box unread">
-                <div class="msg-avatar">SA</div>
-                <div class="msg-content">
-                    <h4>Rakib Ahmed <span class="time">2m ago</span></h4>
-                    <p>আপনার কাছে কি প্রিমিয়াম লবণের স্টক আছে?</p>
-                </div>
-            </div>
-            <div class="msg-box unread">
-                <div class="msg-avatar" style="background: #fbbf24;">SM</div>
-                <div class="msg-content">
-                    <h4>Sumi Akter <span class="time">1h ago</span></h4>
-                    <p>অর্ডারটি এখনো প্রসেসিং কেন দেখাচ্ছে?</p>
-                </div>
-            </div>
+<div class="section-label">Support Activity <a href="message.html" style="color: var(--accent); font-size: 11px; text-decoration: none; font-weight: 600;">View All</a></div>        
+<div id="message-container" class="support-card">
+    <div class="msg-box skeleton-wrapper">
+        <div class="msg-avatar skeleton"></div>
+        <div class="msg-content">
+            <div class="skeleton skeleton-title"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-text short"></div>
         </div>
-
+    </div>
+      <div class="msg-box skeleton-wrapper">
+        <div class="msg-avatar skeleton"></div>
+        <div class="msg-content">
+            <div class="skeleton skeleton-title"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-text short"></div>
+        </div>
+    </div>
+</div>
+        
         <div id="popup-overlay" onclick="closePopUp()"></div>
         <section id="popup">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -221,7 +235,7 @@
                 
                 
                 <div class="menu-item"><i data-lucide="file-text"></i><span>Invoices</span></div>
-                <div class="menu-item"><i data-lucide="download"></i><span>Export All</span></div>
+                <div onclick="window.location.href='product.html'" class="menu-item"><i data-lucide="package"></i><span>My Products</span></div>
                 <div onclick="window.location.href='users.html'" class="menu-item"><i data-lucide="users-2"></i><span>Customers</span></div>
                  <div onclick="window.location.href='productIdx.html'" class="menu-item alert-badge"><i data-lucide="package-search"></i><span>Stock Alert</span><span class="dot"></span></div>
                
@@ -251,7 +265,7 @@
     </nav>
 </div>
     <script src="js/index.js"></script>
-    <script src="../js/dashboardChart.js"></script>
+     <script src="../js/dashboardChart.js"></script>
 <script>
     
   function logout() {
@@ -410,7 +424,7 @@ async function loadSupportActivity() {
         
    
             return `
-                <div class="msg-box ${msg.isRead ? '' : 'unread'}" style="cursor:pointer;" onclick="location.href='message.html#card-${msg._id}'">
+                <div class="msg-box fade-in ${msg.isRead ? '' : 'unread'}" style="cursor:pointer;" onclick="location.href='message.html#card-${msg._id}'">
                     <div class="msg-avatar" style="background: ${randomBg}; color: white; font-weight: 700;">
                         ${avatarTxt}
                     </div>
