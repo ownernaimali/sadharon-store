@@ -214,7 +214,8 @@ body {
 
 .add-btn:hover {
     background: #FF6B35;
-}    
+}  
+     
     </style>
 </head>
 <body>   
@@ -237,6 +238,7 @@ body {
     </section>    
 
   <main class="container">
+       <marquee id="msgMarquee"></marquee>
         <div id="product-container" >
             <p class="loader">পণ্য লোড হচ্ছে...</p>
         </div>
@@ -245,12 +247,12 @@ body {
 
     <script>
       // ডাইনামিক আইকন থাকলে তা সক্রিয় করা
-      if(window.lucide) lucide.createIcons();
+      if(window.lucide) {lucide.createIcons();}
     </script>
     <script>
      
-  const LOCALHOST = "http://localhost:3000/products";
-  const SERVER = "https://sadharon-store-server.vercel.app/products"; 
+  const LOCALHOST = "http://localhost:3000";
+  const SERVER = "https://sadharon-store-server.vercel.app"; 
   const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
   const API = isLocal ? LOCALHOST : SERVER;
 
@@ -292,7 +294,7 @@ body {
   async function loadProducts() {
     showLoading();
     try {
-      const response = await fetch(API);
+      const response = await fetch(API+"/products");
       const products = await response.json();
       
       const container = document.getElementById("product-container");
@@ -382,9 +384,37 @@ function addToCart(product) {
 }
 
 
+// msg load 
+async function msgLoad() {
+    const msgCon = document.getElementById("msgMarquee")
+     try {
+         fetch(`${API}/msgmarquee`)
+         .then(res => res.json())
+         .then(data => {
+              const result = data.data[0];
+              
+              const msg = result?.message;
+              const status= result?.status;
+              
+              if(data.success && msg && status === "active") {
+                  msgCon.style.marginTop = "10px";
+                   msgCon.innerHTML = msg;
+              }
+         })
+         .catch(err => {
+              alert(err.message)
+              console.log(err.message)
+         })          
+     } catch(err) {
+          alert(err.message)
+         console.log(err) 
+     }
+}    
+     
   // ফাংশন কল
   loadProducts();
-  calMyCart();
+  calMyCart();     
+  msgLoad()
 </script>
 </body>
 </html>

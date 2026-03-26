@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadharon Store | Marquee Manager</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #0f172a;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        /* Header Section */
+        .header {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.6rem; margin: 0; color: var(--primary); font-weight: 800; }
+        .header p { font-size: 0.85rem; color: #64748b; margin-top: 5px; }
+
+        /* Form Card */
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        textarea, select {
+            width: 100%;
+            padding: 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+
+        textarea:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        .btn-save {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+        .btn-save:active { transform: scale(0.98); }
+        .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* List Items */
+        .list-title { font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: #1e293b; }
+        
+        .msg-item {
+            background: var(--card);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg-content p { margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.4; }
+        
+        .badge {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        .active { background: #dcfce7; color: var(--success); }
+        .disabled { background: #fee2e2; color: var(--danger); }
+
+        .btn-delete {
+            background: #fff1f2;
+            color: var(--danger);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>SADHARON STORE</h1>
+        <p>Announcement Marquee Settings</p>
+    </div>
+
+    <div class="card">
+        <div class="form-group">
+            <label>Message Text</label>
+            <textarea id="msgInput" rows="3" placeholder="Enter marquee text..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Initial Status</label>
+            <select id="statusInput">
+                <option value="active">Active (Visible)</option>
+                <option value="disabled">Disabled (Hidden)</option>
+            </select>
+        </div>
+
+        <button class="btn-save" id="saveBtn" onclick="saveMessage()">Save Announcement</button>
+    </div>
+
+    <div class="list-title">All Announcements</div>
+    <div id="messageList">
+        </div>
+</div>
+
+    <script src="js/index.js"></script>
+<script>
+    const LOCALHOST = "http://localhost:3000";
+  const SERVER = "https://sadharon-store-server.vercel.app"; 
+  const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+  const API = isLocal ? LOCALHOST : SERVER;
+
+    // --- 2. READ (GET) ---
+    async function loadMessages() {
+        const list = document.getElementById("messageList");
+        list.innerHTML = `<p style="text-align:center; color:#64748b;">Loading...</p>`;
+
+        try {
+            const res = await fetch(`${API}/msgmarquee`);
+            const result = await res.json();
+
+            if (result.success) {
+                list.innerHTML = ""; 
+                if (result.data.length === 0) {
+                    list.innerHTML = "<p style='text-align:center; font-size:0.9rem;'>No messages found.</p>";
+                    return;
+                }
+
+                result.data.forEach(item => {
+                    const div = document.createElement("div");
+                    div.className = "msg-item";
+                    div.innerHTML = `
+                        <div class="msg-content">
+                            <p>${item.message}</p>
+                            <span class="badge ${item.status}" onclick="toggleStatus('${item._id}', '${item.status}')">
+                                ${item.status}
+                            </span>
+                        </div>
+                        <button class="btn-delete" onclick="deleteMessage('${item._id}')">🗑</button>
+                    `;
+                    list.appendChild(div);
+                });
+            }
+        } catch (err) {
+            list.innerHTML = `<p style="color:red; text-align:center;">Connection Error</p>`;
+        }
+    }
+
+    // --- 3. CREATE (POST) ---
+    async function saveMessage() {
+        const btn = document.getElementById('saveBtn');
+        const msgText = document.getElementById('msgInput').value;
+        const statusVal = document.getElementById('statusInput').value;
+
+        if (!msgText.trim()) return alert("Message cannot be empty!");
+
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+
+        try {
+            const res = await fetch(`${API}/msgmarquee`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msgText, status: statusVal })
+            });
+
+            if (res.ok) {
+                document.getElementById('msgInput').value = "";
+                loadMessages(); 
+            }
+        } catch (err) {
+            alert("Failed to save.");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Save Announcement";
+        }
+    }
+
+    // --- 4. UPDATE (PATCH) ---
+    async function toggleStatus(id, currentStatus) {
+        const newStatus = currentStatus === "active" ? "disabled" : "active";
+        try {
+            await fetch(`${API}/msgmarquee/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            loadMessages();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    // --- 5. DELETE (DELETE) ---
+    async function deleteMessage(id) {
+        if (!confirm("Remove this message permanently?")) return;
+
+        try {
+            const res = await fetch(`${API}/msgmarquee/${id}`, { method: 'DELETE' });
+            if (res.ok) loadMessages();
+        } catch (err) {
+            alert("Delete failed.");
+        }
+    }
+
+    // Load on start
+    window.onload = loadMessages;
+</script>
+
+</body>
+</html>
