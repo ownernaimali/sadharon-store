@@ -160,7 +160,7 @@
         </div>
 </div>
 
-    <script src="js/index.js"></script>
+    <script src="js/index.js"></script> 
 <script>
     const LOCALHOST = "http://localhost:3000";
   const SERVER = "https://sadharon-store-server.vercel.app"; 
@@ -199,7 +199,7 @@
                 });
             }
         } catch (err) {
-            list.innerHTML = `<p style="color:red; text-align:center;">Connection Error</p>`;
+            list.innerHTML = `<p style="color:red; text-align:center;">Connection Error ${err.message}</p>`;
         }
     }
 
@@ -217,7 +217,9 @@
         try {
             const res = await fetch(`${API}/msgmarquee`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json',                   
+                    "Authorization": `Bearer ${localStorage.getItem('adminToken')}`                    
+                },
                 body: JSON.stringify({ message: msgText, status: statusVal })
             });
 
@@ -226,7 +228,7 @@
                 loadMessages(); 
             }
         } catch (err) {
-            alert("Failed to save.");
+            alert("Failed to save.", err.message);
         } finally {
             btn.disabled = false;
             btn.innerText = "Save Announcement";
@@ -239,11 +241,16 @@
         try {
             await fetch(`${API}/msgmarquee/${id}`, {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json',
+
+                    "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+                                
+                },
                 body: JSON.stringify({ status: newStatus })
             });
             loadMessages();
         } catch (err) {
+            alert(err.message)
             console.error(err);
         }
     }
@@ -253,15 +260,19 @@
         if (!confirm("Remove this message permanently?")) return;
 
         try {
-            const res = await fetch(`${API}/msgmarquee/${id}`, { method: 'DELETE' });
+            const res = await fetch(`${API}/msgmarquee/${id}`, { method: 'DELETE',
+              headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+                },
+            });
             if (res.ok) loadMessages();
         } catch (err) {
-            alert("Delete failed.");
+            alert("Delete failed.", err.message);
         }
     }
 
     // Load on start
-    window.onload = loadMessages;
+    loadMessages();
 </script>
 
 </body>
